@@ -117,28 +117,32 @@ if [[ -z "${PRE_COMMIT}" ]]; then
     log_info "\"pre-commit\" was installed successfully!";
     if ! which pre-commit > /dev/null 2>&1; then
         log_warning "Still cannot find \"pre-commit\", trying some well-known locations...";
-        readarray -r PRE_COMMIT_PATHS < <(find ~ -maxdepth 4 \( -type f -or -type l \) -name pre-commit -printf '%h\n');
+        mapfile -t PRE_COMMIT_PATHS < <(find ~ -maxdepth 4 \( -type f -or -type l \) -name pre-commit -printf '%p\n');
         if [[ "${#PRE_COMMIT_PATHS[@]}" -le 0 ]]; then
             log_error "Failed to locate \"pre-commit\"!";
             exit 1;
         fi
-        read -rep "Found the following \"pre-commit\" executables:\n${PRE_COMMIT_PATHS[*]}\nWhich one do you want to use? [index] " PRE_COMMIT_INDEX;
+        echo -e "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')"
+        read -rep "Which one do you want to use? [index] " PRE_COMMIT_INDEX;
         while [[ ! "${PRE_COMMIT_INDEX}" =~ [[:digit:]]+ || "${PRE_COMMIT_INDEX}" -lt 0 || "${PRE_COMMIT_INDEX}" -gt "${#PRE_COMMIT_PATHS[@]}" ]]; do
             if [[ -z "${PRE_COMMIT_INDEX}" ]]; then
                 PRE_COMMIT_INDEX="1";
                 break;
             fi
             log_error "Value ${PRE_COMMIT_INDEX} is not valid, try again!";
-            read -rep "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')\nWhich one do you want to use? [index (default 1)] " PRE_COMMIT_INDEX;
+            echo -e "Found the following \"pre-commit\" executables:\n$(echo "${PRE_COMMIT_PATHS[*]}" | awk -F' ' '{for(i=1;i<=NF;i+=1){print i": "$i;}}')"
+            read -rep "Which one do you want to use? [index (default 1)] " PRE_COMMIT_INDEX;
         done
-        PRE_COMMIT="${PRE_COMMIT_PATHS[${PRE_COMMIT_INDEX}]}";
+        log_verbose "\"pre-commit\" option index \"${PRE_COMMIT_INDEX}\" picked";
+        PRE_COMMIT="${PRE_COMMIT_PATHS[(${PRE_COMMIT_INDEX}-1)]}";
+        log_verbose "Selected \"pre-commit\" executable \"${PRE_COMMIT}\"";
     fi
 fi
 
 pushd "${PROJECT_ROOT}" > /dev/null 2>&1 || ( log_error "Failed to enter project root directory!" && exit 1; ) || exit 1;
 
 log_info "Installing pre-commit hooks...";
-pre-commit install --overwrite --hook-type pre-commit --hook-type pre-push;
+"${PRE_COMMIT}" install --overwrite --hook-type pre-commit --hook-type pre-push;
 STATUS_CODE=$?;
 if [[ "${STATUS_CODE}" != "0" ]]; then
     log_verbose "\"pre-commit\" exited with code \"${STATUS_CODE}\"!";
