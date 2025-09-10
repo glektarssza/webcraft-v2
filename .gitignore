@@ -37,3 +37,7 @@ tags
 
 # Environment #
 .env*
+
+# Packages #
+## NodeJS ##
+node_modules/
