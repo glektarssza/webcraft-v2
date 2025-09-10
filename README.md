@@ -8,8 +8,6 @@ A simple Minecraft clone written in TypeScript and built on web technologies.
 * [Webcraft](#webcraft)
     * [License](#license)
 
-A simple Minecraft clone written in TypeScript and built on web technologies.
-
 ## License ##
 
 Copyright (c) 2025 G'lek Tarssza
