@@ -42,3 +42,69 @@
 
 # Run .gif files through Git LFS
 *.gif filter=lfs diff=lfs merge=lfs -text
+
+# All .ttf files are treated as binary by default
+*.ttf binary
+
+# Run .ttf files through Git LFS
+*.ttf filter=lfs diff=lfs merge=lfs -text
+
+# All .otf files are treated as binary by default
+*.otf binary
+
+# Run .otf files through Git LFS
+*.otf filter=lfs diff=lfs merge=lfs -text
+
+# All .woff files are treated as binary by default
+*.woff binary
+
+# Run .woff files through Git LFS
+*.woff filter=lfs diff=lfs merge=lfs -text
+
+# All .woff2 files are treated as binary by default
+*.woff2 binary
+
+# Run .woff2 files through Git LFS
+*.woff2 filter=lfs diff=lfs merge=lfs -text
+
+# All .eof files are treated as binary by default
+*.eof binary
+
+# Run .eof files through Git LFS
+*.eof filter=lfs diff=lfs merge=lfs -text
+
+# All .flac files are treated as binary by default
+*.flac binary
+
+# Run .flac files through Git LFS
+*.flac filter=lfs diff=lfs merge=lfs -text
+
+# All .wav files are treated as binary by default
+*.wav binary
+
+# Run .wav files through Git LFS
+*.wav filter=lfs diff=lfs merge=lfs -text
+
+# All .mp3 files are treated as binary by default
+*.mp3 binary
+
+# Run .mp3 files through Git LFS
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+
+# All .ogg files are treated as binary by default
+*.ogg binary
+
+# Run .ogg files through Git LFS
+*.ogg filter=lfs diff=lfs merge=lfs -text
+
+# All .mkv files are treated as binary by default
+*.mkv binary
+
+# Run .mkv files through Git LFS
+*.mkv filter=lfs diff=lfs merge=lfs -text
+
+# All .mp4 files are treated as binary by default
+*.mp4 binary
+
+# Run .mp4 files through Git LFS
+*.mp4 filter=lfs diff=lfs merge=lfs -text
