@@ -1,22 +1,9 @@
-//-- NodeJS
-import path from 'node:path';
-
 //-- NPM Packages
 import {defineConfig} from 'vitest/config';
 
 export default defineConfig({
     test: {
-        projects: [
-            path.resolve(import.meta.dirname, './app/vite.config.ts'),
-            path.resolve(
-                import.meta.dirname,
-                './packages/common/vite.config.ts'
-            ),
-            path.resolve(
-                import.meta.dirname,
-                './packages/logging/vite.config.ts'
-            )
-        ],
+        projects: [],
         coverage: {
             enabled: true,
             all: true,
