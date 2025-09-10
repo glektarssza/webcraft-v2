@@ -1,0 +1,7 @@
+packages:
+  - ./app/
+  - ./packages/*
+preferWorkspacePackages: true
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - esbuild
