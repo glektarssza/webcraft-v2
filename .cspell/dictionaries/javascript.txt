@@ -1,3 +1,7 @@
+autobuild
+esbuild
 eslint
 eslintcache
+noarchive
+unstub
 vite

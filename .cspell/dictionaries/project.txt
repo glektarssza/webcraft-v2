@@ -1,7 +1,6 @@
+flac
 g'lek
 glek
 glektarssza
 tarssza
 webcraft
-flac
-autobuild
