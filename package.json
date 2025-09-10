@@ -1,0 +1,70 @@
+{
+    "name": "@webcraft/root",
+    "description": "A simple Minecraft clone written in TypeScript and built on web technologies.",
+    "version": "0.0.1",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "private": true,
+    "author": {
+        "name": "G'lek Tarssza",
+        "email": "glek@glektarssza.com",
+        "url": "https://glektarssza.com"
+    },
+    "homepage": "https://glektarssza.github.io/webcraft-v2/",
+    "bugs": {
+        "url": "https://github.com/glektarssza/webcraft-v2/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/glektarssza/webcraft-v2.git"
+    },
+    "packageManager": "pnpm@10.15.0",
+    "type": "module",
+    "scripts": {
+        "dev": "pnpm -r --filter webcraft run dev",
+        "test:base": "vitest",
+        "test": "pnpm run test:base --run",
+        "test:ci": "pnpm test --coverage.reporter=html --coverage.reporter=text",
+        "test:ui": "pnpm run test:base --ui --coverage.reporter=html",
+        "test:watch": "pnpm test:base --watch",
+        "test:debug": "pnpm test:base --no-file-parallelism --inspectBrk",
+        "lint": "pnpm -r run lint",
+        "lint:fix": "pnpm -r run lint:fix",
+        "lint:ci": "pnpm -r run lint:ci",
+        "eslint": "pnpm -r run eslint",
+        "eslint:fix": "pnpm -r run eslint:fix",
+        "eslint:ci": "pnpm -r run eslint:ci",
+        "prettier": "pnpm -r run prettier",
+        "prettier:fix": "pnpm -r run prettier:fix",
+        "prettier:ci": "pnpm -r run prettier:ci",
+        "build": "pnpm run --recursive build",
+        "build:all": "pnpm run --recursive build:all",
+        "build:prod": "pnpm run --recursive build:prod",
+        "build:dev": "pnpm run --recursive build:dev",
+        "build:types": "pnpm run --recursive build:types",
+        "clean": "pnpm run --recursive clean",
+        "clean:all": "pnpm run --recursive clean:all",
+        "clean:prod": "pnpm run --recursive clean:prod",
+        "clean:dev": "pnpm run --recursive clean:dev",
+        "clean:types": "pnpm run --recursive clean:types",
+        "rebuild": "pnpm run --recursive rebuild",
+        "rebuild:all": "pnpm run --recursive rebuild:all",
+        "rebuild:prod": "pnpm run --recursive rebuild:prod",
+        "rebuild:dev": "pnpm run --recursive rebuild:dev",
+        "rebuild:types": "pnpm run rebuild:prod rebuild:types"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.33.0",
+        "@types/node": "^24.3.0",
+        "@vitest/coverage-istanbul": "^3.2.4",
+        "eslint": "^9.33.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-tsdoc": "^0.4.0",
+        "playwright": "^1.55.0",
+        "prettier": "^3.6.2",
+        "sass": "^1.90.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.2",
+        "typescript-eslint": "8.40.0",
+        "vitest": "^3.2.4"
+    }
+}
