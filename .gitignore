@@ -36,5 +36,4 @@ tags
 *.log*
 
 # Environment #
-## General ##
 .env*
