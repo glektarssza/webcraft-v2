@@ -46,3 +46,8 @@ node_modules/
 ## ESLint ##
 .eslintcache
 
+# Artifacts #
+## Vite ##
+coverage/
+dist/
+__screenshots__/
