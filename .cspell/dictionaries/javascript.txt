@@ -3,5 +3,6 @@ esbuild
 eslint
 eslintcache
 noarchive
+nvmrc
 unstub
 vite
