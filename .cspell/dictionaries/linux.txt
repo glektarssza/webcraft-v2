@@ -1,3 +1,4 @@
+mapfile
 netrwhist
 pacman
 sessionx
