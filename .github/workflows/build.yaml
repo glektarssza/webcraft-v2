@@ -1,0 +1,128 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      build-configuration:
+        type: choice
+        required: false
+        options:
+          - development
+          - production
+        default: production
+        description: |
+          The type of build to create.
+
+          Valid options are:
+           * `development`: Create a development/debugging build.
+           * `production`: Create a production-ready build.
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: true
+        description: |
+          The Git reference to build against.
+      build-configuration:
+        type: string
+        required: false
+        default: production
+        description: |
+          The type of build to create.
+
+          Valid options are:
+           * `development`: Create a development/debugging build.
+           * `production`: Create a production-ready build.
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      # -- Required to clone repository
+      contents: read
+    strategy:
+      fail-fast: true
+      matrix:
+        build-configuration:
+          - development
+          - production
+        exclude:
+          - build-configuration: ${{inputs.build-configuration == 'development' && 'production' || ''}}
+          - build-configuration: ${{inputs.build-configuration == 'production' && 'development' || ''}}
+    outputs:
+      artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
+      artifact-name: dist-${{matrix.build-configuration}}
+      artifact-url: ${{steps.upload-artifacts.outputs.artifact-url}}
+    steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{inputs.ref || github.ref}}
+          fetch-tags: true
+          lfs: true
+          submodules: true
+          show-progress: true
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: get-check-run-status
+        name: Get check run status
+        shell: bash
+        run: |
+          ./.github/scripts/checkForCheckRun.sh \
+            --head-ref ${{inputs.ref || github.ref}} \
+            --job-id ${{github.job}};
+      - id: start-check-run
+        name: Start check run
+        if: steps.get-check-run-status.outputs.check-run-exists != 'true'
+        run: |
+          ./.github/scripts/createCheckRun.sh \
+            --job-id "${{github.job}}" \
+            --head-ref ${{inputs.ref || github.ref}} \
+            --repository "${{github.repository}}" \
+            --run-id "${{github.run_id}}" \
+            --check-name "Build" \
+            --check-title "GitHub Actions Automated CI Build";
+      - id: setup-nodejs
+        name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: setup-pnpm
+        name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+      - id: install-dependencies
+        name: Install dependencies
+        run: pnpm install
+      - id: build
+        name: Build
+        run: pnpm --filter=webcraft run build:${{inputs.build-configuration}}
+      - id: upload-artifacts
+        name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-app-${{inputs.build-configuration}}
+          path: ./app/dist/
+          if-no-files-found: error
+      - id: finish-check-run
+        name: Finish check run
+        if: always()
+        run: |
+          ./.github/scripts/updateCheckRun.sh \
+            --job-id "${{github.job}}" \
+            --head-ref ${{inputs.ref || github.ref}} \
+            --repository "${{github.repository}}" \
+            --run-id "${{github.run_id}}" \
+            --check-name "Build" \
+            --check-title "GitHub Actions Automated CI Build" \
+            --check-summary "The job has finished with a status of `${{job.status}}`." \
+            --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
+            --check-conclusion "${{job.status}}";
