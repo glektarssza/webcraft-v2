@@ -118,6 +118,11 @@ if [[ -z "${REPOSITORY}" ]]; then
     echo "::debug::Using default repository \"${REPOSITORY}\"";
 fi
 
+if [[ ! "${REPOSITORY}" =~ [[:graph:]]+/[[:graph:]]+ ]]; then
+    echo "::error::Invalid GitHub repository (invalid value)!";
+    exit 1;
+fi
+
 if [[ -z "${RUN_ID}" ]]; then
     echo "::error::Invalid GitHub run ID (no value)!";
     exit 1;
