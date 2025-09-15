@@ -81,8 +81,9 @@ jobs:
         shell: bash
         run: |
           ./.github/scripts/checkForCheckRun.sh \
-            --head-ref ${{inputs.ref || github.ref}} \
-            --job-id ${{github.job}};
+            --head-ref "${{inputs.ref || github.ref}}" \
+            --run-id "${{github.run_id}}" \
+            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')";
       - id: start-check-run
         name: Start check run
         if: steps.get-check-run-status.outputs.check-run-exists != 'true'
@@ -131,10 +132,8 @@ jobs:
             exit 0;
           fi
           ./.github/scripts/updateCheckRun.sh \
-            --job-id "${{github.job}}" \
-            --head-ref ${{inputs.ref || github.ref}} \
-            --repository "${{github.repository}}" \
             --run-id "${{github.run_id}}" \
+            --head-ref ${{inputs.ref || github.ref}} \
             --check-name "Build" \
             --check-title "GitHub Actions Automated CI Build" \
             --check-summary "The job has finished with a status of `${{job.status}}`." \
