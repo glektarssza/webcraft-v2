@@ -71,7 +71,7 @@ jobs:
       - id: extract-job-id
         name: Extract job ID
         shell: bash
-        run: |
+        run: >
           ./.github/scripts/extractMatchingJobIds.sh \
             --repo "${{github.repository}}" \
             --run-id "${{github.run_id}}" \
@@ -79,7 +79,7 @@ jobs:
       - id: get-check-run-status
         name: Get check run status
         shell: bash
-        run: |
+        run: >
           ./.github/scripts/checkForCheckRun.sh \
             --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
@@ -88,7 +88,7 @@ jobs:
       - id: start-check-run
         name: Start check run
         if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
-        run: |
+        run: >
           ./.github/scripts/createCheckRun.sh \
             --repository "${{github.repository}}" \
             --head-ref ${{inputs.ref || github.ref}} \
@@ -128,7 +128,7 @@ jobs:
         if: always()
         env:
           CHECKED_OUT_OKAY: ${{steps.checkout-repository.outcome}}
-        run: |
+        run: >
           if [[ "${CHECKED_OUT_OKAY}" != "success" ]]; then
             echo "::error::Cannot update check run status (repository checkout has failed)!";
             exit 1;
