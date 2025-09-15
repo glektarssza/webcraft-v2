@@ -73,7 +73,7 @@ jobs:
         shell: bash
         run: |
           ./.github/scripts/extractMatchingJobIds.sh \
-            --repo "${{github.repository}}"
+            --repo "${{github.repository}}" \
             --run-id "${{github.run_id}}" \
             --job-name "${{github.job}}";
       - id: get-check-run-status
@@ -81,6 +81,7 @@ jobs:
         shell: bash
         run: |
           ./.github/scripts/checkForCheckRun.sh \
+            --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')";
