@@ -234,8 +234,7 @@ else
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "/repos/${REPOSITORY}/commits/${HEAD_SHA}/check-runs" | \
-        jq -f "${SCRIPT_DIR}/check_runs_extract_id.jq" --arg external_id "${EXTERNAL_ID}" | \
-        awk 'BEGIN{IRS=" ";OFS=":"}{$1=$1;print;}END{printf"\n"}')";
+        jq -f "${SCRIPT_DIR}/check_runs_extract_ids.jq" --arg external_id "${EXTERNAL_ID}")";
     STATUS_CODE="$?";
 fi
 
@@ -249,7 +248,9 @@ if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
     exit 1;
 fi
 
-echo "::debug::Found existing check run ID(s) \"${GITHUB_API_CALL_DATA}\"";
-echo "existing-check-run-id=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
+echo "::debug::Found $(json_len "${GITHUB_API_CALL_DATA}") existing check run ID(s)";
+echo "::debug::Existing check run ID(s) are \"$(json_to_csv "${GITHUB_API_CALL_DATA}")\"";
+echo "existing-check-run-ids=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
+echo "has-existing-check-run=$([[ $(json_len "${GITHUB_API_CALL_DATA}") != "0" ]] && echo "true" || echo "false";)" >> "${GITHUB_OUTPUT}";
 
 exit 0;

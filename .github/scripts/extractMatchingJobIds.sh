@@ -20,7 +20,6 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare -a JOB_IDS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY JOB_NAME_PATTERN DRY_RUN
 
@@ -47,6 +46,16 @@ function is_dry_run() {
     else
         return 1;
     fi
+}
+
+function json_len() {
+    echo "$1" | jq -r "length";
+    return $?;
+}
+
+function json_to_csv() {
+    echo "$1" | jq -r "@csv";
+    return $?;
 }
 
 function parse_args() {
@@ -194,14 +203,12 @@ if [[ "${STATUS_CODE}" != "0" ]]; then
 fi
 
 if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
-    echo "::error::GitHub API returned no results for job name pattern \"${JOB_NAME_PATTERN}\"!";
-    exit 1;
+    echo "::debug::GitHub API returned no results for job name pattern \"${JOB_NAME_PATTERN}\"!";
+    echo "job-ids=[]" >> "$GITHUB_OUTPUT";
+    exit 0;
 fi
 
-mapfile -t JOB_IDS < <(echo "${GITHUB_API_CALL_DATA}");
-
-echo "::info::Found ${#JOB_IDS[@]} matching job IDs for name pattern \"${JOB_NAME_PATTERN}\"";
-echo "::debug::Matching job IDs are \"$(echo "${JOB_IDS[@]}" | tr ' ' ',' )\"";
-echo "job-ids=$(echo "${JOB_IDS[@]}" | \
-    awk 'BEGIN{IRS=" ";OFS=":"}{$1=$1;print;}END{printf"\n"}')" >> "$GITHUB_OUTPUT";
+echo "::info::Found $(json_len "${GITHUB_API_CALL_DATA}") matching job ID(s)";
+echo "::debug::Matching job ID(s) are \"$(json_to_csv "${GITHUB_API_CALL_DATA}")\"";
+echo "job-ids=${GITHUB_API_CALL_DATA}" >> "$GITHUB_OUTPUT";
 exit 0;
