@@ -48,55 +48,95 @@ function is_dry_run() {
 }
 
 function parse_args() {
+    local -a ARGUMENTS;
+    local INDEX;
     echo "::debug::Parsing arguments...";
-    while [[ -n "$1" ]]; do
-        case "$1" in
+    mapfile -td " " ARGUMENTS < <(echo "$*");
+    for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
+        local ARG;
+        ARG="${ARGUMENTS[${INDEX}]}";
+        case "${ARG}" in
             --repo|-r)
-                shift 1;
-                REPOSITORY="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub repository (no value)!";
+                    exit 1;
+                fi
+                REPOSITORY="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
+                INDEX=${INDEX}+1;
             ;;
             --repo=*)
-                REPOSITORY="$(echo "$1" | awk -F"=" '{print $2;}')";
+                REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
             ;;
             --head-ref)
-                shift 1;
-                HEAD_REF="$1";
-                echo "::debug::Parsed head reference \"${HEAD_REF}\"";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub head reference (no value)!";
+                    exit 1;
+                fi
+                HEAD_REF="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
+                INDEX=${INDEX}+1;
             ;;
             --head-ref=*)
-                HEAD_REF="$(echo "$1" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed head reference \"${HEAD_REF}\"";
+                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
             ;;
             --run-id)
-                shift 1;
-                RUN_ID="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub run ID (no value)!";
+                    exit 1;
+                fi
+                RUN_ID="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
+                INDEX=${INDEX}+1;
             ;;
             --run-id=*)
-                RUN_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
             ;;
             --external-id)
-                shift 1;
-                EXTERNAL_ID="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid external ID (no value)!";
+                    exit 1;
+                fi
+                EXTERNAL_ID="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
+                INDEX=${INDEX}+1;
             ;;
             --external-id=*)
-                EXTERNAL_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                EXTERNAL_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
             ;;
             --dry-run)
-                DRY_RUN="true";
-                echo "::debug::Running in dry run mode";
+                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
+                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
+                    INDEX=${INDEX}+1;
+                else
+                    DRY_RUN="true";
+                fi
+                if is_dry_run; then
+                    echo "::debug::Running in dry run mode";
+                fi
             ;;
             --no-dry-run)
-                DRY_RUN="false";
-                echo "::debug::Not running in dry run mode";
+                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
+                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
+                    if is_dry_run; then
+                        DRY_RUN="false";
+                    else
+                        DRY_RUN="true";
+                    fi
+                    INDEX=${INDEX}+1;
+                else
+                    DRY_RUN="true";
+                fi
+                if is_dry_run; then
+                    echo "::debug::Running in dry run mode";
+                fi
             ;;
             --dry-run=*)
-                DRY_RUN="$(echo "$1" | awk -F"=" '{print $2;}')";
+                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 if is_dry_run; then
                     echo "::debug::Running in dry run mode";
                 else
@@ -104,12 +144,11 @@ function parse_args() {
                 fi
             ;;
         esac
-        shift 1;
     done
     echo "::debug::Done Parsing arguments";
 }
 
-parse_args "$*";
+parse_args "$@";
 
 if [[ -z "${REPOSITORY}" ]]; then
     echo "::debug::Repository not provided on the command line, using default repository \"${OWNER}/${REPO}\"";

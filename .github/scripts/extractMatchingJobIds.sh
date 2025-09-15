@@ -50,55 +50,95 @@ function is_dry_run() {
 }
 
 function parse_args() {
+    local -a ARGUMENTS;
+    local INDEX;
     echo "::debug::Parsing arguments...";
-    while [[ -n "$1" ]]; do
-        case "$1" in
+    mapfile -td " " ARGUMENTS < <(echo "$*");
+    for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
+        local ARG;
+        ARG="${ARGUMENTS[${INDEX}]}";
+        case "${ARG}" in
             --repo|-r)
-                shift 1;
-                REPOSITORY="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub repository (no value)!";
+                    exit 1;
+                fi
+                REPOSITORY="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
+                INDEX=${INDEX}+1;
             ;;
             --repo=*)
-                REPOSITORY="$(echo "$1" | awk -F"=" '{print $2;}')";
+                REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
             ;;
             --run-id)
-                shift 1;
-                RUN_ID="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub run ID (no value)!";
+                    exit 1;
+                fi
+                RUN_ID="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
+                INDEX=${INDEX}+1;
             ;;
             --run-id=*)
-                RUN_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
             ;;
             --job-name-pattern)
-                shift 1;
-                JOB_NAME_PATTERN="$1";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid job name pattern (no value)!";
+                    exit 1;
+                fi
+                JOB_NAME_PATTERN="${ARGUMENTS[INDEX+1]}";
                 echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
+                INDEX=${INDEX}+1;
             ;;
             --job-name-pattern=*)
-                JOB_NAME_PATTERN="$(echo "$1" | awk -F"=" '{print $2;}')";
+                JOB_NAME_PATTERN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
             ;;
             --job-name)
-                shift 1;
-                JOB_NAME_PATTERN="^$(echo "$1" | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid job name (no value)!";
+                    exit 1;
+                fi
+                JOB_NAME_PATTERN="^$(echo "${ARGUMENTS[INDEX+1]}" | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
                 echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
+                INDEX=${INDEX}+1;
             ;;
             --job-name=*)
-                JOB_NAME_PATTERN="^$(echo "$1" | awk -F"=" '{print $2;}' | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
+                JOB_NAME_PATTERN="^$(echo "${ARG}" | awk -F"=" '{print $2;}' | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
                 echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
             ;;
             --dry-run)
-                DRY_RUN="true";
-                echo "::debug::Running in dry run mode";
+                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
+                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
+                    INDEX=${INDEX}+1;
+                else
+                    DRY_RUN="true";
+                fi
+                if is_dry_run; then
+                    echo "::debug::Running in dry run mode";
+                fi
             ;;
             --no-dry-run)
-                DRY_RUN="false";
-                echo "::debug::Not running in dry run mode";
+                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
+                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
+                    if is_dry_run; then
+                        DRY_RUN="false";
+                    else
+                        DRY_RUN="true";
+                    fi
+                    INDEX=${INDEX}+1;
+                else
+                    DRY_RUN="true";
+                fi
+                if is_dry_run; then
+                    echo "::debug::Running in dry run mode";
+                fi
             ;;
             --dry-run=*)
-                DRY_RUN="$(echo "$1" | awk -F"=" '{print $2;}')";
+                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 if is_dry_run; then
                     echo "::debug::Running in dry run mode";
                 else
@@ -106,12 +146,11 @@ function parse_args() {
                 fi
             ;;
         esac
-        shift 1;
     done
     echo "::debug::Done Parsing arguments";
 }
 
-parse_args "$*";
+parse_args "$@";
 
 if [[ -z "${REPOSITORY}" ]]; then
     REPOSITORY="${OWNER}/${REPO}";
