@@ -156,7 +156,7 @@ function parse_args() {
     echo "::debug::Done Parsing arguments";
 }
 
-parse_args "$@";
+parse_args "$*";
 
 if [[ -z "${REPOSITORY}" ]]; then
     echo "::debug::Repository not provided on the command line, using default \"${OWNER}/${REPO}\"";
