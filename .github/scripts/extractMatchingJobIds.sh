@@ -21,14 +21,14 @@ function get_script_dir() {
 
 # -- Forward declare variables
 declare -a JOB_IDS;
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE;
+declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY JOB_NAME_PATTERN DRY_RUN
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
     unset JOB_IDS;
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE;
+    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY JOB_NAME_PATTERN DRY_RUN
 }
 
