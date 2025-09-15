@@ -68,6 +68,14 @@ jobs:
           submodules: true
           show-progress: true
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: extract-job-id
+        name: Extract job ID
+        shell: bash
+        run: |
+          ./.github/scripts/extractMatchingJobIds.sh \
+            --repo "${{github.repository}}"
+            --run-id "${{github.run_id}}" \
+            --job-name "${{github.job}}";
       - id: get-check-run-status
         name: Get check run status
         shell: bash
