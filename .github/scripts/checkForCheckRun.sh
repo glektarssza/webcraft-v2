@@ -112,8 +112,8 @@ function parse_args() {
 parse_args "$@";
 
 if [[ -z "${REPOSITORY}" ]]; then
+    echo "::debug::Repository not provided on the command line, using default repository \"${OWNER}/${REPO}\"";
     REPOSITORY="${OWNER}/${REPO}";
-    echo "::debug::Using default repository \"${REPOSITORY}\"";
 fi
 
 if [[ ! "${REPOSITORY}" =~ [[:graph:]]+/[[:graph:]]+ ]]; then

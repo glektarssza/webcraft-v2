@@ -20,15 +20,16 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA;
-declare JOB_ID CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT DRY_RUN;
+declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+declare REPOSITORY HEAD_REF RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
+declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset CHECK_RUNS_EXTERNAL_IDS;
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA REPOSITORY;
-    unset JOB_ID RUN_ID CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT DRY_RUN;
+    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+    unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID CHECK_NAME CHECK_TITLE DRY_RUN;
+    unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 }
 
 trap cleanup EXIT;
@@ -69,6 +70,15 @@ function parse_args() {
             --head-ref=*)
                 HEAD_REF="$(echo "$1" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed head reference \"${HEAD_REF}\"";
+            ;;
+            --external-id)
+                shift 1;
+                EXTERNAL_ID="$1";
+                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
+            ;;
+            --external-id=*)
+                EXTERNAL_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed external ID \"${JOB_ID}\"";
             ;;
             --job-id)
                 shift 1;
@@ -149,12 +159,22 @@ function parse_args() {
 parse_args "$@";
 
 if [[ -z "${REPOSITORY}" ]]; then
-    echo "::error::Invalid GitHub repository (no value)!";
-    exit 1;
+    echo "::debug::Repository not provided on the command line, using default \"${OWNER}/${REPO}\"";
+    REPOSITORY="${OWNER}/${REPO}";
 fi
 
 if [[ ! "${REPOSITORY}" =~ [[:graph:]]+/[[:graph:]]+ ]]; then
     echo "::error::Invalid GitHub repository (invalid value)!";
+    exit 1;
+fi
+
+if [[ -z "${RUN_ID}" ]]; then
+    echo "::error::Invalid GitHub run ID (no value)!";
+    exit 1;
+fi
+
+if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
+    echo "::error::Invalid GitHub run ID (invalid value)!";
     exit 1;
 fi
 
@@ -168,14 +188,9 @@ if [[ ! "${JOB_ID}" =~ [[:digit:]]+ ]]; then
     exit 1;
 fi
 
-if [[ -z "${RUN_ID}" ]]; then
-    echo "::error::Invalid GitHub run ID (no value)!";
-    exit 1;
-fi
-
-if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
-    echo "::error::Invalid GitHub run ID (invalid value)!";
-    exit 1;
+if [[ -z "${EXTERNAL_ID}" ]]; then
+    echo "::debug::External ID not provided on the command line, using default (job ID) \"${JOB_ID}\"";
+    EXTERNAL_ID="${JOB_ID}";
 fi
 
 if [[ -z "${CHECK_NAME}" ]]; then
@@ -192,16 +207,21 @@ if [[ -z "${HEAD_REF}" ]]; then
     echo "::error::Invalid head reference (no value)!";
     exit 1;
 fi
+
 HEAD_SHA="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
+
 if [[ -z "${HEAD_SHA}" ]]; then
     echo "::error::Invalid head reference (does not map to a known Git SHA)!";
     exit 1;
 fi
+
 echo "::debug::Calling GitHub API to create a check run for Git SHA \"${HEAD_SHA}\"...";
+
 if is_dry_run; then
+    GITHUB_API_CALL_DATA="";
     STATUS_CODE="0";
 else
-    gh api --method POST \
+    GITHUB_API_CALL_DATA="$(gh api --method POST \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "/repos/${GITHUB_REPOSITORY}/check-runs" \
@@ -217,14 +237,19 @@ else
     "started_at": "$(date --iso-8601=seconds)",
     "details_url": "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/job/${JOB_ID}",
     "head_sha": "$(git rev-parse HEAD)",
-    "external_id": "${JOB_ID}"
+    "external_id": "${EXTERNAL_ID}"
 }
 EOF
+    )";
     STATUS_CODE="$?";
 fi
+
 if [[ "${STATUS_CODE}" != "0" ]]; then
     echo "::error::Failed to call GitHub API (call returned status code \"${STATUS_CODE}\")!";
     exit "${STATUS_CODE}";
 fi
+
+echo "::debug::Raw GitHub API output: ${GITHUB_API_CALL_DATA}";
 echo "::debug::Created new check run for Git SHA \"${HEAD_SHA}\"";
+
 exit 0;
