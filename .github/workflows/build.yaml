@@ -115,7 +115,13 @@ jobs:
       - id: finish-check-run
         name: Finish check run
         if: always()
+        env:
+          CHECKED_OUT_OKAY: ${{steps.checkout-repository.outcome}}
         run: |
+          if [[ "${CHECKED_OUT_OKAY}" != "success" ]]; then
+            echo "::warning::Cannot update check run status (repository checkout has failed)!";
+            exit 0;
+          fi
           ./.github/scripts/updateCheckRun.sh \
             --job-id "${{github.job}}" \
             --head-ref ${{inputs.ref || github.ref}} \
