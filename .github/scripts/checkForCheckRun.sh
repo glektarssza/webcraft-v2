@@ -22,14 +22,14 @@ function get_script_dir() {
 # -- Forward declare variables
 declare -a CHECK_RUNS_EXTERNAL_IDS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA;
-declare GITHUB_API_CALL_DATA JOB_ID DRY_RUN;
+declare GITHUB_API_CALL_DATA RUN_ID DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
     unset CHECK_RUNS_EXTERNAL_IDS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA;
-    unset GITHUB_API_CALL_DATA JOB_ID DRY_RUN;
+    unset GITHUB_API_CALL_DATA RUN_ID DRY_RUN;
 }
 
 trap cleanup EXIT;
@@ -62,14 +62,14 @@ function parse_args() {
                 HEAD_REF="$(echo "$1" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed head reference \"${HEAD_REF}\"";
             ;;
-            --job-id)
+            --run-id)
                 shift 1;
-                JOB_ID="$1";
-                echo "::debug::Parsed GitHub job ID \"${JOB_ID}\"";
+                RUN_ID="$1";
+                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
             ;;
-            --job-id=*)
-                JOB_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub job ID \"${JOB_ID}\"";
+            --run-id=*)
+                RUN_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
             ;;
             --dry-run)
                 DRY_RUN="true";
@@ -95,13 +95,13 @@ function parse_args() {
 
 parse_args "$@";
 
-if [[ -z "${JOB_ID}" ]]; then
-    echo "::error::Invalid GitHub job ID (no value)!";
+if [[ -z "${RUN_ID}" ]]; then
+    echo "::error::Invalid GitHub run ID (no value)!";
     exit 1;
 fi
 
-if [[ ! "${JOB_ID}" =~ [[:digit:]]+ ]]; then
-    echo "::error::Invalid GitHub job ID (invalid value)!";
+if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
+    echo "::error::Invalid GitHub run ID (invalid value)!";
     exit 1;
 fi
 
@@ -134,13 +134,13 @@ mapfile -t CHECK_RUNS_EXTERNAL_IDS < <(echo "${GITHUB_API_CALL_DATA}");
 
 echo "::debug::Found ${#CHECK_RUNS_EXTERNAL_IDS[@]} check runs for Git SHA \"${HEAD_SHA}\"...";
 for EXTERNAL_ID in "${CHECK_RUNS_EXTERNAL_IDS[@]}"; do
-    if [[ "${EXTERNAL_ID}" == "${JOB_ID}" ]]; then
-        echo "::debug::Found existing check run with matching job ID \"${JOB_ID}\"";
+    if [[ "${EXTERNAL_ID}" == "${RUN_ID}" ]]; then
+        echo "::debug::Found existing check run with matching run ID \"${RUN_ID}\"";
         echo "check-run-exists=true" >> "$GITHUB_OUTPUT"
         exit 0;
     fi
 done
-echo "::debug::No existing check run found with job ID \"${JOB_ID}\"";
+echo "::debug::No existing check run found with run ID \"${RUN_ID}\"";
 if ! is_dry_run; then
     echo "check-run-exists=false" >> "$GITHUB_OUTPUT";
 fi
