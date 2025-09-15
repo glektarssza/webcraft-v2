@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # -- Errors are fatal, no echoing
-set +e +x;
+set +ex;
 
 # -- Handy function for finding our script directory
 function get_script_dir() {
@@ -20,16 +20,14 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare -a CHECK_RUNS_EXTERNAL_IDS;
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA;
-declare GITHUB_API_CALL_DATA RUN_ID DRY_RUN;
+declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+declare REPOSITORY HEAD_REF EXTERNAL_ID DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset CHECK_RUNS_EXTERNAL_IDS;
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_REF HEAD_SHA;
-    unset GITHUB_API_CALL_DATA RUN_ID DRY_RUN;
+    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+    unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID DRY_RUN;
 }
 
 trap cleanup EXIT;
@@ -53,6 +51,15 @@ function parse_args() {
     echo "::debug::Parsing arguments...";
     while [[ -n "$1" ]]; do
         case "$1" in
+            --repo|-r)
+                shift 1;
+                REPOSITORY="$1";
+                echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
+            ;;
+            --repo=*)
+                REPOSITORY="$(echo "$1" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
+            ;;
             --head-ref)
                 shift 1;
                 HEAD_REF="$1";
@@ -70,6 +77,15 @@ function parse_args() {
             --run-id=*)
                 RUN_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
+            ;;
+            --external-id)
+                shift 1;
+                EXTERNAL_ID="$1";
+                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
+            ;;
+            --external-id=*)
+                EXTERNAL_ID="$(echo "$1" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
             ;;
             --dry-run)
                 DRY_RUN="true";
@@ -95,6 +111,11 @@ function parse_args() {
 
 parse_args "$@";
 
+if [[ -z "${REPOSITORY}" ]]; then
+    REPOSITORY="${OWNER}/${REPO}";
+    echo "::debug::Using default repository \"${REPOSITORY}\"";
+fi
+
 if [[ -z "${RUN_ID}" ]]; then
     echo "::error::Invalid GitHub run ID (no value)!";
     exit 1;
@@ -109,39 +130,82 @@ if [[ -z "${HEAD_REF}" ]]; then
     echo "::error::Invalid head reference (no value)!";
     exit 1;
 fi
+
 HEAD_SHA="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
+
 if [[ -z "${HEAD_SHA}" ]]; then
     echo "::error::Invalid head reference (does not map to a known Git SHA)!";
     exit 1;
 fi
-echo "::debug::Calling GitHub API to retrieve known check runs for Git SHA \"${HEAD_SHA}\"...";
+
+if [[ -z "${EXTERNAL_ID}" ]]; then
+    echo "::error::Invalid external ID (invalid value)!";
+    exit 1;
+fi
+
+echo "::debug::Calling GitHub API to check for GitHub check runs with external ID \"${EXTERNAL_ID}\"...";
 if is_dry_run; then
+    echo "::warning::Running in dry run mode!";
+    GITHUB_API_CALL_DATA="false";
     STATUS_CODE="0";
 else
     GITHUB_API_CALL_DATA="$(gh api --method GET \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        --jq "$(cat ./extract_check_run_external_id.jq)" \
-        "/repos/${OWNER}/${REPO}/commits/${HEAD_SHA}/check-runs")";
+        "/repos/${REPOSITORY}/commits/${HEAD_SHA}/check-runs" | \
+        jq -f "${SCRIPT_DIR}/check_runs_find_external_id.jq" --arg external_id "${EXTERNAL_ID}")";
     STATUS_CODE="$?";
 fi
+
 if [[ "${STATUS_CODE}" != "0" ]]; then
     echo "::error::Failed to call GitHub API (call returned status code \"${STATUS_CODE}\")!";
     exit "${STATUS_CODE}";
 fi
 
-mapfile -t CHECK_RUNS_EXTERNAL_IDS < <(echo "${GITHUB_API_CALL_DATA}");
+echo "::debug::Raw GitHub API output: ${GITHUB_API_CALL_DATA}";
 
-echo "::debug::Found ${#CHECK_RUNS_EXTERNAL_IDS[@]} check runs for Git SHA \"${HEAD_SHA}\"...";
-for EXTERNAL_ID in "${CHECK_RUNS_EXTERNAL_IDS[@]}"; do
-    if [[ "${EXTERNAL_ID}" == "${RUN_ID}" ]]; then
-        echo "::debug::Found existing check run with matching run ID \"${RUN_ID}\"";
-        echo "check-run-exists=true" >> "$GITHUB_OUTPUT"
-        exit 0;
-    fi
-done
-echo "::debug::No existing check run found with run ID \"${RUN_ID}\"";
-if ! is_dry_run; then
-    echo "check-run-exists=false" >> "$GITHUB_OUTPUT";
+if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
+    echo "::error::GitHub API returned no data!";
+    exit 1;
 fi
+
+echo "has-existing-check-run=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
+case "${GITHUB_API_CALL_DATA,,}" in
+    true)
+        echo "::debug::Found existing GitHub Actions check run!";
+    ;;
+    false)
+        echo "::debug::Found no existing GitHub Actions check run!";
+        exit 0;
+    ;;
+esac
+
+echo "::debug::Extracting check run ID...";
+if is_dry_run; then
+    echo "::warning::Running in dry run mode!";
+    GITHUB_API_CALL_DATA="";
+    STATUS_CODE="0";
+else
+    GITHUB_API_CALL_DATA="$(gh api --method GET \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "/repos/${REPOSITORY}/commits/${HEAD_SHA}/check-runs" | \
+        jq -f "${SCRIPT_DIR}/check_runs_extract_id.jq" --arg external_id "${EXTERNAL_ID}" | \
+        awk 'BEGIN{IRS=" ";OFS=":"}{$1=$1;print;}END{printf"\n"}')";
+    STATUS_CODE="$?";
+fi
+
+if [[ "${STATUS_CODE}" != "0" ]]; then
+    echo "::error::Failed to call GitHub API (call returned status code \"${STATUS_CODE}\")!";
+    exit "${STATUS_CODE}";
+fi
+
+if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
+    echo "::error::GitHub API returned no data!";
+    exit 1;
+fi
+
+echo "::debug::Found existing check run ID(s) \"${GITHUB_API_CALL_DATA}\"";
+echo "existing-check-run-id=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
+
 exit 0;

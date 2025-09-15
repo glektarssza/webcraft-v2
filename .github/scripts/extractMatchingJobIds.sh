@@ -115,6 +115,7 @@ parse_args "$@";
 
 if [[ -z "${REPOSITORY}" ]]; then
     REPOSITORY="${OWNER}/${REPO}";
+    echo "::debug::Using default repository \"${REPOSITORY}\"";
 fi
 
 if [[ -z "${RUN_ID}" ]]; then
@@ -157,5 +158,6 @@ mapfile -t JOB_IDS < <(echo "${GITHUB_API_CALL_DATA}");
 
 echo "::info::Found ${#JOB_IDS[@]} matching job IDs for name pattern \"${JOB_NAME_PATTERN}\"";
 echo "::debug::Matching job IDs are \"$(echo "${JOB_IDS[@]}" | tr ' ' ',' )\"";
-echo "job-ids=$(echo "${JOB_IDS[@]}" | tr ' ' ':')" >> "$GITHUB_OUTPUT";
+echo "job-ids=$(echo "${JOB_IDS[@]}" | \
+    awk 'BEGIN{IRS=" ";OFS=":"}{$1=$1;print;}END{printf"\n"}')" >> "$GITHUB_OUTPUT";
 exit 0;
