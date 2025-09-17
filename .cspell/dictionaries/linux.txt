@@ -1,4 +1,7 @@
+asexplicit
+distro
 mapfile
 netrwhist
+noconfirm
 pacman
 sessionx
