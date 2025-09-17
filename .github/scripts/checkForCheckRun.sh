@@ -47,6 +47,16 @@ function is_dry_run() {
     fi
 }
 
+function json_len() {
+    echo "$1" | jq -r "length";
+    return $?;
+}
+
+function json_to_csv() {
+    echo "$1" | jq -r "@csv";
+    return $?;
+}
+
 function parse_args() {
     local -a ARGUMENTS;
     local INDEX;

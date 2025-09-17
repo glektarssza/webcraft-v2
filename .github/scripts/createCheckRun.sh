@@ -41,13 +41,8 @@ PROJECT_ROOT="$(readlink -f "${SCRIPT_DIR}/../..")";
 
 DRY_RUN="false";
 
-function is_dry_run() {
-    if [[ "${DRY_RUN}" =~ [Tt][Rr][Uu][Ee]|1 ]]; then
-        return 0;
-    else
-        return 1;
-    fi
-}
+source "${SCRIPT_DIR}/lib/dry-run.sh";
+source "${SCRIPT_DIR}/lib/json.sh";
 
 function parse_args() {
     local -a ARGUMENTS;
