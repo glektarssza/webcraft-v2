@@ -299,7 +299,7 @@ else
         "/repos/${GITHUB_REPOSITORY}/check-runs" \
         --input - <<EOF
 {
-    "name": "${CHECK_NAME}"
+    "name": "${CHECK_NAME}",
     "output": {
         "title": "${CHECK_TITLE}",
         "summary": "${CHECK_SUMMARY}",
