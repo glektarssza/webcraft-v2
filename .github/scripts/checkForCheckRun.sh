@@ -20,13 +20,13 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF EXTERNAL_ID DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID DRY_RUN;
 }
 
@@ -165,15 +165,15 @@ if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
     exit 1;
 fi
 
-if [[ -z "${HEAD_REF}" ]]; then
-    echo "::error::Invalid head reference (no value)!";
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} && ! "${HEAD_REF}" =~ ([[:graph:]]|/)+ ]]; then
+    echo "::error::Invalid Git head reference (invalid value)!";
     exit 1;
 fi
 
-HEAD_SHA="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
+HEAD_REF="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
 
-if [[ -z "${HEAD_SHA}" ]]; then
-    echo "::error::Invalid head reference (does not map to a known Git SHA)!";
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} ]]; then
+    echo "::error::Invalid Git head reference (does not map to a known Git SHA)!";
     exit 1;
 fi
 
