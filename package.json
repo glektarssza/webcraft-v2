@@ -17,7 +17,7 @@
         "type": "git",
         "url": "https://github.com/glektarssza/webcraft-v2.git"
     },
-    "packageManager": "pnpm@10.15.0",
+    "packageManager": "pnpm@10.16.1",
     "type": "module",
     "scripts": {
         "prepare": "pre-commit install --overwrite --hook-type pre-commit --hook-type pre-push",
