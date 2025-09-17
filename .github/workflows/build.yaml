@@ -77,7 +77,8 @@ jobs:
           ./.github/scripts/extractMatchingJobIds.sh \
             --repo "${{github.repository}}" \
             --run-id "${{github.run_id}}" \
-            --job-name "${{github.job}}";
+            --case-insensitive \
+            --job-name-pattern "${{github.job}}";
       - id: get-check-run-status
         name: Get check run status
         shell: bash
