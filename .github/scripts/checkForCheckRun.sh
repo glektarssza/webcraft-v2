@@ -77,6 +77,19 @@ function parse_args() {
                 HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
             ;;
+            --head-sha)
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid Git head SHA (no value)!";
+                    exit 1;
+                fi
+                HEAD_SHA="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed Git head SHA \"${HEAD_SHA}\"";
+                INDEX=${INDEX}+1;
+            ;;
+            --head-sha=*)
+                HEAD_SHA="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed Git head SHA \"${HEAD_SHA}\"";
+            ;;
             --run-id)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
                     echo "::error::Invalid GitHub run ID (no value)!";
@@ -191,7 +204,7 @@ else
     GITHUB_API_CALL_DATA="$(gh api --method GET \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        "/repos/${REPOSITORY}/commits/${HEAD_SHA}/check-runs" | \
+        "/repos/${REPOSITORY}/commits/${HEAD_REF}/check-runs" | \
         jq -f "${SCRIPT_DIR}/check_runs_extract_ids.jq" --arg external_id "${EXTERNAL_ID}")";
     STATUS_CODE="$?";
 fi
