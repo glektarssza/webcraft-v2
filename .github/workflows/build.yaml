@@ -75,18 +75,18 @@ jobs:
         shell: bash
         run: |
           ./.github/scripts/extractMatchingJobIds.sh \
-           --repo "${{github.repository}}" \
-           --run-id "${{github.run_id}}" \
-           --job-name "${{github.job}}";
+            --repo "${{github.repository}}" \
+            --run-id "${{github.run_id}}" \
+            --job-name "${{github.job}}";
       - id: get-check-run-status
         name: Get check run status
         shell: bash
-        run: >
-          ./.github/scripts/checkForCheckRun.sh
-           --repo "${{github.repository}}"
-           --head-ref "${{inputs.ref || github.ref}}"
-           --run-id "${{github.run_id}}"
-           --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
+        run: |
+          ./.github/scripts/checkForCheckRun.sh \
+            --repo "${{github.repository}}" \
+            --head-ref "${{inputs.ref || github.ref}}" \
+            --run-id "${{github.run_id}}" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
       - id: start-check-run
         name: Start check run
         if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
@@ -136,13 +136,13 @@ jobs:
             exit 1;
           fi
           ./.github/scripts/updateCheckRun.sh \
-          --repository "${{github.repository}}" \
-          --head-ref ${{inputs.ref || github.ref}} \
-          --run-id "${{github.run_id}}" \
-          --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-          --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-          --check-name "Build" \
-          --check-title "GitHub Actions Automated CI Build" \
-          --check-summary "The job has finished with a status of `${{job.status}}`." \
-          --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
-          --check-conclusion "${{job.status}}";
+            --repository "${{github.repository}}" \
+            --head-ref ${{inputs.ref || github.ref}} \
+            --run-id "${{github.run_id}}" \
+            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --check-name "Build" \
+            --check-title "GitHub Actions Automated CI Build" \
+            --check-summary "The job has finished with a status of `${{job.status}}`." \
+            --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
+            --check-conclusion "${{job.status}}";
