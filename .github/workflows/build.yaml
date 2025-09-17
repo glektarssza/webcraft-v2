@@ -89,7 +89,7 @@ jobs:
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
       - id: start-check-run
         name: Start check run
-        if: ! fromJson(steps.get-check-run-status.outputs.has-existing-check-run)
+        if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
         run: |
           ./.github/scripts/createCheckRun.sh \
             --repository "${{github.repository}}" \
