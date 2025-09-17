@@ -100,8 +100,10 @@ jobs:
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
-            --check-name "Build" \
-            --check-title "GitHub Actions Automated CI Build";
+            --check-name "${{github.job}}" \
+            --check-title "GitHub Actions CI - ${{github.job}}" \
+            --check-summary "The job `${{github.job}}:${{matrix.build-configuration}}` has started at `$(date --utc --iso-8601=seconds)`." \
+            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')`) has started at `$(date --utc --iso-8601=seconds)`.\n\nWe are waiting for it to complete.";
       - id: setup-pnpm
         name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -144,8 +146,8 @@ jobs:
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
-            --check-name "Build" \
-            --check-title "GitHub Actions Automated CI Build" \
-            --check-summary "The job has finished with a status of `${{job.status}}`." \
-            --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
+            --check-name "${{github.job}}" \
+            --check-title "GitHub Actions CI - ${{github.job}}" \
+            --check-summary "The job `${{github.job}}:${{matrix.build-configuration}}` has finished with a status of `${{job.status}}`." \
+            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')`) has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
             --check-conclusion "${{job.status}}";
