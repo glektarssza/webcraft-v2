@@ -1,4 +1,5 @@
 asexplicit
+awkpath
 distro
 mapfile
 netrwhist

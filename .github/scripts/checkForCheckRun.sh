@@ -20,12 +20,14 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
+declare -a LONG_OPTIONS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF EXTERNAL_ID DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
+    unset LONG_OPTIONS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID DRY_RUN;
 }
@@ -42,121 +44,17 @@ DRY_RUN="false";
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
 
-function parse_args() {
-    local -a ARGUMENTS;
-    local INDEX;
-    echo "::debug::Parsing arguments...";
-    mapfile -td " " ARGUMENTS < <(echo "$*" | tr -d '\n');
-    for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
-        local ARG;
-        ARG="${ARGUMENTS[${INDEX}]}";
-        case "${ARG}" in
-            --repository|--repo|-r)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub repository (no value)!";
-                    exit 1;
-                fi
-                REPOSITORY="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --repository=*|--repo=*)
-                REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
-            ;;
-            --head-ref)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid Git head reference (no value)!";
-                    exit 1;
-                fi
-                HEAD_REF="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --head-ref=*)
-                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
-            ;;
-            --head-sha)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid Git head SHA (no value)!";
-                    exit 1;
-                fi
-                HEAD_SHA="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed Git head SHA \"${HEAD_SHA}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --head-sha=*)
-                HEAD_SHA="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed Git head SHA \"${HEAD_SHA}\"";
-            ;;
-            --run-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub run ID (no value)!";
-                    exit 1;
-                fi
-                RUN_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --run-id=*)
-                RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-            ;;
-            --external-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid external ID (no value)!";
-                    exit 1;
-                fi
-                EXTERNAL_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --external-id=*)
-                EXTERNAL_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
-            ;;
-            --dry-run)
-                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --no-dry-run)
-                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    if is_dry_run; then
-                        DRY_RUN="false";
-                    else
-                        DRY_RUN="true";
-                    fi
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --dry-run=*)
-                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                else
-                    echo "::debug::Not running in dry run mode";
-                fi
-            ;;
-        esac
-    done
-    echo "::debug::Done Parsing arguments";
-}
+LONG_OPTIONS=(
+    "dry-run!" "repository:" "run-id:" "external-id:" "head-ref:"
+)
 
-parse_args "$@";
+export AWKPATH="${SCRIPT_DIR}/.github/scripts/lib:${AWKPATH}";
+
+echo "::debug::Parsing arguments...";
+export "$(env -i -S "$(echo "$*" | awk \
+        -v long_options="$(echo "${LONG_OPTIONS[@]}" | tr ' ' ',')" \
+        -f "${SCRIPT_DIR}/.github/scripts/arg-parse.awk")")";
+echo "::debug::Done Parsing arguments";
 
 if [[ -z "${REPOSITORY}" ]]; then
     echo "::debug::Repository not provided on the command line, using default repository \"${OWNER}/${REPO}\"";

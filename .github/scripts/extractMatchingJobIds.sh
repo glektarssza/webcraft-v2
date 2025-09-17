@@ -20,15 +20,16 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
+declare -a LONG_OPTIONS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-declare REPOSITORY CASE_INSENSITIVE JOB_NAME_PATTERN DRY_RUN;
+declare REPOSITORY DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset JOB_IDS;
+    unset LONG_OPTIONS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-    unset REPOSITORY CASE_INSENSITIVE JOB_NAME_PATTERN DRY_RUN;
+    unset REPOSITORY DRY_RUN;
 }
 
 trap cleanup EXIT;
@@ -39,159 +40,22 @@ SCRIPT_DIR="$(get_script_dir)";
 PROJECT_ROOT="$(readlink -f "${SCRIPT_DIR}/../..")";
 
 DRY_RUN="false";
-CASE_INSENSITIVE="false";
 
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
 
-# Check whether the script is running in case insensitive mode.
-# === Returns ===
-# Success if the script is in case insensitive mode, failure otherwise.
-function is_case_insensitive() {
-    if [[ "${CASE_INSENSITIVE}" =~ [Tt][Rr][Uu][Ee]|1 ]]; then
-        return 0;
-    else
-        return 1;
-    fi
-}
+LONG_OPTIONS=(
+    "dry-run!" "repository:" "run-id:" "job-name" "job-name-pattern"
+    "case-insensitive!"
+)
 
-function parse_args() {
-    local -a ARGUMENTS;
-    local INDEX;
-    echo "::debug::Parsing arguments...";
-    mapfile -td " " ARGUMENTS < <(echo "$*" | tr -d '\n');
-    for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
-        local ARG;
-        ARG="${ARGUMENTS[${INDEX}]}";
-        case "${ARG}" in
-            --repository|--repo|-r)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub repository (no value)!";
-                    exit 1;
-                fi
-                REPOSITORY="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --repository=*|--repo=*)
-                REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
-            ;;
-            --run-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub run ID (no value)!";
-                    exit 1;
-                fi
-                RUN_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --run-id=*)
-                RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-            ;;
-            --job-name-pattern)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid job name pattern (no value)!";
-                    exit 1;
-                fi
-                JOB_NAME_PATTERN="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --job-name-pattern=*)
-                JOB_NAME_PATTERN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
-            ;;
-            --job-name)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid job name (no value)!";
-                    exit 1;
-                fi
-                JOB_NAME_PATTERN="^$(echo "${ARGUMENTS[INDEX+1]}" | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
-                echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --job-name=*)
-                JOB_NAME_PATTERN="^$(echo "${ARG}" | awk -F"=" '{print $2;}' | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
-                echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
-            ;;
-            --case-insensitive)
-                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
-                    CASE_INSENSITIVE="${#ARGUMENTS[${INDEX}+1]}";
-                    INDEX=${INDEX}+1;
-                else
-                    CASE_INSENSITIVE="true";
-                fi
-                if is_case_insensitive; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --no-case-insensitive)
-                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
-                    CASE_INSENSITIVE="${#ARGUMENTS[${INDEX}+1]}";
-                    if is_case_insensitive; then
-                        CASE_INSENSITIVE="false";
-                    else
-                        CASE_INSENSITIVE="true";
-                    fi
-                    INDEX=${INDEX}+1;
-                else
-                    CASE_INSENSITIVE="true";
-                fi
-                if is_case_insensitive; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --case-insensitive=*)
-                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                else
-                    echo "::debug::Not running in dry run mode";
-                fi
-            ;;
-            --dry-run)
-                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --no-dry-run)
-                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    if is_dry_run; then
-                        DRY_RUN="false";
-                    else
-                        DRY_RUN="true";
-                    fi
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --dry-run=*)
-                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                else
-                    echo "::debug::Not running in dry run mode";
-                fi
-            ;;
-        esac
-    done
-    echo "::debug::Done Parsing arguments";
-}
+export AWKPATH="${SCRIPT_DIR}/.github/scripts/lib:${AWKPATH}";
 
-parse_args "$@";
+echo "::debug::Parsing arguments...";
+export "$(env -i -S "$(echo "$*" | awk \
+        -v long_options="$(echo "${LONG_OPTIONS[@]}" | tr ' ' ',')" \
+        -f "${SCRIPT_DIR}/.github/scripts/arg-parse.awk")")";
+echo "::debug::Done Parsing arguments";
 
 if [[ -z "${REPOSITORY}" ]]; then
     REPOSITORY="${OWNER}/${REPO}";
@@ -213,12 +77,14 @@ if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
     exit 1;
 fi
 
-if [[ -z "${JOB_NAME_PATTERN}" ]]; then
+if [[ -z "${JOB_NAME_PATTERN}" && -n "${JOB_NAME}" ]]; then
+    JOB_NAME_PATTERN="^${JOB_NAME}\$";
+elif [[ -z "${JOB_NAME_PATTERN}" ]]; then
     echo "::error::Invalid job name pattern (no value)!";
     exit 1;
 fi
 
-echo "::debug::Calling GitHub API to retrieve known check runs for Git SHA \"${HEAD_SHA}\"...";
+echo "::debug::Calling GitHub API to retrieve known check runs for GitHub run ID \"${RUN_ID}\"...";
 if is_dry_run; then
     GITHUB_API_CALL_DATA="";
     STATUS_CODE="0";

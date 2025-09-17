@@ -20,7 +20,7 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare -a VALID_CHECK_CONCLUSIONS;
+declare -a LONG_OPTIONS VALID_CHECK_CONCLUSIONS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
 declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
@@ -33,7 +33,7 @@ VALID_CHECK_CONCLUSIONS=(
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset VALID_CHECK_CONCLUSIONS;
+    unset LONG_OPTIONS VALID_CHECK_CONCLUSIONS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
     unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
@@ -51,212 +51,19 @@ DRY_RUN="false";
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
 
-function parse_args() {
-    local -a ARGUMENTS;
-    local INDEX;
-    echo "::debug::Parsing arguments...";
-    mapfile -td " " ARGUMENTS < <(echo "$*" | tr -d '\n');
-    for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
-        local ARG;
-        ARG="${ARGUMENTS[${INDEX}]}";
-        case "${ARG}" in
-            --repository|--repo|-r)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub repository (no value)!";
-                    exit 1;
-                fi
-                REPOSITORY="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --repository=*|--repo=*)
-                REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
-            ;;
-            --job-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid job ID (no value)!";
-                    exit 1;
-                fi
-                JOB_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed job ID \"${JOB_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --job-id=*)
-                JOB_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed job ID \"${JOB_ID}\"";
-            ;;
-            --run-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub run ID (no value)!";
-                    exit 1;
-                fi
-                RUN_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --run-id=*)
-                RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
-            ;;
-            --check-run-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub check run ID (no value)!";
-                    exit 1;
-                fi
-                CHECK_RUN_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub check run ID \"${CHECK_RUN_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-run-id=*)
-                CHECK_RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub run ID \"${CHECK_RUN_ID}\"";
-            ;;
-            --external-id)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid external ID (no value)!";
-                    exit 1;
-                fi
-                EXTERNAL_ID="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --external-id=*)
-                EXTERNAL_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
-            ;;
-            --head-ref)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid Git head reference (no value)!";
-                    exit 1;
-                fi
-                HEAD_REF="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --head-ref=*)
-                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
-            ;;
-            --head-sha)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid Git head reference (no value)!";
-                    exit 1;
-                fi
-                HEAD_REF="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed Git head SHA \"${HEAD_REF}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --head-sha=*)
-                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed Git head SHA \"${HEAD_REF}\"";
-            ;;
-            --check-name)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid check name (no value)!";
-                    exit 1;
-                fi
-                CHECK_NAME="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed check name \"${CHECK_NAME}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-name=*)
-                CHECK_NAME="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed check name \"${CHECK_NAME}\"";
-            ;;
-            --check-title)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid check title (no value)!";
-                    exit 1;
-                fi
-                CHECK_TITLE="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed check title \"${CHECK_TITLE}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-title=*)
-                CHECK_TITLE="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed check title \"${CHECK_TITLE}\"";
-            ;;
-            --check-summary)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid check summary (no value)!";
-                    exit 1;
-                fi
-                CHECK_SUMMARY="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed check summary \"${CHECK_SUMMARY}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-summary=*)
-                CHECK_SUMMARY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed check summary \"${CHECK_SUMMARY}\"";
-            ;;
-            --check-text)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid check text (no value)!";
-                    exit 1;
-                fi
-                CHECK_TEXT="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed check text \"${CHECK_TEXT}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-text=*)
-                CHECK_TEXT="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed check text \"${CHECK_TEXT}\"";
-            ;;
-            --check-conclusion)
-                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid check conclusion (no value)!";
-                    exit 1;
-                fi
-                CHECK_CONCLUSION="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed check conclusion \"${CHECK_CONCLUSION}\"";
-                INDEX=${INDEX}+1;
-            ;;
-            --check-conclusion=*)
-                CHECK_CONCLUSION="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed check conclusion \"${CHECK_CONCLUSION}\"";
-            ;;
-            --dry-run)
-                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --no-dry-run)
-                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
-                    DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
-                    if is_dry_run; then
-                        DRY_RUN="false";
-                    else
-                        DRY_RUN="true";
-                    fi
-                    INDEX=${INDEX}+1;
-                else
-                    DRY_RUN="true";
-                fi
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                fi
-            ;;
-            --dry-run=*)
-                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                if is_dry_run; then
-                    echo "::debug::Running in dry run mode";
-                else
-                    echo "::debug::Not running in dry run mode";
-                fi
-            ;;
-        esac
-    done
-    echo "::debug::Done Parsing arguments";
-}
+LONG_OPTIONS=(
+    "dry-run!" "repository:" "job-id:" "run-id:" "check-run-id:" "external-id:"
+    "head-ref:" "check-name:" "check-title:" "check-text:" "check-summary:"
+    "check-conclusion:"
+)
 
-parse_args "$@";
+export AWKPATH="${SCRIPT_DIR}/.github/scripts/lib:${AWKPATH}";
+
+echo "::debug::Parsing arguments...";
+export "$(env -i -S "$(echo "$*" | awk \
+        -v long_options="$(echo "${LONG_OPTIONS[@]}" | tr ' ' ',')" \
+        -f "${SCRIPT_DIR}/.github/scripts/arg-parse.awk")")";
+echo "::debug::Done Parsing arguments";
 
 if [[ -z "${REPOSITORY}" ]]; then
     echo "::debug::Repository not provided on the command line, using default repository \"${OWNER}/${REPO}\"";
