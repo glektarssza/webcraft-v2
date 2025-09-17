@@ -89,7 +89,7 @@ jobs:
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
       - id: start-check-run
         name: Start check run
-        if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
+        if: ! fromJson(steps.get-check-run-status.outputs.has-existing-check-run)
         run: |
           ./.github/scripts/createCheckRun.sh \
             --repository "${{github.repository}}" \
@@ -98,7 +98,8 @@ jobs:
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
             --check-name "Build" \
-            --check-title "GitHub Actions Automated CI Build";
+            --check-title "GitHub Actions Automated CI Build" \
+            --dry-run;
       - id: setup-nodejs
         name: Setup NodeJS
         uses: actions/setup-node@v4
@@ -145,4 +146,5 @@ jobs:
             --check-title "GitHub Actions Automated CI Build" \
             --check-summary "The job has finished with a status of `${{job.status}}`." \
             --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
-            --check-conclusion "${{job.status}}";
+            --check-conclusion "${{job.status}}" \
+            --dry-run;
