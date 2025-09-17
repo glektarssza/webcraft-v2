@@ -48,7 +48,7 @@ function parse_args() {
     local -a ARGUMENTS;
     local INDEX;
     echo "::debug::Parsing arguments...";
-    mapfile -td " " ARGUMENTS < <(echo "$*");
+    mapfile -td " " ARGUMENTS < <(echo "$*"  | tr -d '\n');
     for INDEX in $(eval "echo {0..${#ARGUMENTS[@]}}"); do
         local ARG;
         ARG="${ARGUMENTS[${INDEX}]}";
