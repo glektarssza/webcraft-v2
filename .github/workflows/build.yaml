@@ -76,6 +76,7 @@ jobs:
         run: |
           ./.github/scripts/extractMatchingJobIds.sh \
             --repo "${{github.repository}}" \
+            --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --case-insensitive \
             --job-name-pattern "${{github.job}}";
@@ -94,7 +95,7 @@ jobs:
         run: |
           ./.github/scripts/createCheckRun.sh \
             --repository "${{github.repository}}" \
-            --head-ref ${{inputs.ref || github.ref}} \
+            --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
