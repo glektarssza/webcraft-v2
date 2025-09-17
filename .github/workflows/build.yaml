@@ -73,10 +73,10 @@ jobs:
       - id: extract-job-id
         name: Extract job ID
         shell: bash
-        run: >
-          ./.github/scripts/extractMatchingJobIds.sh
-           --repo "${{github.repository}}"
-           --run-id "${{github.run_id}}"
+        run: |
+          ./.github/scripts/extractMatchingJobIds.sh \
+           --repo "${{github.repository}}" \
+           --run-id "${{github.run_id}}" \
            --job-name "${{github.job}}";
       - id: get-check-run-status
         name: Get check run status
@@ -90,15 +90,15 @@ jobs:
       - id: start-check-run
         name: Start check run
         if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
-        run: >
-          ./.github/scripts/createCheckRun.sh
-           --repository "${{github.repository}}"
-           --head-ref ${{inputs.ref || github.ref}}
-           --run-id "${{github.run_id}}"
-           --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-           --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-           --check-name "Build" \
-           --check-title "GitHub Actions Automated CI Build";
+        run: |
+          ./.github/scripts/createCheckRun.sh \
+            --repository "${{github.repository}}" \
+            --head-ref ${{inputs.ref || github.ref}} \
+            --run-id "${{github.run_id}}" \
+            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --check-name "Build" \
+            --check-title "GitHub Actions Automated CI Build";
       - id: setup-nodejs
         name: Setup NodeJS
         uses: actions/setup-node@v4
