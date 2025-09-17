@@ -39,7 +39,7 @@ on:
            * `production`: Create a production-ready build.
 jobs:
   build:
-    name: build:${{matrix.build-configuration}}
+    name: Build
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{github.token}}
