@@ -81,7 +81,7 @@ jobs:
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --job-name "${{github.job}}-${{matrix.build-configuration}}";
-      - id: get-check-run-status
+      - id: fetch-check-run-status
         name: Get check run status
         shell: bash
         run: |
@@ -92,7 +92,7 @@ jobs:
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
       - id: start-check-run
         name: Start check run
-        if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
+        if: steps.fetch-check-run-status.outputs.has-existing-check-run != 'true'
         run: |
           ./.github/scripts/createCheckRun.sh \
             --repository "${{github.repository}}" \
@@ -130,6 +130,16 @@ jobs:
           name: dist-app-${{matrix.build-configuration}}
           path: ./app/dist/
           if-no-files-found: error
+      - id: refetch-check-run-status
+        name: Refetch check run status
+        if: always()
+        shell: bash
+        run: |
+          ./.github/scripts/checkForCheckRun.sh \
+            --repo "${{github.repository}}" \
+            --head-ref "${{inputs.ref || github.ref}}" \
+            --run-id "${{github.run_id}}" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-status}}" | jq '.[0]')";
       - id: finish-check-run
         name: Finish check run
         if: always()
@@ -143,7 +153,7 @@ jobs:
           ./.github/scripts/updateCheckRun.sh \
             --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
-            --check-run-id "$(echo "${{steps.extract-job-id.outputs.existing-check-run-ids}}" | jq '.[0]')" \
+            --check-run-id "$(echo "${{steps.refetch-check-run-status.outputs.existing-check-run-ids}}" | jq '.[0]')" \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
