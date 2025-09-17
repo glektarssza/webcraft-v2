@@ -100,8 +100,7 @@ jobs:
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
             --check-name "Build" \
-            --check-title "GitHub Actions Automated CI Build" \
-            --dry-run;
+            --check-title "GitHub Actions Automated CI Build";
       - id: setup-pnpm
         name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -148,5 +147,4 @@ jobs:
             --check-title "GitHub Actions Automated CI Build" \
             --check-summary "The job has finished with a status of `${{job.status}}`." \
             --check-text "The job has finished at `$(date --utc --iso-8601=seconds)` with a status of `${{job.status}}`." \
-            --check-conclusion "${{job.status}}" \
-            --dry-run;
+            --check-conclusion "${{job.status}}";
