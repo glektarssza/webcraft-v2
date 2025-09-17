@@ -270,14 +270,14 @@ if [[ -z "${HEAD_REF}" ]]; then
     exit 1;
 fi
 
-if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} && ! "${HEAD_REF}" =~ ([[:graph:]]|/)+ ]]; then
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{40} && ! "${HEAD_REF}" =~ ([[:graph:]]|/)+ ]]; then
     echo "::error::Invalid Git head reference (invalid value)!";
     exit 1;
 fi
 
 HEAD_REF="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
 
-if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} ]]; then
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{40} ]]; then
     echo "::error::Invalid Git head reference (does not map to a known Git SHA)!";
     exit 1;
 fi
