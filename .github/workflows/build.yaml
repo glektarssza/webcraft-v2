@@ -143,7 +143,7 @@ jobs:
           ./.github/scripts/updateCheckRun.sh \
             --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
-            --check-run-id "$(echo "${{steps.extract-job-id.outputs.existing-check-run-ids}}" | jq '.[0]')" \
+            --check-run-id "$(echo "${{steps.get-check-run-status.outputs.existing-check-run-ids}}" | jq '.[0]')" \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
