@@ -248,7 +248,9 @@ if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
     exit 0;
 fi
 
+# NOTE: We compact the data to a single line here, otherwise GitHub gets mad...
+GITHUB_API_CALL_DATA="$(json_compact "${GITHUB_API_CALL_DATA}")"
 echo "::info::Found $(json_len "${GITHUB_API_CALL_DATA}") matching job ID(s)";
-echo "::debug::Matching job ID(s) are \"$(json_to_csv "${GITHUB_API_CALL_DATA}")\"";
+echo "::debug::Matching job ID(s) are \"${GITHUB_API_CALL_DATA}\"";
 echo "job-ids=${GITHUB_API_CALL_DATA}" >> "$GITHUB_OUTPUT";
 exit 0;

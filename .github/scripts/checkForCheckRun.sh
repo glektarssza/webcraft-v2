@@ -206,8 +206,10 @@ if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
     exit 1;
 fi
 
+# NOTE: We compact the data to a single line here, otherwise GitHub gets mad...
+GITHUB_API_CALL_DATA="$(json_compact "${GITHUB_API_CALL_DATA}")"
 echo "::debug::Found $(json_len "${GITHUB_API_CALL_DATA}") existing check run ID(s)";
-echo "::debug::Existing check run ID(s) are \"$(json_to_csv "${GITHUB_API_CALL_DATA}")\"";
+echo "::debug::Existing check run ID(s) are \"${GITHUB_API_CALL_DATA}\"";
 echo "existing-check-run-ids=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
 echo "has-existing-check-run=$([[ $(json_len "${GITHUB_API_CALL_DATA}") != "0" ]] && echo "true" || echo "false";)" >> "${GITHUB_OUTPUT}";
 

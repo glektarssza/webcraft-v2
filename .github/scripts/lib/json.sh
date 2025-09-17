@@ -26,3 +26,13 @@ function json_to_csv() {
     echo "$1" | jq -r "@csv";
     return $?;
 }
+
+# Convert JSON data to a compact format.
+# === Params ===
+# $1 - The JSON data to convert.
+# === Returns ===
+# The converted JSON data.
+function json_compact() {
+    echo "$1" | jq -c;
+    return $?;
+}
