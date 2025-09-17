@@ -81,7 +81,7 @@ jobs:
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --case-insensitive \
-            --job-name-pattern "${{github.job}}";
+            --job-name-pattern "${{github.job}} \\(${{matrix.build-configuration}}\\)";
       - id: get-check-run-status
         name: Get check run status
         shell: bash
@@ -99,8 +99,8 @@ jobs:
             --repository "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
-            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --check-name "Build" \
             --check-title "GitHub Actions Automated CI Build";
       - id: setup-pnpm
@@ -143,8 +143,8 @@ jobs:
             --repo "${{github.repository}}" \
             --head-ref ${{inputs.ref || github.ref}} \
             --run-id "${{github.run_id}}" \
-            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
-            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
+            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')" \
             --check-name "Build" \
             --check-title "GitHub Actions Automated CI Build" \
             --check-summary "The job has finished with a status of `${{job.status}}`." \
