@@ -275,7 +275,7 @@ if [[ -z "${HEAD_REF}" ]]; then
     exit 1;
 fi
 
-if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} || ! "${HEAD_REF}" =~ [[::graph::]]+ ]]; then
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} || ! "${HEAD_REF}" =~ ([[:graph:]]|/)+ ]]; then
     echo "::error::Invalid Git head reference (invalid value)!";
     exit 1;
 fi
