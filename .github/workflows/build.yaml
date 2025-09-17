@@ -46,6 +46,8 @@ jobs:
     permissions:
       # -- Required to clone repository
       contents: read
+      # -- Required to create/update checks
+      checks: write
     strategy:
       fail-fast: true
       matrix:
