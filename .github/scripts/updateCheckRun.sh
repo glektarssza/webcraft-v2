@@ -20,14 +20,14 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
 declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE HEAD_SHA GITHUB_API_CALL_DATA;
+    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID CHECK_NAME CHECK_TITLE DRY_RUN;
     unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 }
@@ -104,6 +104,32 @@ function parse_args() {
             --external-id=*)
                 EXTERNAL_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed external ID \"${EXTERNAL_ID}\"";
+            ;;
+            --head-ref)
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub head reference (no value)!";
+                    exit 1;
+                fi
+                HEAD_REF="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
+                INDEX=${INDEX}+1;
+            ;;
+            --head-ref=*)
+                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
+            ;;
+            --head-sha)
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub head reference (no value)!";
+                    exit 1;
+                fi
+                HEAD_REF="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed GitHub head SHA \"${HEAD_REF}\"";
+                INDEX=${INDEX}+1;
+            ;;
+            --head-sha=*)
+                HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub head SHA \"${HEAD_REF}\"";
             ;;
             --check-name)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
@@ -240,18 +266,23 @@ if [[ -z "${CHECK_TITLE}" ]]; then
 fi
 
 if [[ -z "${HEAD_REF}" ]]; then
-    echo "::error::Invalid head reference (no value)!";
+    echo "::error::Invalid Git head reference (no value)!";
     exit 1;
 fi
 
-HEAD_SHA="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
-
-if [[ -z "${HEAD_SHA}" ]]; then
-    echo "::error::Invalid head reference (does not map to a known Git SHA)!";
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} || ! "${HEAD_REF}" =~ [[::graph::]]+ ]]; then
+    echo "::error::Invalid Git head reference (invalid value)!";
     exit 1;
 fi
 
-echo "::debug::Calling GitHub API to update a check run for Git SHA \"${HEAD_SHA}\"...";
+HEAD_REF="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
+
+if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{64} ]]; then
+    echo "::error::Invalid Git head reference (does not map to a known Git SHA)!";
+    exit 1;
+fi
+
+echo "::debug::Calling GitHub API to update a check run for Git SHA \"${HEAD_REF}\"...";
 
 if is_dry_run; then
     GITHUB_API_CALL_DATA="";
@@ -273,7 +304,7 @@ else
     "conclusion": "${CHECK_CONCLUSION}",
     "completed_at": "$(date --iso-8601=seconds)",
     "details_url": "https://github.com/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}/job/${JOB_ID}",
-    "head_sha": "$(git rev-parse HEAD)",
+    "head_sha": "${HEAD_REF}",
     "external_id": "${JOB_ID}"
 }
 EOF
@@ -287,6 +318,6 @@ if [[ "${STATUS_CODE}" != "0" ]]; then
 fi
 
 echo "::debug::Raw GitHub API output: ${GITHUB_API_CALL_DATA}";
-echo "::debug::Updated existing check run for Git SHA \"${HEAD_SHA}\"";
+echo "::debug::Updated existing check run for Git SHA \"${HEAD_REF}\"";
 
 exit 0;
