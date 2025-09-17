@@ -20,16 +20,23 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
+declare -a VALID_CHECK_CONCLUSIONS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
-declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
+declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
+
+VALID_CHECK_CONCLUSIONS=(
+    "success" "failure" "neutral" "cancelled"
+    "timed_out" "action_required" "skipped"
+)
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
+    unset VALID_CHECK_CONCLUSIONS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
-    unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
+    unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
 }
 
 trap cleanup EXIT;
@@ -196,6 +203,19 @@ function parse_args() {
                 CHECK_TEXT="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed check text \"${CHECK_TEXT}\"";
             ;;
+            --check-conclusion)
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid check conclusion (no value)!";
+                    exit 1;
+                fi
+                CHECK_CONCLUSION="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed check conclusion \"${CHECK_CONCLUSION}\"";
+                INDEX=${INDEX}+1;
+            ;;
+            --check-conclusion=*)
+                CHECK_CONCLUSION="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed check conclusion \"${CHECK_CONCLUSION}\"";
+            ;;
             --dry-run)
                 if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
                     DRY_RUN="${#ARGUMENTS[${INDEX}+1]}";
@@ -302,6 +322,16 @@ HEAD_REF="$(git rev-parse --verify "${HEAD_REF}" 2> /dev/null)";
 
 if [[ ! "${HEAD_REF}" =~ [a-zA-Z0-9]{40} ]]; then
     echo "::error::Invalid Git head reference (does not map to a known Git SHA)!";
+    exit 1;
+fi
+
+if [[ -z "${CHECK_CONCLUSION}" ]]; then
+    echo "::error::Invalid GitHub check conclusion (no value)!";
+    exit 1;
+fi
+
+if [[ ":$(echo "${VALID_CHECK_CONCLUSIONS[@]}" | tr " " ":"):" != *":${CHECK_CONCLUSION}:"* ]]; then
+    echo "::error::Invalid GitHub check conclusion (not in the permitted list of values)!";
     exit 1;
 fi
 
