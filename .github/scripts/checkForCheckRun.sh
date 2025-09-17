@@ -66,16 +66,16 @@ function parse_args() {
             ;;
             --head-ref)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
-                    echo "::error::Invalid GitHub head reference (no value)!";
+                    echo "::error::Invalid Git head reference (no value)!";
                     exit 1;
                 fi
                 HEAD_REF="${ARGUMENTS[INDEX+1]}";
-                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
+                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
                 INDEX=${INDEX}+1;
             ;;
             --head-ref=*)
                 HEAD_REF="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
-                echo "::debug::Parsed GitHub head reference \"${HEAD_REF}\"";
+                echo "::debug::Parsed Git head reference \"${HEAD_REF}\"";
             ;;
             --run-id)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
