@@ -58,7 +58,7 @@ function parse_args() {
         local ARG;
         ARG="${ARGUMENTS[${INDEX}]}";
         case "${ARG}" in
-            --repo|-r)
+            --repository|--repo|-r)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
                     echo "::error::Invalid GitHub repository (no value)!";
                     exit 1;
@@ -67,7 +67,7 @@ function parse_args() {
                 echo "::debug::Parsed GitHub repository \"${REPOSITORY}\"";
                 INDEX=${INDEX}+1;
             ;;
-            --repo=*)
+            --repository=*|--repo=*)
                 REPOSITORY="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${REPOSITORY}\"";
             ;;

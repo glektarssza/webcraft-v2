@@ -136,7 +136,7 @@ jobs:
             exit 1;
           fi
           ./.github/scripts/updateCheckRun.sh \
-            --repository "${{github.repository}}" \
+            --repo "${{github.repository}}" \
             --head-ref ${{inputs.ref || github.ref}} \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')" \
