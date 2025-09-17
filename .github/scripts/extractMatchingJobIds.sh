@@ -21,14 +21,14 @@ function get_script_dir() {
 
 # -- Forward declare variables
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-declare REPOSITORY JOB_NAME_PATTERN DRY_RUN
+declare REPOSITORY CASE_INSENSITIVE JOB_NAME_PATTERN DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
     unset JOB_IDS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-    unset REPOSITORY JOB_NAME_PATTERN DRY_RUN
+    unset REPOSITORY CASE_INSENSITIVE JOB_NAME_PATTERN DRY_RUN;
 }
 
 trap cleanup EXIT;
@@ -39,9 +39,21 @@ SCRIPT_DIR="$(get_script_dir)";
 PROJECT_ROOT="$(readlink -f "${SCRIPT_DIR}/../..")";
 
 DRY_RUN="false";
+CASE_INSENSITIVE="false";
 
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
+
+# Check whether the script is running in case insensitive mode.
+# === Returns ===
+# Success if the script is in case insensitive mode, failure otherwise.
+function is_case_insensitive() {
+    if [[ "${CASE_INSENSITIVE}" =~ [Tt][Rr][Uu][Ee]|1 ]]; then
+        return 0;
+    else
+        return 1;
+    fi
+}
 
 function parse_args() {
     local -a ARGUMENTS;
@@ -103,6 +115,41 @@ function parse_args() {
             --job-name=*)
                 JOB_NAME_PATTERN="^$(echo "${ARG}" | awk -F"=" '{print $2;}' | sed -E 's/([][)(\\\|\*\+\?\^\$\.\!}{])/\\\1/g')$";
                 echo "::debug::Parsed job name pattern \"${JOB_NAME_PATTERN}\"";
+            ;;
+            --case-insensitive)
+                if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
+                    CASE_INSENSITIVE="${#ARGUMENTS[${INDEX}+1]}";
+                    INDEX=${INDEX}+1;
+                else
+                    CASE_INSENSITIVE="true";
+                fi
+                if is_case_insensitive; then
+                    echo "::debug::Running in dry run mode";
+                fi
+            ;;
+            --no-case-insensitive)
+                if [[ ${INDEX} -lt ${#ARGUMENTS[@]} && "${#ARGUMENTS[${INDEX}+1],,}" =~ true|false ]]; then
+                    CASE_INSENSITIVE="${#ARGUMENTS[${INDEX}+1]}";
+                    if is_case_insensitive; then
+                        CASE_INSENSITIVE="false";
+                    else
+                        CASE_INSENSITIVE="true";
+                    fi
+                    INDEX=${INDEX}+1;
+                else
+                    CASE_INSENSITIVE="true";
+                fi
+                if is_case_insensitive; then
+                    echo "::debug::Running in dry run mode";
+                fi
+            ;;
+            --case-insensitive=*)
+                DRY_RUN="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                if is_dry_run; then
+                    echo "::debug::Running in dry run mode";
+                else
+                    echo "::debug::Not running in dry run mode";
+                fi
             ;;
             --dry-run)
                 if [[ $((INDEX+1)) -lt ${#ARGUMENTS[@]} && "${ARGUMENTS[INDEX+1],,}" =~ true|false ]]; then
@@ -173,13 +220,21 @@ fi
 
 echo "::debug::Calling GitHub API to retrieve known check runs for Git SHA \"${HEAD_SHA}\"...";
 if is_dry_run; then
+    GITHUB_API_CALL_DATA="";
     STATUS_CODE="0";
 else
     GITHUB_API_CALL_DATA="$(gh api --method GET \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "/repos/${REPOSITORY}/actions/runs/${RUN_ID}/jobs" | \
-        jq --arg job_name "${JOB_NAME_PATTERN}" -f "${SCRIPT_DIR}/workflow_runs_extract_job_ids.jq")";
+        jq --arg job_name "${JOB_NAME_PATTERN}" --arg regex_flags "$(
+        if is_case_insensitive; then
+            echo "i";
+        else
+            echo "";
+        fi
+        )" \
+            -f "${SCRIPT_DIR}/workflow_runs_extract_job_ids.jq")";
     STATUS_CODE="$?";
 fi
 if [[ "${STATUS_CODE}" != "0" ]]; then
