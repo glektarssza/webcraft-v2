@@ -100,6 +100,11 @@ jobs:
             --check-name "Build" \
             --check-title "GitHub Actions Automated CI Build" \
             --dry-run;
+      - id: setup-pnpm
+        name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
       - id: setup-nodejs
         name: Setup NodeJS
         uses: actions/setup-node@v4
@@ -108,11 +113,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: ./pnpm-lock.yaml
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-      - id: setup-pnpm
-        name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
       - id: install-dependencies
         name: Install dependencies
         run: pnpm install
