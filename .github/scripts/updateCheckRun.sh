@@ -21,14 +21,14 @@ function get_script_dir() {
 
 # -- Forward declare variables
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-declare REPOSITORY HEAD_REF RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
+declare REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
 declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
-    unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID CHECK_NAME CHECK_TITLE DRY_RUN;
+    unset REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
     unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT;
 }
 
@@ -91,6 +91,19 @@ function parse_args() {
             --run-id=*)
                 RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
                 echo "::debug::Parsed GitHub run ID \"${RUN_ID}\"";
+            ;;
+            --check-run-id)
+                if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
+                    echo "::error::Invalid GitHub check run ID (no value)!";
+                    exit 1;
+                fi
+                CHECK_RUN_ID="${ARGUMENTS[INDEX+1]}";
+                echo "::debug::Parsed GitHub check run ID \"${CHECK_RUN_ID}\"";
+                INDEX=${INDEX}+1;
+            ;;
+            --check-run-id=*)
+                CHECK_RUN_ID="$(echo "${ARG}" | awk -F"=" '{print $2;}')";
+                echo "::debug::Parsed GitHub run ID \"${CHECK_RUN_ID}\"";
             ;;
             --external-id)
                 if [[ ${INDEX} -ge ${#ARGUMENTS[@]} ]]; then
@@ -250,6 +263,16 @@ if [[ ! "${RUN_ID}" =~ [[:digit:]]+ ]]; then
     exit 1;
 fi
 
+if [[ -z "${CHECK_RUN_ID}" ]]; then
+    echo "::error::Invalid GitHub check run ID (no value)!";
+    exit 1;
+fi
+
+if [[ ! "${CHECK_RUN_ID}" =~ [[:digit:]]+ ]]; then
+    echo "::error::Invalid GitHub check run ID (invalid value)!";
+    exit 1;
+fi
+
 if [[ -z "${EXTERNAL_ID}" ]]; then
     echo "::debug::External ID not provided on the command line, using default (job ID) \"${JOB_ID}\"";
     EXTERNAL_ID="${JOB_ID}";
@@ -291,7 +314,7 @@ else
     GITHUB_API_CALL_DATA="$(gh api --method PATCH \
         -H "Accept: application/vnd.github+json" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
-        "/repos/${GITHUB_REPOSITORY}/check-runs" \
+        "/repos/${GITHUB_REPOSITORY}/check-runs/${CHECK_RUN_ID}" \
         --input - <<EOF
 {
     "name": "${CHECK_NAME}",
