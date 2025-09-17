@@ -17,6 +17,7 @@ const config = defineProject(({mode}) => {
         resolve: {
             extensions: ['.ts', '.js']
         },
+        root: path.resolve(import.meta.dirname, './src/'),
         base: mode !== 'development' ? '/webcraft/' : '/',
         build: {
             outDir: path.resolve(import.meta.dirname, './dist/'),
