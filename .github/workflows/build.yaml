@@ -84,7 +84,7 @@ jobs:
             --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
-            --job-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | awk -F':' '{print $1;}')";
+            --external-id "$(echo "${{steps.extract-job-id.outputs.job-ids}}" | jq '.[0]')";
       - id: start-check-run
         name: Start check run
         if: steps.get-check-run-status.outputs.has-existing-check-run != 'true'
