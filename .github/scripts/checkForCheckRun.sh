@@ -190,43 +190,6 @@ fi
 echo "::debug::Calling GitHub API to check for GitHub check runs with external ID \"${EXTERNAL_ID}\"...";
 if is_dry_run; then
     echo "::warning::Running in dry run mode!";
-    GITHUB_API_CALL_DATA="false";
-    STATUS_CODE="0";
-else
-    GITHUB_API_CALL_DATA="$(gh api --method GET \
-        -H "Accept: application/vnd.github+json" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
-        "/repos/${REPOSITORY}/commits/${HEAD_SHA}/check-runs" | \
-        jq -f "${SCRIPT_DIR}/check_runs_find_external_id.jq" --arg external_id "${EXTERNAL_ID}")";
-    STATUS_CODE="$?";
-fi
-
-if [[ "${STATUS_CODE}" != "0" ]]; then
-    echo "::error::Failed to call GitHub API (call returned status code \"${STATUS_CODE}\")!";
-    exit "${STATUS_CODE}";
-fi
-
-echo "::debug::Raw GitHub API output: ${GITHUB_API_CALL_DATA}";
-
-if [[ -z "${GITHUB_API_CALL_DATA}" ]]; then
-    echo "::error::GitHub API returned no data!";
-    exit 1;
-fi
-
-echo "has-existing-check-run=${GITHUB_API_CALL_DATA}" >> "${GITHUB_OUTPUT}";
-case "${GITHUB_API_CALL_DATA,,}" in
-    true)
-        echo "::debug::Found existing GitHub Actions check run!";
-    ;;
-    false)
-        echo "::debug::Found no existing GitHub Actions check run!";
-        exit 0;
-    ;;
-esac
-
-echo "::debug::Extracting check run ID...";
-if is_dry_run; then
-    echo "::warning::Running in dry run mode!";
     GITHUB_API_CALL_DATA="";
     STATUS_CODE="0";
 else
