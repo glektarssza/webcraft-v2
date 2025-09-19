@@ -9,7 +9,7 @@ BEGIN {
     for(i = 1;i <= NF;i += 1) {
         F[i] = $i;
     }
-    parsed_option = getopt(NF, F, options, long_options);
+    parsed_option = getopt(NF, F, short_options, long_options);
     do {
         if (parsed_option == "?") {
             printf("::debug::Warning! Unknown command line option!\n") > "/dev/stderr";
