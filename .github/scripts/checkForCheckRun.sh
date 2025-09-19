@@ -47,7 +47,7 @@ source "${SCRIPT_DIR}/lib/json.sh";
 SHORT_OPTIONS=("r:");
 
 LONG_OPTIONS=(
-    "repository:" "repo:" "run-id:" "external-id:" "head-ref:" "dry-run!"
+    "repository:" "repo:" "run-id:" "external-id" "head-ref:" "dry-run!"
 );
 
 export AWKPATH="${SCRIPT_DIR}/lib:${AWKPATH}";

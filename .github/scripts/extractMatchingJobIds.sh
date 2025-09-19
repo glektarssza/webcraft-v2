@@ -47,7 +47,7 @@ source "${SCRIPT_DIR}/lib/json.sh";
 SHORT_OPTIONS=("r:");
 
 LONG_OPTIONS=(
-    "dry-run!" "repository:" "run-id:" "job-name" "job-name-pattern"
+    "dry-run!" "repository:" "repo:" "run-id:" "job-name" "job-name-pattern"
     "case-insensitive!"
 )
 

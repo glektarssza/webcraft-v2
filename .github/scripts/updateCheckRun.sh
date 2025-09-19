@@ -49,9 +49,9 @@ source "${SCRIPT_DIR}/lib/json.sh";
 SHORT_OPTIONS=("r:");
 
 LONG_OPTIONS=(
-    "dry-run!" "repository:" "job-id:" "run-id:" "check-run-id:" "external-id:"
-    "head-ref:" "check-name:" "check-title:" "check-text:" "check-summary:"
-    "check-conclusion:"
+    "dry-run!" "repository:" "repo:" "job-id:" "run-id:" "check-run-id:"
+    "external-id:" "head-ref:" "check-name:" "check-title:" "check-text:"
+    "check-summary:" "check-conclusion:"
 );
 
 VALID_CHECK_CONCLUSIONS=(
