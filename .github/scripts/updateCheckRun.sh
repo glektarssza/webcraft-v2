@@ -57,12 +57,12 @@ LONG_OPTIONS=(
     "check-conclusion:"
 )
 
-export AWKPATH="${SCRIPT_DIR}/.github/scripts/lib:${AWKPATH}";
+export AWKPATH="${SCRIPT_DIR}/lib:${AWKPATH}";
 
 echo "::debug::Parsing arguments...";
 export "$(env -i -S "$(echo "$*" | awk \
         -v long_options="$(echo "${LONG_OPTIONS[@]}" | tr ' ' ',')" \
-        -f "${SCRIPT_DIR}/.github/scripts/arg-parse.awk")")";
+        -f "${SCRIPT_DIR}/arg-parse.awk")")";
 echo "::debug::Done Parsing arguments";
 
 if [[ -z "${REPOSITORY}" ]]; then
