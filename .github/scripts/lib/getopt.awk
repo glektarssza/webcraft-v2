@@ -130,7 +130,7 @@ function getopt(argc, argv, options, longopts, thisopt, i, j)
                 _optdq = 0
             }
         }
-        Optarg = substr(Optarg, 1, length(Optarg) - 1)
+        Optarg = substr(Optarg, 1, length(Optarg))
         Optind++
         return thisopt
     }
