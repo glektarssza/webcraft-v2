@@ -20,15 +20,15 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare -a LONG_OPTIONS;
-declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
+declare -a LONG_OPTIONS SHORT_OPTIONS;
+declare SCRIPT_DIR PROJECT_ROOT OPTS STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF EXTERNAL_ID DRY_RUN;
 
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset LONG_OPTIONS;
-    unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
+    unset LONG_OPTIONS SHORT_OPTIONS;
+    unset SCRIPT_DIR PROJECT_ROOT OPTS STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF RUN_ID EXTERNAL_ID DRY_RUN;
 }
 
@@ -44,9 +44,11 @@ DRY_RUN="false";
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
 
+SHORT_OPTIONS=("r:");
+
 LONG_OPTIONS=(
-    "dry-run!" "repository:" "run-id:" "external-id:" "head-ref:"
-)
+    "repository:" "repo:" "run-id:" "external-id:" "head-ref:" "dry-run!"
+);
 
 export AWKPATH="${SCRIPT_DIR}/lib:${AWKPATH}";
 

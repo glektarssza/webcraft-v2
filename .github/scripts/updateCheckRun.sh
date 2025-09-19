@@ -20,20 +20,15 @@ function get_script_dir() {
 }
 
 # -- Forward declare variables
-declare -a LONG_OPTIONS VALID_CHECK_CONCLUSIONS;
+declare -a LONG_OPTIONS SHORT_OPTIONS VALID_CHECK_CONCLUSIONS;
 declare SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
 declare REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
 declare CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
 
-VALID_CHECK_CONCLUSIONS=(
-    "success" "failure" "neutral" "cancelled"
-    "timed_out" "action_required" "skipped"
-)
-
 # -- Cleanup routine
 # shellcheck disable=SC2329
 function cleanup() {
-    unset LONG_OPTIONS VALID_CHECK_CONCLUSIONS;
+    unset LONG_OPTIONS SHORT_OPTIONS VALID_CHECK_CONCLUSIONS;
     unset SCRIPT_DIR PROJECT_ROOT STATUS_CODE GITHUB_API_CALL_DATA;
     unset REPOSITORY HEAD_REF CHECK_RUN_ID RUN_ID JOB_ID EXTERNAL_ID DRY_RUN;
     unset CHECK_NAME CHECK_TITLE CHECK_SUMMARY CHECK_TEXT CHECK_CONCLUSION;
@@ -51,11 +46,18 @@ DRY_RUN="false";
 source "${SCRIPT_DIR}/lib/dry-run.sh";
 source "${SCRIPT_DIR}/lib/json.sh";
 
+SHORT_OPTIONS=("r:");
+
 LONG_OPTIONS=(
     "dry-run!" "repository:" "job-id:" "run-id:" "check-run-id:" "external-id:"
     "head-ref:" "check-name:" "check-title:" "check-text:" "check-summary:"
     "check-conclusion:"
-)
+);
+
+VALID_CHECK_CONCLUSIONS=(
+    "success" "failure" "neutral" "cancelled"
+    "timed_out" "action_required" "skipped"
+);
 
 export AWKPATH="${SCRIPT_DIR}/lib:${AWKPATH}";
 
