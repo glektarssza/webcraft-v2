@@ -66,8 +66,16 @@ export "$(env -i -S "${OPTS}")";
 echo "::debug::Done Parsing arguments";
 
 if [[ -z "${REPOSITORY}" ]]; then
-    echo "::debug::Repository not provided on the command line, using default \"${OWNER}/${REPO}\"";
-    REPOSITORY="${OWNER}/${REPO}";
+    REPOSITORY="${REPO}";
+fi
+
+if [[ -z "${REPOSITORY}" ]]; then
+    REPOSITORY="${R}";
+fi
+
+if [[ -z "${REPOSITORY}" ]]; then
+    echo "::debug::Repository not provided on the command line, using default repository \"${OWNER}/${REPO}\"";
+    REPOSITORY="${GITHUB_OWNER}/${GITHUB_REPO}";
 fi
 
 if [[ ! "${REPOSITORY}" =~ [[:graph:]]+/[[:graph:]]+ ]]; then
