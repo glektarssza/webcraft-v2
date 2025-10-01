@@ -37,6 +37,11 @@ on:
           Valid options are:
            * `development`: Create a development/debugging build.
            * `production`: Create a production-ready build.
+    secrets:
+      github-token:
+        description: |
+          The token to use to make authenticated requests to the GitHub API.
+        required: false
 jobs:
   build:
     name: build-${{matrix.build-configuration}}
