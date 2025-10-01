@@ -78,13 +78,17 @@ jobs:
           show-progress: true
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: extract-job-ids
-        name: Extract job IDs
-        shell: bash
-        run: |
-          ./.github/scripts/extractMatchingJobIds.sh \
-            --repo "${{github.repository}}" \
-            --run-id "${{github.run_id}}" \
-            --job-name "${{github.job}}-${{matrix.build-configuration}}";
+        name: Get job ID
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          script: |
+            const script = require("./.github/scripts/dist/get-job-id.js");
+            await script({
+              github, context, core, glob, io, exec
+            }, {
+              job_name: ${{github.job}}
+            });
       - id: fetch-check-run-status
         name: Get check run status
         shell: bash
