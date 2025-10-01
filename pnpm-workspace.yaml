@@ -1,5 +1,6 @@
 packages:
   - ./app/
+  - ./.github/scripts/
 preferWorkspacePackages: true
 onlyBuiltDependencies:
   - '@parcel/watcher'
