@@ -1,3 +1,12 @@
+import {type getOctokit} from '@actions/github';
+
+/**
+ * The return type of the {@link getOctokit} function from the
+ * {@link https://github.com/actions/toolkit/tree/main/packages/github @actions/github}
+ * package.
+ */
+export type GitHubOctokit = ReturnType<typeof getOctokit>;
+
 /**
  * An interface defining the common inputs to a GitHub Actions script.
  */
