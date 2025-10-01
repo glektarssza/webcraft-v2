@@ -31,9 +31,4 @@ export interface CommonScriptArguments {
      * The GitHub Actions execution API.
      */
     exec: typeof import('@actions/exec');
-
-    /**
-     * An alternative `require` function for local usage.
-     */
-    require: typeof require;
 }
