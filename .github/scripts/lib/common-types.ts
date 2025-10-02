@@ -14,7 +14,7 @@ export interface CommonScriptArguments {
     /**
      * The pre-built Octokit REST object.
      */
-    github: import('@octokit/rest').Octokit;
+    github: GitHubOctokit;
 
     /**
      * The workflow context.
