@@ -2,6 +2,9 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "./dist/prod/",
-        "sourceMap": true
+        "inlineSourceMap": false,
+        "inlineSources": false,
+        "noEmit": false,
+        "sourceMap": false
     }
 }

@@ -13,5 +13,5 @@
     },
     "compileOnSave": false,
     "extends": "../../tsconfig.json",
-    "references": []
+    "exclude": ["**/node_modules/**", "**/dist/**"]
 }
