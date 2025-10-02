@@ -1,5 +1,6 @@
 import {type RestEndpointMethodTypes} from '@octokit/rest';
 import {type CommonScriptArguments} from './lib/common-types.js';
+import {initializeOctokit} from './lib/octokit.js';
 
 /**
  * An interface defining the input arguments to the script.
@@ -113,6 +114,9 @@ async function script(
 ): Promise<void> {
     const {context, core, github} = commonArgs;
     const {run_id} = args;
+    const octokit = initializeOctokit({
+        octokit: github
+    });
     core.startGroup('init');
     let matcher: (name: string) => boolean;
     if (args.job_name_pattern) {
@@ -132,7 +136,7 @@ async function script(
     core.info(`Fetching jobs for workflow run "${run_id}"...`);
     try {
         data = (
-            await github.actions.listJobsForWorkflowRun({
+            await octokit.rest.actions.listJobsForWorkflowRun({
                 ...context.repo,
                 run_id
             })
