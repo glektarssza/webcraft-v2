@@ -1,5 +1,7 @@
-import {type RestEndpointMethodTypes} from '@octokit/rest';
-import {type CommonScriptArguments} from './lib/common-types.js';
+import {
+    type OctokitRESTResponse,
+    type CommonScriptArguments
+} from './lib/common-types.js';
 import {initializeOctokit} from './lib/octokit.js';
 
 /**
@@ -74,11 +76,9 @@ export async function script(
     args: ScriptArguments
 ): Promise<void> {
     const {context, core, github} = commonArgs;
-    const {runId} = context;
-    const octokit = initializeOctokit({
-        octokit: github
-    });
     core.startGroup('init');
+    core.info('Initializing variables...');
+    const {runId} = context;
     let matcher: (name: string) => boolean;
     if (args.jobNamePattern) {
         const pattern = new RegExp(
@@ -90,8 +90,14 @@ export async function script(
         matcher = (name) => name === args.jobName;
     }
     let data:
-        | RestEndpointMethodTypes['actions']['listJobsForWorkflowRun']['response']['data']
+        | OctokitRESTResponse<
+              typeof octokit.rest.actions.listJobsForWorkflowRun
+          >['data']
         | null = null;
+    core.info('Initializing Octokit...');
+    const octokit = initializeOctokit({
+        octokit: github
+    });
     core.endGroup();
     core.startGroup('list_jobs_for_workflow');
     core.info(`Fetching jobs for workflow run "${runId}"...`);
@@ -130,4 +136,6 @@ export async function script(
     core.info(`Found matching job ID "${results[0]?.id}"`);
     core.setOutput('job-id', results[0]?.id);
     core.endGroup();
+    process.exitCode = 0;
+    process.exit();
 }

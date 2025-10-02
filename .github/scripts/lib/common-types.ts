@@ -1,6 +1,23 @@
 import {type getOctokit} from '@actions/github';
 
 /**
+ * A utility type to get the result type of a promise.
+ *
+ * @typeParam P The type, which should extend {@link Promise}, to get the result
+ * type of.
+ */
+export type PromiseResult<P> = P extends Promise<infer R> ? R : never;
+
+/**
+ * A utility type to get the response type of a call to an Octokit instance..
+ *
+ * @typeParam R The type, which should be a REST API method in an Octokit
+ * instance, to get the response type of.
+ */
+export type OctokitRESTResponse<R extends (...args: never[]) => unknown> =
+    PromiseResult<ReturnType<R>>;
+
+/**
  * The return type of the {@link getOctokit} function from the
  * {@link https://github.com/actions/toolkit/tree/main/packages/github @actions/github}
  * package.
