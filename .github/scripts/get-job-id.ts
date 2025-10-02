@@ -3,49 +3,12 @@ import {type CommonScriptArguments} from './lib/common-types.js';
 import {initializeOctokit} from './lib/octokit.js';
 
 /**
- * An interface defining the input arguments to the script.
+ * The script arguments for when passing in a job name to match precisely against.
  *
  * @see {@link ScriptArguments}
- * @see {@link ScriptArgumentsJobName}
  * @see {@link ScriptArgumentsJobNamePattern}
  */
-interface ScriptArgumentsBase {
-    /**
-     * The run ID for the current workflow run.
-     */
-    run_id: number;
-
-    /**
-     * The job name to match against.
-     */
-    job_name?: string;
-
-    /**
-     * The job name pattern to match against, in regular expression format.
-     *
-     * @see job_name_pattern_flags
-     */
-    job_name_pattern?: string;
-
-    /**
-     * The regular expression flags to apply.
-     *
-     * Only valid when using {@link job_name_pattern}.
-     *
-     * @see {@link job_name_pattern}
-     */
-    job_name_pattern_flags?: string;
-}
-
-/**
- * An extension of the {@link ScriptArgumentsBase} interface for when specifically
- * using the {@link ScriptArgumentsBase.job_name job_name} property.
- *
- * @see {@link ScriptArguments}
- * @see {@link ScriptArgumentsBase}
- * @see {@link ScriptArgumentsJobNamePattern}
- */
-interface ScriptArgumentsJobName extends ScriptArgumentsBase {
+interface ScriptArgumentsJobName {
     /**
      * @inheritdoc
      */
@@ -54,28 +17,26 @@ interface ScriptArgumentsJobName extends ScriptArgumentsBase {
     /**
      * @inheritdoc
      */
-    job_name_pattern: never;
+    job_name_pattern?: never;
 
     /**
      * @inheritdoc
      */
-    job_name_pattern_flags: never;
+    job_name_pattern_flags?: never;
 }
 
 /**
- * An extension of the {@link ScriptArgumentsBase} interface for when specifically
- * using the {@link ScriptArgumentsBase.job_name_pattern job_name_pattern}
- * property.
+ * The script arguments for when passing in a job name regular expression pattern
+ * to match against.
  *
  * @see {@link ScriptArguments}
- * @see {@link ScriptArgumentsBase}
  * @see {@link ScriptArgumentsJobName}
  */
-interface ScriptArgumentsJobNamePattern extends ScriptArgumentsBase {
+interface ScriptArgumentsJobNamePattern {
     /**
      * @inheritdoc
      */
-    job_name: never;
+    job_name?: never;
 
     /**
      * @inheritdoc
@@ -113,7 +74,7 @@ export async function script(
     args: ScriptArguments
 ): Promise<void> {
     const {context, core, github} = commonArgs;
-    const {run_id} = args;
+    const run_id = context.runId;
     const octokit = initializeOctokit({
         octokit: github
     });

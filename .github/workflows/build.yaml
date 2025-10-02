@@ -108,8 +108,7 @@ jobs:
             await script({
               github, context, core, glob, io, exec
             }, {
-              job_name_pattern: "^${{github.job}}",
-              run_id: ${{github.run_id}}
+              job_name_pattern: "^${{github.job}}"
             });
       - id: fetch-check-run-status
         name: Get check run status
@@ -125,8 +124,6 @@ jobs:
         if: steps.fetch-check-run-status.outputs.has-existing-check-run != 'true'
         run: |
           ./.github/scripts/createCheckRun.sh \
-            --repository "${{github.repository}}" \
-            --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
             --job-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
             --external-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
