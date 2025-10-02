@@ -1,10 +1,9 @@
-import {type exec} from '@actions/exec';
 import {type getOctokit} from '@actions/github';
 
 /**
  * The GitHub Actions `exec` routine.
  */
-export type ActionsExec = typeof exec;
+export type ActionsExecModule = typeof import('@actions/exec');
 
 /**
  * A utility type to get the result type of a promise.
@@ -62,5 +61,5 @@ export interface CommonScriptArguments {
     /**
      * The GitHub Actions execution API.
      */
-    exec: typeof import('@actions/exec');
+    exec: ActionsExecModule;
 }
