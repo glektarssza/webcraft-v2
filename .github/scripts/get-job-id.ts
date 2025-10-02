@@ -108,7 +108,7 @@ type ScriptArguments = ScriptArgumentsJobName | ScriptArgumentsJobNamePattern;
  * @returns A promise that resolves once this script has completed or rejects once
  * this script has failed.
  */
-async function script(
+export async function script(
     commonArgs: CommonScriptArguments,
     args: ScriptArguments
 ): Promise<void> {
@@ -169,5 +169,3 @@ async function script(
     core.setOutput('job-id', results[0]?.id);
     core.endGroup();
 }
-
-export default script;

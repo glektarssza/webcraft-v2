@@ -104,7 +104,7 @@ jobs:
         with:
           github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
           script: |
-            const script = require("./.github/scripts/dist/prod/get-job-id.js");
+            const {script} = require("./.github/scripts/dist/prod/get-job-id.js");
             await script({
               github, context, core, glob, io, exec
             }, {
