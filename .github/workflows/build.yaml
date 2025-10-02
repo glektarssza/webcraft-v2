@@ -103,6 +103,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          result-encoding: json
           script: |
             const {script} = require("./.github/scripts/dist/prod/get-job-id.js");
             await script({
@@ -110,27 +111,31 @@ jobs:
             }, {
               jobNamePattern: "^${{github.job}}"
             });
-      - id: fetch-check-run-status
-        name: Get check run status
-        shell: bash
-        run: |
-          ./.github/scripts/checkForCheckRun.sh \
-            --repo "${{github.repository}}" \
-            --head-ref "${{inputs.ref || github.ref}}" \
-            --run-id "${{github.run_id}}" \
-            --external-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')";
+      - id: find-existing-check-runs
+        name: Find existing check runs
+        uses: actions/github-script@v8
+        with:
+          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          result-encoding: json
+          script: |
+            const {script} = require("./.github/scripts/dist/prod/find-existing-check-runs.js");
+            await script({
+              github, context, core, glob, io, exec
+            }, {
+              jobId: "^${{steps.extract-job-ids.outputs.job-id}}"
+            });
       - id: start-check-run
         name: Start check run
-        if: steps.fetch-check-run-status.outputs.has-existing-check-run != 'true'
+        if: steps.find-existing-check-runs.outputs.has-existing-check-run != 'true'
         run: |
           ./.github/scripts/createCheckRun.sh \
             --run-id "${{github.run_id}}" \
-            --job-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
-            --external-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
+            --job-id "${{steps.extract-job-ids.outputs.job-id}}" \
+            --external-id "${{steps.extract-job-ids.outputs.job-id}}" \
             --check-name "${{github.job}}:${{matrix.build-configuration}}" \
             --check-title "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}" \
             --check-summary "The job `${{github.job}}:${{matrix.build-configuration}}` has started at `$(date --utc --iso-8601=seconds)`." \
-            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')`) has started at `$(date --utc --iso-8601=seconds)`.\n\nWe are waiting for it to complete.";
+            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-ids}}`) has started at `$(date --utc --iso-8601=seconds)`.\n\nWe are waiting for it to complete.";
       - id: build
         name: Build
         run: pnpm --filter=webcraft run build:${{matrix.build-configuration}}
@@ -150,7 +155,7 @@ jobs:
             --repo "${{github.repository}}" \
             --head-ref "${{inputs.ref || github.ref}}" \
             --run-id "${{github.run_id}}" \
-            --external-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')";
+            --external-id "${{steps.extract-job-ids.outputs.job-id}}";
       - id: finish-check-run
         name: Finish check run
         if: always()
@@ -166,10 +171,10 @@ jobs:
             --head-ref "${{inputs.ref || github.ref}}" \
             --check-run-id "$(echo "${{steps.refetch-check-run-status.outputs.existing-check-run-ids}}" | jq '.[0]')" \
             --run-id "${{github.run_id}}" \
-            --job-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
-            --external-id "$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')" \
+            --job-id "${{steps.extract-job-ids.outputs.job-id}}" \
+            --external-id "${{steps.extract-job-ids.outputs.job-id}}" \
             --check-name "${{github.job}}:${{matrix.build-configuration}}" \
             --check-title "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}" \
             --check-summary "The job `${{github.job}}:${{matrix.build-configuration}}` has finished with a status of `${{job.status}}`." \
-            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')`) has finished at `$(date --utc --iso-8601=seconds)`\\n\\nIt's conclusion was `${{job.status}}`." \
+            --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-ids}}`) has finished at `$(date --utc --iso-8601=seconds)`\\n\\nIt's conclusion was `${{job.status}}`." \
             --check-conclusion "${{job.status}}";
