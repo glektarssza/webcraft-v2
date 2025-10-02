@@ -133,11 +133,6 @@ jobs:
             --check-title "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}" \
             --check-summary "The job `${{github.job}}:${{matrix.build-configuration}}` has started at `$(date --utc --iso-8601=seconds)`." \
             --check-text "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `$(echo "${{steps.extract-job-ids.outputs.job-ids}}" | jq '.[0]')`) has started at `$(date --utc --iso-8601=seconds)`.\n\nWe are waiting for it to complete.";
-      - id: setup-pnpm
-        name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          run_install: false
       - id: build
         name: Build
         run: pnpm --filter=webcraft run build:${{matrix.build-configuration}}
