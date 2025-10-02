@@ -1,14 +1,20 @@
-import {Duplex} from 'node:stream';
-import {text} from 'node:stream/consumers';
-import {type ActionsExec} from './common-types.js';
+import {type ActionsExecModule} from './common-types.js';
+import {ErrorCodesEnum} from './errors.js';
 
 export async function revParse(
     rev: string,
-    exec: ActionsExec
+    execModule: ActionsExecModule
 ): Promise<string> {
-    const stdout = new Duplex();
-    await exec('git', ['rev-parse', '--revs-only', rev], {
-        outStream: stdout
-    });
-    return await text(stdout);
+    const result = await execModule.getExecOutput('git', [
+        'rev-parse',
+        '--revs-only',
+        rev
+    ]);
+    if (result.exitCode !== 0) {
+        throw new Error(ErrorCodesEnum.ExecFailedNonZeroStatus);
+    }
+    if (result.stderr) {
+        throw new Error(ErrorCodesEnum.ExecFailedStderrHasContents);
+    }
+    return result.stdout;
 }
