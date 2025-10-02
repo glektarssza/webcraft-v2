@@ -2,6 +2,7 @@ import {
     type OctokitRESTResponse,
     type CommonScriptArguments
 } from './lib/common-types.js';
+import {ErrorCodesEnum} from './lib/errors.js';
 import {revParse} from './lib/git.js';
 import {initializeOctokit} from './lib/octokit.js';
 
@@ -45,7 +46,7 @@ export async function script(
     if (!headRef) {
         headRef = 'HEAD';
     }
-    let headSHA = await revParse(headRef, exec.exec);
+    let headSHA = await revParse(headRef, exec);
     if (!headSHA) {
         headSHA = sha;
     }
@@ -71,13 +72,13 @@ export async function script(
         core.error(
             `Failed to fetch check runs for head reference "${headSHA}"!`
         );
-        throw new Error('E_FETCH_FAILED', {
+        throw new Error(ErrorCodesEnum.OctokitNetFetchFailed, {
             cause: ex
         });
     }
     if (data.total_count <= 0) {
         core.error(`No check runs for head reference "${headSHA}"!`);
-        throw new Error('E_NO_RESULTS');
+        throw new Error(ErrorCodesEnum.OctokitNetFetchNoResults);
     }
     core.info(
         `Fetched ${data.total_count} check runs for head reference "${headSHA}".`

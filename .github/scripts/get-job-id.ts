@@ -2,6 +2,7 @@ import {
     type OctokitRESTResponse,
     type CommonScriptArguments
 } from './lib/common-types.js';
+import {ErrorCodesEnum} from './lib/errors.js';
 import {initializeOctokit} from './lib/octokit.js';
 
 /**
@@ -110,13 +111,13 @@ export async function script(
         ).data;
     } catch (ex) {
         core.error(`Failed to fetch jobs for workflow run "${runId}"!`);
-        throw new Error('E_FETCH_FAILED', {
+        throw new Error(ErrorCodesEnum.OctokitNetFetchFailed, {
             cause: ex
         });
     }
     if (data.total_count <= 0) {
         core.error(`No jobs found for workflow run "${runId}"!`);
-        throw new Error('E_NO_RESULTS');
+        throw new Error(ErrorCodesEnum.OctokitNetFetchNoResults);
     }
     core.info(`Fetched ${data.total_count} jobs for workflow run "${runId}".`);
     core.endGroup();
@@ -127,7 +128,7 @@ export async function script(
     const results = data.jobs.filter((job) => matcher(job.name));
     if (results.length <= 0) {
         core.error(`No matching jobs found for workflow run "${runId}"!`);
-        throw new Error('E_NO_RESULTS');
+        throw new Error(ErrorCodesEnum.OctokitNetFetchNoResults);
     }
     core.info(`Found ${results.length} matching jobs.`);
     if (results.length > 1) {

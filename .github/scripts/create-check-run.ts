@@ -2,6 +2,7 @@ import {
     type OctokitRESTResponse,
     type CommonScriptArguments
 } from './lib/common-types.js';
+import {ErrorCodesEnum} from './lib/errors.js';
 import {revParse} from './lib/git.js';
 import {initializeOctokit} from './lib/octokit.js';
 
@@ -71,7 +72,7 @@ export async function script(
     if (!headRef) {
         headRef = 'HEAD';
     }
-    let headSHA = await revParse(headRef, exec.exec);
+    let headSHA = await revParse(headRef, exec);
     if (!headSHA) {
         headSHA = sha;
     }
@@ -106,7 +107,7 @@ export async function script(
         core.error(
             `Failed to create check runs for head reference "${headSHA}"!`
         );
-        throw new Error('E_CREATE_FAILED', {
+        throw new Error(ErrorCodesEnum.OctokitCheckRunCreateFailed, {
             cause: ex
         });
     }
