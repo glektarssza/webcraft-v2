@@ -38,22 +38,13 @@ export function tryGetOctokitInstance(): GitHubOctokit | null {
 }
 
 /**
- * Inputs to use when initializing the Octokit instance.
- */
-export interface InitializeOctokitOptionsBase {
-    octokit?: GitHubOctokit;
-    githubToken?: string;
-    accessToken?: string;
-}
-
-/**
  * Inputs to use when initializing the Octokit instance with an existing Octokit
  * instance.
  */
 export interface InitializeOctokitOptionsExistingOctokit {
     octokit: GitHubOctokit;
-    githubToken: never;
-    accessToken: never;
+    githubToken?: never;
+    accessToken?: never;
 }
 
 /**
@@ -61,9 +52,9 @@ export interface InitializeOctokitOptionsExistingOctokit {
  * Token (GAT).
  */
 export interface InitializeOctokitOptionsGitHubToken {
-    octokit: never;
+    octokit?: never;
     githubToken: string;
-    accessToken: never;
+    accessToken?: never;
 }
 
 /**
@@ -71,8 +62,8 @@ export interface InitializeOctokitOptionsGitHubToken {
  * Token (PAT).
  */
 export interface InitializeOctokitOptionsPAT {
-    octokit: never;
-    githubToken: never;
+    octokit?: never;
+    githubToken?: never;
     accessToken: string;
 }
 
@@ -98,8 +89,12 @@ export function initializeOctokit(
     if (isOctokitInitialized()) {
         return getOctokitInstance();
     }
-    octokitInstance =
-        options.octokit ??
-        getOctokit(options.githubToken ?? options.accessToken);
+    if (options.octokit) {
+        octokitInstance = options.octokit;
+    } else if (options.githubToken) {
+        octokitInstance = getOctokit(options.githubToken);
+    } else if (options.accessToken) {
+        octokitInstance = getOctokit(options.accessToken);
+    }
     return getOctokitInstance();
 }
