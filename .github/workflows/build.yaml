@@ -77,6 +77,13 @@ jobs:
           submodules: true
           show-progress: true
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+      - id: setup-pnpm
+        name: Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
+        with:
+          package_json_file: ./package.json
+          run_install: false
+          standalone: false
       - id: setup-nodejs
         name: Setup NodeJS
         uses: actions/setup-node@v5
