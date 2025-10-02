@@ -166,6 +166,7 @@ export async function script(
     if (results.length > 1) {
         core.warning(`Picking first match job!`);
     }
+    core.info(`Found matching job ID "${results[0]?.id}"`);
     core.setOutput('job-id', results[0]?.id);
     core.endGroup();
 }
