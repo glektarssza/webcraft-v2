@@ -62,5 +62,5 @@ export interface CommonScriptArguments {
     /**
      * The GitHub Actions execution API.
      */
-    exec: ActionsExec;
+    exec: typeof import('@actions/exec');
 }

@@ -85,7 +85,7 @@ export async function script(
     if (!headRef) {
         headRef = 'HEAD';
     }
-    let headSHA = await revParse(headRef, exec);
+    let headSHA = await revParse(headRef, exec.exec);
     if (!headSHA) {
         headSHA = sha;
     }
