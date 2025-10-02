@@ -108,7 +108,7 @@ jobs:
             await script({
               github, context, core, glob, io, exec
             }, {
-              job_name_pattern: "^${{github.job}}"
+              jobNamePattern: "^${{github.job}}"
             });
       - id: fetch-check-run-status
         name: Get check run status

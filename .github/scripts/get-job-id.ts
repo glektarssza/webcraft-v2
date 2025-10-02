@@ -12,17 +12,17 @@ interface ScriptArgumentsJobName {
     /**
      * @inheritdoc
      */
-    job_name: string;
+    jobName: string;
 
     /**
      * @inheritdoc
      */
-    job_name_pattern?: never;
+    jobNamePattern?: never;
 
     /**
      * @inheritdoc
      */
-    job_name_pattern_flags?: never;
+    jobNamePatternFlags?: never;
 }
 
 /**
@@ -36,17 +36,17 @@ interface ScriptArgumentsJobNamePattern {
     /**
      * @inheritdoc
      */
-    job_name?: never;
+    jobName?: never;
 
     /**
      * @inheritdoc
      */
-    job_name_pattern: string;
+    jobNamePattern: string;
 
     /**
      * @inheritdoc
      */
-    job_name_pattern_flags?: string;
+    jobNamePatternFlags?: string;
 }
 
 /**
@@ -74,53 +74,53 @@ export async function script(
     args: ScriptArguments
 ): Promise<void> {
     const {context, core, github} = commonArgs;
-    const run_id = context.runId;
+    const {runId} = context;
     const octokit = initializeOctokit({
         octokit: github
     });
     core.startGroup('init');
     let matcher: (name: string) => boolean;
-    if (args.job_name_pattern) {
+    if (args.jobNamePattern) {
         const pattern = new RegExp(
-            args.job_name_pattern,
-            args.job_name_pattern_flags
+            args.jobNamePattern,
+            args.jobNamePatternFlags
         );
         matcher = (name) => pattern.test(name);
     } else {
-        matcher = (name) => name === args.job_name;
+        matcher = (name) => name === args.jobName;
     }
     let data:
         | RestEndpointMethodTypes['actions']['listJobsForWorkflowRun']['response']['data']
         | null = null;
     core.endGroup();
     core.startGroup('list_jobs_for_workflow');
-    core.info(`Fetching jobs for workflow run "${run_id}"...`);
+    core.info(`Fetching jobs for workflow run "${runId}"...`);
     try {
         data = (
             await octokit.rest.actions.listJobsForWorkflowRun({
                 ...context.repo,
-                run_id
+                run_id: runId
             })
         ).data;
     } catch (ex) {
-        core.error(`Failed to fetch jobs for workflow run "${run_id}"!`);
+        core.error(`Failed to fetch jobs for workflow run "${runId}"!`);
         throw new Error('E_FETCH_FAILED', {
             cause: ex
         });
     }
     if (data.total_count <= 0) {
-        core.error(`No jobs found for workflow run "${run_id}"!`);
+        core.error(`No jobs found for workflow run "${runId}"!`);
         throw new Error('E_NO_RESULTS');
     }
-    core.info(`Fetched ${data.total_count} jobs for workflow run "${run_id}".`);
+    core.info(`Fetched ${data.total_count} jobs for workflow run "${runId}".`);
     core.endGroup();
     core.startGroup('find_job_id');
     core.info(
-        `Finding job from workflow run "${run_id}" matching "${args.job_name_pattern ?? args.job_name}"...`
+        `Finding job from workflow run "${runId}" matching "${args.jobNamePattern ?? args.jobName}"...`
     );
     const results = data.jobs.filter((job) => matcher(job.name));
     if (results.length <= 0) {
-        core.error(`No matching jobs found for workflow run "${run_id}"!`);
+        core.error(`No matching jobs found for workflow run "${runId}"!`);
         throw new Error('E_NO_RESULTS');
     }
     core.info(`Found ${results.length} matching jobs.`);
