@@ -2,6 +2,7 @@ import {
     type OctokitRESTResponse,
     type CommonScriptArguments
 } from './lib/common-types.js';
+import {revParse} from './lib/git.js';
 import {initializeOctokit} from './lib/octokit.js';
 
 /**
@@ -32,12 +33,22 @@ export async function script(
     commonArgs: CommonScriptArguments,
     args: ScriptArguments
 ): Promise<void> {
-    const {context, core, github} = commonArgs;
+    const {context, core, github, exec} = commonArgs;
     core.startGroup('init');
     core.info('Initializing variables...');
-    const {ref} = context;
+    const {ref, sha} = context;
     const {jobId} = args;
-    const headRef = args.headRef ?? ref;
+    let headRef = args.headRef;
+    if (!headRef) {
+        headRef = ref;
+    }
+    if (!headRef) {
+        headRef = 'HEAD';
+    }
+    let headSHA = await revParse(headRef, exec);
+    if (!headSHA) {
+        headSHA = sha;
+    }
     let data:
         | OctokitRESTResponse<typeof octokit.rest.checks.listForRef>['data']
         | null = null;
@@ -47,34 +58,34 @@ export async function script(
     });
     core.endGroup();
     core.startGroup('list_jobs_for_workflow');
-    core.info(`Fetching check runs for head reference "${headRef}"...`);
+    core.info(`Fetching check runs for head reference "${headSHA}"...`);
     try {
         data = (
             await octokit.rest.checks.listForRef({
                 ...context.repo,
-                ref: headRef,
+                ref: headSHA,
                 filter: 'latest'
             })
         ).data;
     } catch (ex) {
         core.error(
-            `Failed to fetch check runs for head reference "${headRef}"!`
+            `Failed to fetch check runs for head reference "${headSHA}"!`
         );
         throw new Error('E_FETCH_FAILED', {
             cause: ex
         });
     }
     if (data.total_count <= 0) {
-        core.error(`No check runs for head reference "${headRef}"!`);
+        core.error(`No check runs for head reference "${headSHA}"!`);
         throw new Error('E_NO_RESULTS');
     }
     core.info(
-        `Fetched ${data.total_count} check runs for head reference "${headRef}".`
+        `Fetched ${data.total_count} check runs for head reference "${headSHA}".`
     );
     core.endGroup();
     core.startGroup('check_for_check_runs');
     core.info(
-        `Finding check runs for head reference "${headRef}" matching job ID "${jobId}"...`
+        `Finding check runs for head reference "${headSHA}" matching job ID "${jobId}"...`
     );
     const results = data.check_runs.filter(
         (checkRun) => checkRun.external_id === `${jobId}`

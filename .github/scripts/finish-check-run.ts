@@ -2,6 +2,7 @@ import {
     type OctokitRESTResponse,
     type CommonScriptArguments
 } from './lib/common-types.js';
+import {revParse} from './lib/git.js';
 import {initializeOctokit} from './lib/octokit.js';
 
 /**
@@ -65,10 +66,10 @@ export async function script(
     commonArgs: CommonScriptArguments,
     args: ScriptArguments
 ): Promise<void> {
-    const {context, core, github} = commonArgs;
+    const {context, core, github, exec} = commonArgs;
     core.startGroup('init');
     core.info('Initializing variables...');
-    const {ref} = context;
+    const {ref, sha} = context;
     const {
         checkName,
         checkSummary,
@@ -77,7 +78,17 @@ export async function script(
         checkRunId,
         checkConclusion
     } = args;
-    const headRef = args.headRef ?? ref;
+    let headRef = args.headRef;
+    if (!headRef) {
+        headRef = ref;
+    }
+    if (!headRef) {
+        headRef = 'HEAD';
+    }
+    let headSHA = await revParse(headRef, exec);
+    if (!headSHA) {
+        headSHA = sha;
+    }
     let data:
         | OctokitRESTResponse<typeof octokit.rest.checks.create>['data']
         | null = null;
@@ -87,13 +98,13 @@ export async function script(
     });
     core.endGroup();
     core.startGroup('create_check_run');
-    core.info(`Creating check runs for head reference "${headRef}"...`);
+    core.info(`Creating check runs for head reference "${headSHA}"...`);
     try {
         data = (
             await octokit.rest.checks.update({
                 ...context.repo,
                 check_run_id: checkRunId,
-                head_sha: headRef,
+                head_sha: headSHA,
                 name: `${checkName}`,
                 output: {
                     summary: checkSummary,
@@ -107,13 +118,13 @@ export async function script(
         ).data;
     } catch (ex) {
         core.error(
-            `Failed to create check runs for head reference "${headRef}"!`
+            `Failed to create check runs for head reference "${headSHA}"!`
         );
         throw new Error('E_CREATE_FAILED', {
             cause: ex
         });
     }
-    core.info(`Created check run for head reference "${headRef}".`);
+    core.info(`Created check run for head reference "${headSHA}".`);
     core.endGroup();
     core.setOutput('has-existing-check-run', true);
     core.setOutput('check-run-id', data.id);
