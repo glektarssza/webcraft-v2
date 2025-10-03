@@ -133,7 +133,7 @@ jobs:
           github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
           result-encoding: json
           script: |
-            const {script} = require("./.github/scripts/dist/prod/find-existing-check-runs.js");
+            const {script} = require("./.github/scripts/dist/prod/create-check-run.js");
             await script({
               github, context, core, glob, io, exec
             }, {
@@ -171,6 +171,6 @@ jobs:
               checkName: "${{github.job}}:${{matrix.build-configuration}}",
               checkTitle: "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}",
               checkSummary: "The job `${{github.job}}:${{matrix.build-configuration}}` has finished with a status of `${{job.status}}`.",
-              checkText: "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-ids}}`) has finished at `$(date --utc --iso-8601=seconds)`\\n\\nIt's conclusion was `${{job.status}}`.",
+              checkText: "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-id}}`) has finished at `$(date --utc --iso-8601=seconds)`\\n\\nIt's conclusion was `${{job.status}}`.",
               checkConclusion: "${{job.status}}"
             });
