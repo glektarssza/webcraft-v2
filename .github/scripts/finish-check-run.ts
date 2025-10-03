@@ -98,8 +98,8 @@ export async function script(
         octokit: github
     });
     core.endGroup();
-    core.startGroup('create_check_run');
-    core.info(`Creating check runs for head reference "${headSHA}"...`);
+    core.startGroup('finish_check_run');
+    core.info(`Finishing check run with ID "${checkRunId}"...`);
     try {
         data = (
             await octokit.rest.checks.update({
@@ -118,14 +118,12 @@ export async function script(
             })
         ).data;
     } catch (ex) {
-        core.error(
-            `Failed to create check runs for head reference "${headSHA}"!`
-        );
+        core.error(`Failed to finish check run with ID "${checkRunId}"!`);
         throw new Error(ErrorCodesEnum.OctokitCheckRunUpdateFailed, {
             cause: ex
         });
     }
-    core.info(`Created check run for head reference "${headSHA}".`);
+    core.info(`Finished check run ID "${checkRunId}".`);
     core.endGroup();
     core.setOutput('has-existing-check-run', true);
     core.setOutput('check-run-id', data.id);
