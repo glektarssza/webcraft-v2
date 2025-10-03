@@ -138,7 +138,7 @@ jobs:
               github, context, core, glob, io, exec
             }, {
               headRef: "${{inputs.ref}}",
-              jobId: "^${{steps.extract-job-ids.outputs.job-id}}",
+              jobId: "${{steps.extract-job-ids.outputs.job-id}}",
               checkName: "${{github.job}}:${{matrix.build-configuration}}",
               checkTitle: "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}",
               checkSummary: "The job `${{github.job}}:${{matrix.build-configuration}}` has started at `$(date --utc --iso-8601=seconds)`.",
