@@ -111,7 +111,9 @@ export async function script(
             cause: ex
         });
     }
-    core.info(`Created check run for head reference "${headSHA}".`);
+    core.info(
+        `Created check run for head reference "${headSHA}" with ID "${data.id}".`
+    );
     core.endGroup();
     core.setOutput('has-existing-check-run', true);
     core.setOutput('check-run-id', data.id);
