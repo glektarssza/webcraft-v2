@@ -1,25 +1,11 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Build
+name: Lint
 on:
   push:
   pull_request:
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      build-configuration:
-        type: choice
-        required: false
-        options:
-          - development
-          - production
-        default: production
-        description: |
-          The type of build to create.
-
-          Valid options are:
-           * `development`: Create a development/debugging build.
-           * `production`: Create a production-ready build.
   workflow_call:
     inputs:
       ref:
@@ -27,24 +13,14 @@ on:
         required: true
         description: |
           The Git reference to build against.
-      build-configuration:
-        type: string
-        required: false
-        default: production
-        description: |
-          The type of build to create.
-
-          Valid options are:
-           * `development`: Create a development/debugging build.
-           * `production`: Create a production-ready build.
     secrets:
       github-token:
         description: |
           The token to use to make authenticated requests to the GitHub API.
         required: false
 jobs:
-  build:
-    name: build-${{matrix.build-configuration}}
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{github.token}}
@@ -53,19 +29,6 @@ jobs:
       contents: read
       # -- Required to create/update checks
       checks: write
-    strategy:
-      fail-fast: true
-      matrix:
-        build-configuration:
-          - development
-          - production
-        exclude:
-          - build-configuration: ${{inputs.build-configuration == 'development' && 'production' || ''}}
-          - build-configuration: ${{inputs.build-configuration == 'production' && 'development' || ''}}
-    outputs:
-      artifact-id: ${{steps.upload-artifacts.outputs.artifact-id}}
-      artifact-name: dist-${{matrix.build-configuration}}
-      artifact-url: ${{steps.upload-artifacts.outputs.artifact-url}}
     steps:
       - id: checkout-repository
         name: Checkout repository
@@ -109,7 +72,7 @@ jobs:
             await script({
               github, context, core, glob, io, exec
             }, {
-              jobName: "build-${{matrix.build-configuration}}"
+              jobName: "Lint"
             });
       - id: find-existing-check-runs
         name: Find existing check runs
@@ -140,23 +103,16 @@ jobs:
             }, {
               headRef: "${{inputs.ref}}",
               jobId: "${{steps.extract-job-ids.outputs.job-id}}",
-              checkName: "Build:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - Build:${{matrix.build-configuration}}",
-              checkSummary: `The job \`Build:${{matrix.build-configuration}}\` has started at \`${dateStr}\`.`,
-              checkText: `The job \`Build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
+              checkName: "Lint",
+              checkTitle: "GitHub Actions CI - Lint",
+              checkSummary: `The job \`Lint\` has started at \`${dateStr}\`.`,
+              checkText: `The job \`Lint\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
 
               We are waiting for it to complete.`
             });
-      - id: build
-        name: Build
-        run: pnpm --filter=webcraft run build:${{matrix.build-configuration}}
-      - id: upload-artifacts
-        name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-app-${{matrix.build-configuration}}
-          path: ./app/dist/
-          if-no-files-found: error
+      - id: lint
+        name: Lint
+        run: pnpm --filter=\!@webcraft/github-actions-scripts run lint
       - id: finish-check-run
         name: Finish check run
         if: always() && steps.checkout-repository.outcome == 'success' && (steps.find-existing-check-runs.outputs.has-existing-check-run || steps.create-check-run.outputs.has-existing-check-run)
@@ -172,10 +128,10 @@ jobs:
             }, {
               headRef: "${{inputs.ref}}",
               checkRunId: "${{steps.find-existing-check-runs.outputs.check-run-id || steps.create-check-run.outputs.check-run-id}}",
-              checkName: "Build:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - Build:${{matrix.build-configuration}}",
-              checkSummary: `The job \`Build:${{matrix.build-configuration}}\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
-              checkText: `The job \`Build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
+              checkName: "Lint",
+              checkTitle: "GitHub Actions CI - Lint",
+              checkSummary: `The job \`Lint\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
+              checkText: `The job \`Lint\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
 
               It's conclusion was \`${{job.status}}\`.`,
               checkConclusion: "${{job.status}}"
