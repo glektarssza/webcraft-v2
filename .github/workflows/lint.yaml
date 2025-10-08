@@ -113,13 +113,6 @@ jobs:
       - id: lint
         name: Lint
         run: pnpm --filter=\!@webcraft/github-actions-scripts run lint
-      - id: upload-artifacts
-        name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-app-${{matrix.build-configuration}}
-          path: ./app/dist/
-          if-no-files-found: error
       - id: finish-check-run
         name: Finish check run
         if: always() && steps.checkout-repository.outcome == 'success' && (steps.find-existing-check-runs.outputs.has-existing-check-run || steps.create-check-run.outputs.has-existing-check-run)
