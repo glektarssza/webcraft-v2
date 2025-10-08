@@ -20,7 +20,7 @@ on:
         required: false
 jobs:
   lint:
-    name: lint
+    name: Lint
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{github.token}}
@@ -110,8 +110,8 @@ jobs:
 
               We are waiting for it to complete.`
             });
-      - id: build
-        name: Build
+      - id: lint
+        name: Lint
         run: pnpm --filter=\!@webcraft/github-actions-scripts run lint
       - id: upload-artifacts
         name: Upload artifacts
