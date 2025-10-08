@@ -149,7 +149,7 @@ jobs:
             });
       - id: build
         name: Build
-        run: pnpm --filter=webcraft run Build:${{matrix.build-configuration}}
+        run: pnpm --filter=webcraft run build:${{matrix.build-configuration}}
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4
