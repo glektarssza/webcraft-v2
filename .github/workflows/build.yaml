@@ -109,7 +109,7 @@ jobs:
             await script({
               github, context, core, glob, io, exec
             }, {
-              jobNamePattern: "^${{github.job}}"
+              jobNamePattern: "^build"
             });
       - id: find-existing-check-runs
         name: Find existing check runs
