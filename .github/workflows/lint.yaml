@@ -72,7 +72,7 @@ jobs:
             await script({
               github, context, core, glob, io, exec
             }, {
-              jobNamePattern: "^Lint"
+              jobName: "Lint"
             });
       - id: find-existing-check-runs
         name: Find existing check runs
