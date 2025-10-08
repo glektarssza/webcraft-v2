@@ -77,8 +77,10 @@ export async function script(
         });
     }
     if (data.total_count <= 0) {
-        core.error(`No check runs for head reference "${headSHA}"!`);
-        throw new Error(ErrorCodesEnum.OctokitNetFetchNoResults);
+        core.info(`No matching check runs for job ID "${jobId}"!`);
+        core.setOutput('has-existing-check-run', false);
+        process.exitCode = 0;
+        process.exit();
     }
     core.info(
         `Fetched ${data.total_count} check runs for head reference "${headSHA}".`
@@ -92,7 +94,7 @@ export async function script(
         (checkRun) => checkRun.external_id === `${jobId}`
     );
     if (results.length <= 0) {
-        core.error(`No matching check runs for job ID "${jobId}"!`);
+        core.info(`No matching check runs for job ID "${jobId}"!`);
         core.setOutput('has-existing-check-run', false);
         process.exitCode = 0;
         process.exit();

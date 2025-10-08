@@ -134,15 +134,18 @@ jobs:
           result-encoding: json
           script: |
             const {script} = require("./.github/scripts/dist/prod/create-check-run.js");
+            const dateStr = new Date().toISOString();
             await script({
               github, context, core, glob, io, exec
             }, {
               headRef: "${{inputs.ref}}",
               jobId: "${{steps.extract-job-ids.outputs.job-id}}",
-              checkName: "${{github.job}}:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}",
-              checkSummary: "The job `${{github.job}}:${{matrix.build-configuration}}` has started at `$(date --utc --iso-8601=seconds)`.",
-              checkText: "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-id}}`) has started at `$(date --utc --iso-8601=seconds)`.\n\nWe are waiting for it to complete."
+              checkName: "build:${{matrix.build-configuration}}",
+              checkTitle: "GitHub Actions CI - build:${{matrix.build-configuration}}",
+              checkSummary: `The job \`build:${{matrix.build-configuration}}\` has started at \`${dateStr}\`.`,
+              checkText: `The job \`build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
+
+              We are waiting for it to complete.`
             });
       - id: build
         name: Build
@@ -163,14 +166,17 @@ jobs:
           result-encoding: json
           script: |
             const {script} = require("./.github/scripts/dist/prod/finish-check-run.js");
+            const dateStr = new Date().toISOString();
             await script({
               github, context, core, glob, io, exec
             }, {
               headRef: "${{inputs.ref}}",
               checkRunId: "${{steps.find-existing-check-runs.outputs.check-run-id || steps.create-check-run.outputs.check-run-id}}",
-              checkName: "${{github.job}}:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - ${{github.job}}:${{matrix.build-configuration}}",
-              checkSummary: "The job `${{github.job}}:${{matrix.build-configuration}}` has finished with a status of `${{job.status}}`.",
-              checkText: "The job `${{github.job}}:${{matrix.build-configuration}}` (job ID `${{steps.extract-job-ids.outputs.job-id}}`) has finished at `$(date --utc --iso-8601=seconds)`\\n\\nIt's conclusion was `${{job.status}}`.",
+              checkName: "build:${{matrix.build-configuration}}",
+              checkTitle: "GitHub Actions CI - build:${{matrix.build-configuration}}",
+              checkSummary: `The job \`build:${{matrix.build-configuration}}\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
+              checkText: `The job \`build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
+
+              It's conclusion was \`${{job.status}}\`.`,
               checkConclusion: "${{job.status}}"
             });
