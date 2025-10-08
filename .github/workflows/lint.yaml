@@ -103,7 +103,7 @@ jobs:
             }, {
               headRef: "${{inputs.ref}}",
               jobId: "${{steps.extract-job-ids.outputs.job-id}}",
-              checkName: "lint",
+              checkName: "Lint",
               checkTitle: "GitHub Actions CI - Lint",
               checkSummary: `The job \`Lint\` has started at \`${dateStr}\`.`,
               checkText: `The job \`Lint\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
