@@ -97,7 +97,7 @@ jobs:
         run: pnpm -r install
       - id: build-scripts
         name: Build scripts
-        run: pnpm -r --filter @webcraft/github-actions-scripts run build
+        run: pnpm -r --filter=@webcraft/github-actions-scripts run build
       - id: extract-job-ids
         name: Get job ID
         uses: actions/github-script@v8
@@ -140,16 +140,16 @@ jobs:
             }, {
               headRef: "${{inputs.ref}}",
               jobId: "${{steps.extract-job-ids.outputs.job-id}}",
-              checkName: "build:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - build:${{matrix.build-configuration}}",
-              checkSummary: `The job \`build:${{matrix.build-configuration}}\` has started at \`${dateStr}\`.`,
-              checkText: `The job \`build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
+              checkName: "Build:${{matrix.build-configuration}}",
+              checkTitle: "GitHub Actions CI - Build:${{matrix.build-configuration}}",
+              checkSummary: `The job \`Build:${{matrix.build-configuration}}\` has started at \`${dateStr}\`.`,
+              checkText: `The job \`Build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
 
               We are waiting for it to complete.`
             });
       - id: build
         name: Build
-        run: pnpm --filter=webcraft run build:${{matrix.build-configuration}}
+        run: pnpm --filter=webcraft run Build:${{matrix.build-configuration}}
       - id: upload-artifacts
         name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -172,10 +172,10 @@ jobs:
             }, {
               headRef: "${{inputs.ref}}",
               checkRunId: "${{steps.find-existing-check-runs.outputs.check-run-id || steps.create-check-run.outputs.check-run-id}}",
-              checkName: "build:${{matrix.build-configuration}}",
-              checkTitle: "GitHub Actions CI - build:${{matrix.build-configuration}}",
-              checkSummary: `The job \`build:${{matrix.build-configuration}}\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
-              checkText: `The job \`build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
+              checkName: "Build:${{matrix.build-configuration}}",
+              checkTitle: "GitHub Actions CI - Build:${{matrix.build-configuration}}",
+              checkSummary: `The job \`Build:${{matrix.build-configuration}}\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
+              checkText: `The job \`Build:${{matrix.build-configuration}}\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
 
               It's conclusion was \`${{job.status}}\`.`,
               checkConclusion: "${{job.status}}"
