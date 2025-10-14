@@ -65,7 +65,7 @@ env:
   GH_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
   build:
-    name: Build - ${{inputs.build-type}}
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       # -- Required to clone the repository
