@@ -1,44 +1,41 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Lint
 on:
-  push:
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
   workflow_call:
     inputs:
-      ref:
-        type: string
-        required: true
+      git-ref:
         description: |
-          The Git reference to build against.
+          The Git reference to build.
+
+          This can be any valid commit-like value (e.g. a branch, a tag, or a
+          commit).
+
+          Defaults to the value in the "github.ref" context if available,
+          otherwise falls back to "github.sha".
+        type: string
+        required: false
+        default: ${{github.ref || github.sha}}
     secrets:
       github-token:
         description: |
-          The token to use to make authenticated requests to the GitHub API.
+          The token to use to make authenticated calls to the GitHub API.
         required: false
+env:
+  GH_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{github.token}}
     permissions:
-      # -- Required to clone repository
+      # -- Required to clone the repository
       contents: read
-      # -- Required to create/update checks
-      checks: write
     steps:
       - id: checkout-repository
         name: Checkout repository
         uses: actions/checkout@v5
         with:
-          ref: ${{inputs.ref || github.ref}}
-          fetch-tags: true
+          ref: ${{inputs.git-ref || github.ref || github.sha}}
           lfs: true
-          submodules: true
-          show-progress: true
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: setup-pnpm
         name: Setup pnpm
@@ -55,84 +52,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: ./pnpm-lock.yaml
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-      - id: install-dependencies
-        name: Install dependencies
-        run: pnpm -r install
-      - id: build-scripts
-        name: Build scripts
-        run: pnpm -r --filter=@webcraft/github-actions-scripts run build
-      - id: extract-job-ids
-        name: Get job ID
-        uses: actions/github-script@v8
-        with:
-          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-          result-encoding: json
-          script: |
-            const {script} = require("./.github/scripts/dist/prod/get-job-id.js");
-            await script({
-              github, context, core, glob, io, exec
-            }, {
-              jobName: "Lint"
-            });
-      - id: find-existing-check-runs
-        name: Find existing check runs
-        uses: actions/github-script@v8
-        with:
-          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-          result-encoding: json
-          script: |
-            const {script} = require("./.github/scripts/dist/prod/find-existing-check-runs.js");
-            await script({
-              github, context, core, glob, io, exec
-            }, {
-              headRef: "${{inputs.ref}}",
-              jobId: "${{steps.extract-job-ids.outputs.job-id}}"
-            });
-      - id: create-check-run
-        name: Start check run
-        if: steps.find-existing-check-runs.outputs.has-existing-check-run != 'true'
-        uses: actions/github-script@v8
-        with:
-          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-          result-encoding: json
-          script: |
-            const {script} = require("./.github/scripts/dist/prod/create-check-run.js");
-            const dateStr = new Date().toISOString();
-            await script({
-              github, context, core, glob, io, exec
-            }, {
-              headRef: "${{inputs.ref}}",
-              jobId: "${{steps.extract-job-ids.outputs.job-id}}",
-              checkName: "Lint",
-              checkTitle: "GitHub Actions CI - Lint",
-              checkSummary: `The job \`Lint\` has started at \`${dateStr}\`.`,
-              checkText: `The job \`Lint\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has started at \`${dateStr}\`.
-
-              We are waiting for it to complete.`
-            });
       - id: lint
         name: Lint
-        run: pnpm --filter=\!@webcraft/github-actions-scripts run lint
-      - id: finish-check-run
-        name: Finish check run
-        if: always() && steps.checkout-repository.outcome == 'success' && (steps.find-existing-check-runs.outputs.has-existing-check-run || steps.create-check-run.outputs.has-existing-check-run)
-        uses: actions/github-script@v8
-        with:
-          github-token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
-          result-encoding: json
-          script: |
-            const {script} = require("./.github/scripts/dist/prod/finish-check-run.js");
-            const dateStr = new Date().toISOString();
-            await script({
-              github, context, core, glob, io, exec
-            }, {
-              headRef: "${{inputs.ref}}",
-              checkRunId: "${{steps.find-existing-check-runs.outputs.check-run-id || steps.create-check-run.outputs.check-run-id}}",
-              checkName: "Lint",
-              checkTitle: "GitHub Actions CI - Lint",
-              checkSummary: `The job \`Lint\` has finished at \`${dateStr}\` with a status of \`${{job.status}}\`.`,
-              checkText: `The job \`Lint\` (job ID \`${{steps.extract-job-ids.outputs.job-id}}\`) has finished at \`${dateStr}\`
-
-              It's conclusion was \`${{job.status}}\`.`,
-              checkConclusion: "${{job.status}}"
-            });
+        run: pnpm run lint
