@@ -4,7 +4,7 @@ on:
   push:
 jobs:
   build:
-    name: Build - ${{matrix.build-type}}
+    name: Build
     permissions:
       # -- Required to check out the repository
       contents: read
