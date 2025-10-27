@@ -9,7 +9,6 @@ export default defineConfig({
         projects: [path.resolve(import.meta.dirname, './app/')],
         coverage: {
             enabled: true,
-            all: true,
             provider: 'istanbul',
             reporter: ['text'],
             exclude: [
