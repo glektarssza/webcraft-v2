@@ -6,6 +6,7 @@ import path from 'node:path';
 
 //-- NPM Packages
 import replacePlugin from '@rollup/plugin-replace';
+import {playwright} from '@vitest/browser-playwright';
 import {type UserWorkspaceConfig, defineProject} from 'vitest/config';
 
 /**
@@ -31,7 +32,7 @@ const config = defineProject(({mode}) => {
             },
             browser: {
                 enabled: true,
-                provider: 'playwright',
+                provider: playwright(),
                 instances: [
                     {
                         browser: 'chromium',

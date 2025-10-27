@@ -46,7 +46,7 @@ importers:
         version: 8.46.2(eslint@9.38.0)(typescript@5.9.3)
       vitest:
         specifier: ^4.0.4
-        version: 4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2)
+        version: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
 
   app:
     devDependencies:
@@ -65,6 +65,9 @@ importers:
       '@vitest/browser':
         specifier: ^4.0.4
         version: 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)
+      '@vitest/browser-playwright':
+        specifier: ^4.0.4
+        version: 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)
       '@vitest/coverage-istanbul':
         specifier: ^4.0.4
         version: 4.0.4(vitest@4.0.4)
@@ -106,7 +109,7 @@ importers:
         version: 7.1.12(@types/node@24.9.1)(sass@1.93.2)
       vitest:
         specifier: ^4.0.4
-        version: 4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2)
+        version: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
 
 packages:
 
@@ -741,6 +744,12 @@ packages:
   '@typescript-eslint/visitor-keys@8.46.2':
     resolution: {integrity: sha512-tUFMXI4gxzzMXt4xpGJEsBsTox0XbNQ1y94EwlD/CuZwFcQP79xfQqMhau9HsRc/J0cAPA/HZt1dZPtGn9V/7w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@vitest/browser-playwright@4.0.4':
+    resolution: {integrity: sha512-jGKnGZ5ZKXuwQ1Ldwll/rZxk3webz4gz3kvoTYX2NH2ASPiwFGck8D09Sf2wVjCuDqebPXXd69zUIt1o4yQ5tA==}
+    peerDependencies:
+      playwright: '*'
+      vitest: 4.0.4
 
   '@vitest/browser@4.0.4':
     resolution: {integrity: sha512-1ZXztcBtRd3maKliHzWbQohsyRjam0ws6OPRWNWfGxFUOHTlNBtDnJAm8z1x7IzVkZ6JcOAumHJAbxNJh4tkDw==}
@@ -2170,6 +2179,19 @@ snapshots:
       '@typescript-eslint/types': 8.46.2
       eslint-visitor-keys: 4.2.1
 
+  '@vitest/browser-playwright@4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)':
+    dependencies:
+      '@vitest/browser': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)
+      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))
+      playwright: 1.56.1
+      tinyrainbow: 3.0.3
+      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
+    transitivePeerDependencies:
+      - bufferutil
+      - msw
+      - utf-8-validate
+      - vite
+
   '@vitest/browser@4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)':
     dependencies:
       '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))
@@ -2179,7 +2201,7 @@ snapshots:
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2)
+      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
       ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
@@ -2198,7 +2220,7 @@ snapshots:
       istanbul-reports: 3.2.0
       magicast: 0.3.5
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2)
+      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
     transitivePeerDependencies:
       - supports-color
 
@@ -2245,7 +2267,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2)
+      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2)
 
   '@vitest/utils@4.0.4':
     dependencies:
@@ -2963,7 +2985,7 @@ snapshots:
       fsevents: 2.3.3
       sass: 1.93.2
 
-  vitest@4.0.4(@types/node@24.9.1)(@vitest/ui@4.0.4)(sass@1.93.2):
+  vitest@4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.93.2):
     dependencies:
       '@vitest/expect': 4.0.4
       '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))
@@ -2987,6 +3009,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 24.9.1
+      '@vitest/browser-playwright': 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.93.2))(vitest@4.0.4)
       '@vitest/ui': 4.0.4(vitest@4.0.4)
     transitivePeerDependencies:
       - jiti

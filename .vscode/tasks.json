@@ -14,6 +14,19 @@
             "dependsOrder": "sequence",
             "dependsOn": [],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm install",
             "runOptions": {
                 "instanceLimit": 1,
@@ -47,6 +60,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run build",
             "runOptions": {
                 "instanceLimit": 1,
@@ -80,6 +106,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run build:dev",
             "runOptions": {
                 "instanceLimit": 1,
@@ -113,6 +152,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run build:prod",
             "runOptions": {
                 "instanceLimit": 1,
@@ -142,6 +194,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run clean",
             "runOptions": {
                 "instanceLimit": 1,
@@ -171,6 +236,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run clean:dev",
             "runOptions": {
                 "instanceLimit": 1,
@@ -200,6 +278,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run clean:prod",
             "runOptions": {
                 "instanceLimit": 1,
@@ -233,6 +324,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run rebuild",
             "runOptions": {
                 "instanceLimit": 1,
@@ -266,6 +370,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run rebuild:dev",
             "runOptions": {
                 "instanceLimit": 1,
@@ -299,6 +416,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run rebuild:prod",
             "runOptions": {
                 "instanceLimit": 1,
@@ -328,6 +458,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run lint",
             "runOptions": {
                 "instanceLimit": 1,
@@ -361,6 +504,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run test",
             "runOptions": {
                 "instanceLimit": 1,
@@ -394,6 +550,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run test",
             "runOptions": {
                 "instanceLimit": 1,
@@ -449,6 +618,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run test:ui",
             "runOptions": {
                 "instanceLimit": 1,
@@ -504,6 +686,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run test:debug",
             "runOptions": {
                 "instanceLimit": 1,
@@ -555,6 +750,19 @@
             "dependsOrder": "sequence",
             "dependsOn": ["pnpm:install"],
             "type": "shell",
+            "options": {
+                "shell": {
+                    "args": ["-i"]
+                }
+            },
+            "windows": {
+                "options": {
+                    "shell": {
+                        "executable": "pwsh.exe",
+                        "args": ["-Profile"]
+                    }
+                }
+            },
             "command": "pnpm run dev",
             "runOptions": {
                 "instanceLimit": 1,
