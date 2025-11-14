@@ -17,6 +17,15 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       build-type: ${{matrix.build-type}}
+      upload-artifacts: true
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+  test:
+    name: Test
+    permissions:
+      # -- Required to check out the repository
+      contents: read
+    uses: ./.github/workflows/test.yaml
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
   lint:

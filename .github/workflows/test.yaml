@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build
+on:
+  workflow_call:
+    inputs:
+      git-ref:
+        description: |
+          The Git reference to build.
+
+          This can be any valid commit-like value (e.g. a branch, a tag, or a
+          commit).
+
+          Defaults to the fully formed reference of the branch or tag that
+          triggered the workflow is used. If that is unavailable the falls back
+          to the SHA that caused the workflow to be triggered. If that is
+          unavailable the repository default branch is used.
+        type: string
+        required: false
+        default: ${{github.ref || github.sha || github.event.repository.default_branch}}
+    secrets:
+      github-token:
+        description: |
+          The token to use to make authenticated calls to the GitHub API.
+        required: false
+env:
+  GH_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions:
+      # -- Required to clone the repository
+      contents: read
+    steps:
+      - id: clone-repository
+        name: Clone repository
+        uses: actions/checkout@v5
+        with:
+          ref: ${{inputs.git-ref}}
+          lfs: true
+          token: ${{env.GH_TOKEN}}
+      - id: setup-pnpm
+        name: Setup pnpm
+        uses: pnpm/action-setup@v4.2.0
+        with:
+          package_json_file: ./package.json
+          run_install: false
+          standalone: false
+      - id: setup-nodejs
+        name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
+          token: ${{env.GH_TOKEN}}
+      - id: install-dependencies
+        name: Install dependencies
+        run: pnpm -r install
+      - id: test
+        name: Test
+        run: pnpm run test:ci
