@@ -9,13 +9,13 @@
         "email": "glek@glektarssza.com",
         "url": "https://glektarssza.com"
     },
-    "homepage": "https://glektarssza.github.io/webcraft/",
+    "homepage": "https://glektarssza.github.io/webcraft-v2/",
     "bugs": {
-        "url": "https://github.com/glektarssza/webcraft/issues"
+        "url": "https://github.com/glektarssza/webcraft-v2/issues"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/glektarssza/webcraft.git",
+        "url": "https://github.com/glektarssza/webcraft-v2.git",
         "directory": "./app/"
     },
     "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c",
@@ -25,9 +25,11 @@
         "test": "vitest --run --coverage",
         "test:ci": "vitest --run --coverage",
         "test:ui": "vitest --ui",
-        "lint": "pnpm run eslint && pnpm run prettier",
+        "lint": "pnpm run eslint && pnpm run prettier && pnpm run cspell",
         "lint:fix": "pnpm run eslint:fix && pnpm run prettier:fix",
-        "lint:ci": "pnpm run eslint:ci && pnpm run prettier:ci",
+        "lint:ci": "pnpm run eslint:ci && pnpm run prettier:ci && pnpm run cspell:ci",
+        "cspell": "cspell lint --cache .",
+        "cspell:ci": "cspell lint --no-cache .",
         "eslint": "eslint --cache ./src/ ./tests/",
         "eslint:fix": "eslint --cache --fix ./src/ ./tests/",
         "eslint:ci": "eslint ./src/ ./tests/",
