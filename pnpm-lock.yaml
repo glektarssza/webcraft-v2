@@ -30,8 +30,8 @@ importers:
         specifier: ^9.38.0
         version: 9.38.0
       '@types/node':
-        specifier: ^24.9.1
-        version: 24.9.1
+        specifier: ^24.10.1
+        version: 24.10.1
       '@vitest/coverage-istanbul':
         specifier: ^4.0.4
         version: 4.0.4(vitest@4.0.4)
@@ -58,7 +58,7 @@ importers:
         version: 1.94.0
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.10.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -67,7 +67,7 @@ importers:
         version: 8.46.2(eslint@9.38.0)(typescript@5.9.3)
       vitest:
         specifier: ^4.0.4
-        version: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+        version: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
 
   app:
     devDependencies:
@@ -81,14 +81,14 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2(rollup@4.52.5)
       '@types/node':
-        specifier: ^24.9.1
-        version: 24.9.1
+        specifier: ^24.10.1
+        version: 24.10.1
       '@vitest/browser':
         specifier: ^4.0.4
-        version: 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
+        version: 4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
       '@vitest/browser-playwright':
         specifier: ^4.0.4
-        version: 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
+        version: 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
       '@vitest/coverage-istanbul':
         specifier: ^4.0.4
         version: 4.0.4(vitest@4.0.4)
@@ -118,7 +118,7 @@ importers:
         version: 1.94.0
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.10.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -127,10 +127,10 @@ importers:
         version: 8.46.2(eslint@9.38.0)(typescript@5.9.3)
       vite:
         specifier: ^7.1.12
-        version: 7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1)
+        version: 7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1)
       vitest:
         specifier: ^4.0.4
-        version: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+        version: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
 
 packages:
 
@@ -926,8 +926,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/node@24.9.1':
-    resolution: {integrity: sha512-QoiaXANRkSXK6p0Duvt56W208du4P9Uye9hWLWgGMDTEoKPhuenzNcC4vGUmrNkiOKTlIrBoyNQYNpSwfEZXSg==}
+  '@types/node@24.10.1':
+    resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
 
   '@typescript-eslint/eslint-plugin@8.46.2':
     resolution: {integrity: sha512-ZGBMToy857/NIPaaCucIUQgqueOiq7HeAKkhlvqVV4lm089zUFW6ikRySx2v+cAhKeUCPuWVHeimyk6Dw1iY3w==}
@@ -2658,7 +2658,7 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/node@24.9.1':
+  '@types/node@24.10.1':
     dependencies:
       undici-types: 7.16.0
 
@@ -2755,29 +2755,29 @@ snapshots:
       '@typescript-eslint/types': 8.46.2
       eslint-visitor-keys: 4.2.1
 
-  '@vitest/browser-playwright@4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)':
+  '@vitest/browser-playwright@4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)':
     dependencies:
-      '@vitest/browser': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
-      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))
+      '@vitest/browser': 4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
+      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))
       playwright: 1.56.1
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+      vitest: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
     transitivePeerDependencies:
       - bufferutil
       - msw
       - utf-8-validate
       - vite
 
-  '@vitest/browser@4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)':
+  '@vitest/browser@4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)':
     dependencies:
-      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))
       '@vitest/utils': 4.0.4
       magic-string: 0.30.21
       pixelmatch: 7.1.0
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+      vitest: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
       ws: 8.18.3
     transitivePeerDependencies:
       - bufferutil
@@ -2796,7 +2796,7 @@ snapshots:
       istanbul-reports: 3.2.0
       magicast: 0.3.5
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+      vitest: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -2809,13 +2809,13 @@ snapshots:
       chai: 6.2.0
       tinyrainbow: 3.0.3
 
-  '@vitest/mocker@4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))':
+  '@vitest/mocker@4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))':
     dependencies:
       '@vitest/spy': 4.0.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1)
+      vite: 7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1)
 
   '@vitest/pretty-format@4.0.4':
     dependencies:
@@ -2843,7 +2843,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vitest: 4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
+      vitest: 4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1)
 
   '@vitest/utils@4.0.4':
     dependencies:
@@ -3631,14 +3631,14 @@ snapshots:
     dependencies:
       typescript: 5.9.3
 
-  ts-node@10.9.2(@types/node@24.9.1)(typescript@5.9.3):
+  ts-node@10.9.2(@types/node@24.10.1)(typescript@5.9.3):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 24.9.1
+      '@types/node': 24.10.1
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3
@@ -3682,7 +3682,7 @@ snapshots:
 
   v8-compile-cache-lib@3.0.1: {}
 
-  vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1):
+  vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1):
     dependencies:
       esbuild: 0.25.11
       fdir: 6.5.0(picomatch@4.0.3)
@@ -3691,15 +3691,15 @@ snapshots:
       rollup: 4.52.5
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 24.9.1
+      '@types/node': 24.10.1
       fsevents: 2.3.3
       sass: 1.94.0
       yaml: 2.8.1
 
-  vitest@4.0.4(@types/node@24.9.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1):
+  vitest@4.0.4(@types/node@24.10.1)(@vitest/browser-playwright@4.0.4)(@vitest/ui@4.0.4)(sass@1.94.0)(yaml@2.8.1):
     dependencies:
       '@vitest/expect': 4.0.4
-      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))
+      '@vitest/mocker': 4.0.4(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))
       '@vitest/pretty-format': 4.0.4
       '@vitest/runner': 4.0.4
       '@vitest/snapshot': 4.0.4
@@ -3716,11 +3716,11 @@ snapshots:
       tinyexec: 0.3.2
       tinyglobby: 0.2.15
       tinyrainbow: 3.0.3
-      vite: 7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1)
+      vite: 7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 24.9.1
-      '@vitest/browser-playwright': 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.9.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
+      '@types/node': 24.10.1
+      '@vitest/browser-playwright': 4.0.4(playwright@1.56.1)(vite@7.1.12(@types/node@24.10.1)(sass@1.94.0)(yaml@2.8.1))(vitest@4.0.4)
       '@vitest/ui': 4.0.4(vitest@4.0.4)
     transitivePeerDependencies:
       - jiti
