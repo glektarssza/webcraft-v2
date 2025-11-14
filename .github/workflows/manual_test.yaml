@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Manual Build
+name: Manual Test
 on:
   workflow_dispatch:
     inputs:
@@ -19,34 +19,12 @@ on:
           - production
           - development
         required: true
-      upload-artifacts:
-        description: |
-          Whether to upload build artifacts.
-
-          Defaults to "false".
-        type: boolean
-        required: false
-        default: true
-      retention-days:
-        description: |
-          The number of days to retain built artifacts for.
-
-          A value of "0" will use the repository default value.
-
-          Defaults to "0".
-        type: number
-        required: false
-        default: 0
 jobs:
-  build:
-    name: Build
+  test:
+    name: Test
     permissions:
       # -- Required to check out the repository
       contents: read
-    uses: ./.github/workflows/build.yaml
-    with:
-      build-type: ${{inputs.build-type}}
-      upload-artifacts: ${{inputs.upload-artifacts}}
-      retention-days: ${{inputs.retention-days}}
+    uses: ./.github/workflows/test.yaml
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
