@@ -1,8 +1,0 @@
-asexplicit
-awkpath
-distro
-mapfile
-netrwhist
-noconfirm
-pacman
-sessionx

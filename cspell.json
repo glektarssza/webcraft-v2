@@ -5,15 +5,21 @@
     "name": "Root Configuration",
     "description": "Root configuration for the project.",
     "enabled": true,
-    "import": [
-        "./.cspell/configs/python-dictionary.json",
-        "./.cspell/configs/javascript-dictionary.json",
-        "./.cspell/configs/linux-dictionary.json",
-        "./.cspell/configs/project-dictionary.json"
+    "dictionaries": [
+        "en-gb",
+        "shell",
+        "bash",
+        "python",
+        "javascript",
+        "typescript",
+        "node"
     ],
+    "import": ["./.cspell/configs/project-dictionary.json"],
+    "enableGlobDot": true,
     "useGitignore": true,
     "gitignoreRoot": ["."],
     "caseSensitive": false,
+    "ignorePaths": [".git", "pnpm-lock.yaml"],
     "loadDefaultConfiguration": true,
     "unknownWords": "report-all",
     "readonly": true
