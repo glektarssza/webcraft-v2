@@ -10,25 +10,35 @@ on:
           This can be any valid commit-like value (e.g. a branch, a tag, or a
           commit).
 
-          Defaults to the value in the "github.ref" context if available,
-          otherwise falls back to "github.sha".
+          Defaults to the fully formed reference of the branch or tag that
+          triggered the workflow is used. If that is unavailable the falls back
+          to the SHA that caused the workflow to be triggered. If that is
+          unavailable the repository default branch is used.
         type: string
         required: false
-        default: ${{github.ref || github.sha}}
+        default: ${{github.ref || github.sha || github.event.repository.default_branch}}
       build-type:
         description: |
           The type of build to make.
 
           Valid options are:
-          * "development" - A development build.
-          * "dev" - An alias for "development".
-          * "production" - A production build.
-          * "prod" - An alias for "production".
+          * "development" for a development build.
+          * "production" for a production build.
+          * "dev" which is an alias for "development".
+          * "prod" which is an alias for "production".
 
           Defaults to "production".
         type: string
         required: false
         default: production
+      upload-artifacts:
+        description: |
+          Whether to upload build artifacts.
+
+          Defaults to "false".
+        type: boolean
+        required: false
+        default: false
       retention-days:
         description: |
           The number of days to retain built artifacts for.
@@ -76,13 +86,13 @@ jobs:
       artifact-url: ${{steps.upload-artifacts.outputs.artifact-url}}
       artifact-digest: ${{steps.upload-artifacts.outputs.artifact-digest}}
     steps:
-      - id: checkout-repository
-        name: Checkout repository
+      - id: clone-repository
+        name: Clone repository
         uses: actions/checkout@v5
         with:
-          ref: ${{inputs.git-ref || github.ref || github.sha}}
+          ref: ${{inputs.git-ref}}
           lfs: true
-          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          token: ${{env.GH_TOKEN}}
       - id: setup-pnpm
         name: Setup pnpm
         uses: pnpm/action-setup@v4.2.0
@@ -97,7 +107,7 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
           cache-dependency-path: ./pnpm-lock.yaml
-          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          token: ${{env.GH_TOKEN}}
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install
@@ -128,6 +138,7 @@ jobs:
           pnpm run "${BUILD_SCRIPT}";
       - id: upload-artifacts
         name: Upload artifacts
+        if: inputs.upload-artifacts
         uses: actions/upload-artifact@v5
         with:
           path: ./app/dist/
