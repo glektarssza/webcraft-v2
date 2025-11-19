@@ -58,21 +58,21 @@
         "@faker-js/faker": "^10.1.0",
         "@rollup/plugin-replace": "^6.0.3",
         "@types/node": "^24.10.1",
-        "@vitest/browser": "^4.0.9",
-        "@vitest/browser-playwright": "^4.0.9",
-        "@vitest/coverage-istanbul": "^4.0.9",
-        "@vitest/ui": "^4.0.9",
+        "@vitest/browser": "^4.0.10",
+        "@vitest/browser-playwright": "^4.0.10",
+        "@vitest/coverage-istanbul": "^4.0.10",
+        "@vitest/ui": "^4.0.10",
         "del-cli": "^7.0.0",
         "eslint": "^9.39.1",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-tsdoc": "^0.5.0",
         "playwright": "^1.56.1",
         "prettier": "^3.6.2",
-        "sass": "^1.94.0",
+        "sass": "^1.94.1",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
-        "typescript-eslint": "8.46.4",
+        "typescript-eslint": "8.47.0",
         "vite": "^7.2.2",
-        "vitest": "^4.0.9"
+        "vitest": "^4.0.10"
     }
 }
