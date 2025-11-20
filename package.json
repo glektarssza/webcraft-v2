@@ -31,6 +31,8 @@
         "lint": "pnpm -r run lint",
         "lint:fix": "pnpm -r run lint:fix",
         "lint:ci": "pnpm -r run lint:ci",
+        "cspell": "pnpm -r run cspell",
+        "cspell:ci": "pnpm -r run cspell:ci",
         "eslint": "pnpm -r run eslint",
         "eslint:fix": "pnpm -r run eslint:fix",
         "eslint:ci": "pnpm -r run eslint:ci",
