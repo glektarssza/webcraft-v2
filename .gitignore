@@ -50,6 +50,9 @@ node_modules/
 .cspellcache
 
 # Artifacts #
+## TypeScript ##
+packages/*/types/
+
 ## Vite ##
 coverage/
 dist/
