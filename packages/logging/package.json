@@ -84,7 +84,7 @@
         "clean:all": "pnpm run clean:production && pnpm run clean:development",
         "clean:prod": "pnpm run clean:production",
         "clean:production": "del-cli \"./dist/\"",
-        "clean:dev": "pnpm run clean:dev",
+        "clean:dev": "pnpm run clean:development",
         "clean:development": "del-cli \"./dist/\"",
         "rebuild": "pnpm run rebuild:prod",
         "rebuild:all": "pnpm run clean:all && pnpm run build:all",
