@@ -52,6 +52,7 @@ node_modules/
 # Artifacts #
 ## TypeScript ##
 packages/*/types/
+*.tsbuildinfo
 
 ## Vite ##
 coverage/
