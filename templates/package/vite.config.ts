@@ -12,7 +12,7 @@ import {type UserWorkspaceConfig, defineProject} from 'vitest/config';
 /**
  * The project name.
  */
-const PROJECT_NAME = 'webcraft-logging';
+const PROJECT_NAME = 'package-template';
 
 /**
  * The ViteJS configuration.
