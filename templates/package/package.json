@@ -1,0 +1,127 @@
+{
+    "name": "@webcraft/package-template",
+    "description": "A package template for the Webcraft project.",
+    "version": "0.0.0",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "private": true,
+    "author": {
+        "name": "G'lek Tarssza",
+        "email": "glek@glektarssza.com",
+        "url": "https://glektarssza.com"
+    },
+    "homepage": "https://glektarssza.github.io/webcraft-v2/",
+    "bugs": {
+        "url": "https://github.com/glektarssza/webcraft-v2/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/glektarssza/webcraft-v2.git",
+        "directory": "./templates/package/"
+    },
+    "packageManager": "pnpm@10.22.0+sha512.bf049efe995b28f527fd2b41ae0474ce29186f7edcb3bf545087bd61fbbebb2bf75362d1307fda09c2d288e1e499787ac12d4fcb617a974718a6051f2eee741c",
+    "type": "module",
+    "main": "./dist/umd/index.js",
+    "types": "./types/index.d.ts",
+    "exports": {
+        "node": null,
+        "module-sync": null,
+        "require": [
+            {
+                "development": "./dist/cjs/index.js",
+                "dev": "./dist/cjs/index.js",
+                "production": "./dist/cjs/index.js",
+                "prod": "./dist/cjs/index.js",
+                "default": "./dist/cjs/index.js"
+            },
+            "./dist/cjs/index.js"
+        ],
+        "import": [
+            {
+                "development": "./dist/es/index.js",
+                "dev": "./dist/es/index.js",
+                "production": "./dist/es/index.js",
+                "prod": "./dist/es/index.js",
+                "default": "./dist/es/index.js"
+            },
+            "./dist/es/index.js"
+        ],
+        "default": [
+            {
+                "development": "./dist/umd/index.js",
+                "dev": "./dist/umd/index.js",
+                "production": "./dist/umd/index.js",
+                "prod": "./dist/umd/index.js",
+                "default": "./dist/umd/index.js"
+            },
+            "./dist/umd/index.js"
+        ],
+        "types": "./types/index.d.ts"
+    },
+    "scripts": {
+        "dev": "vite serve --mode development",
+        "test": "vitest --run --coverage",
+        "test:ci": "vitest --run --coverage",
+        "test:ui": "vitest --ui",
+        "lint": "pnpm run eslint && pnpm run prettier && pnpm run cspell",
+        "lint:fix": "pnpm run eslint:fix && pnpm run prettier:fix",
+        "lint:ci": "pnpm run eslint:ci && pnpm run prettier:ci && pnpm run cspell:ci",
+        "cspell": "cspell lint --cache .",
+        "cspell:ci": "cspell lint --no-cache .",
+        "eslint": "eslint --cache ./src/ ./tests/",
+        "eslint:fix": "eslint --cache --fix ./src/ ./tests/",
+        "eslint:ci": "eslint ./src/ ./tests/",
+        "prettier": "prettier --config ../../.prettierrc.cjs --ignore-path ../../.prettierignore --cache --check .",
+        "prettier:fix": "prettier --config ../../.prettierrc.cjs --ignore-path ../../.prettierignore --cache --write .",
+        "prettier:ci": "prettier --config ../../.prettierrc.cjs --ignore-path ../../.prettierignore --check .",
+        "build": "pnpm run build:prod",
+        "build:all": "pnpm run build:production && pnpm run build:development && pnpm run build:types",
+        "build:prod": "pnpm run build:production",
+        "build:production": "vite build --mode production",
+        "build:dev": "pnpm run build:development",
+        "build:development": "vite build --mode development",
+        "build:types": "tsc -p ./src/ --declaration --emitDeclarationOnly --declarationDir ./types/",
+        "clean": "pnpm run clean:prod",
+        "clean:all": "pnpm run clean:production && pnpm run clean:development && pnpm run clean:types",
+        "clean:prod": "pnpm run clean:production",
+        "clean:production": "del-cli \"./dist/\"",
+        "clean:dev": "pnpm run clean:development",
+        "clean:development": "del-cli \"./dist/\"",
+        "clean:types": "del-cli \"./types/\"",
+        "rebuild": "pnpm run rebuild:prod",
+        "rebuild:all": "pnpm run clean:all && pnpm run build:all",
+        "rebuild:prod": "pnpm run clean:prod && pnpm run build:prod",
+        "rebuild:production": "pnpm run clean:production && pnpm run build:production",
+        "rebuild:dev": "pnpm run clean:dev && pnpm run build:dev",
+        "rebuild:development": "pnpm run clean:development && pnpm run build:development",
+        "rebuild:types": "pnpm run clean:types && pnpm run build:types"
+    },
+    "devDependencies": {
+        "@cspell/dict-bash": "^4.2.2",
+        "@cspell/dict-en-gb": "^5.0.19",
+        "@cspell/dict-node": "^5.0.8",
+        "@cspell/dict-python": "^4.2.22",
+        "@cspell/dict-shell": "^1.1.2",
+        "@cspell/dict-typescript": "^3.2.3",
+        "@eslint/js": "^9.38.0",
+        "@faker-js/faker": "^10.1.0",
+        "@rollup/plugin-replace": "^6.0.2",
+        "@types/node": "^24.9.1",
+        "@vitest/browser": "^4.0.4",
+        "@vitest/browser-playwright": "^4.0.4",
+        "@vitest/coverage-istanbul": "^4.0.4",
+        "@vitest/ui": "^4.0.4",
+        "cspell": "^9.3.2",
+        "del-cli": "^7.0.0",
+        "eslint": "^9.38.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-tsdoc": "^0.4.0",
+        "playwright": "^1.56.1",
+        "prettier": "^3.6.2",
+        "sass": "^1.93.2",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "8.46.2",
+        "vite": "^7.1.12",
+        "vitest": "^4.0.4"
+    }
+}
