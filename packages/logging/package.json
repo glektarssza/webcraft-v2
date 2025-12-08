@@ -1,6 +1,6 @@
 {
     "name": "@webcraft/logging",
-    "description": "A simple Minecraft clone built on web technologies.",
+    "description": "The logging library for the Webcraft project.",
     "version": "0.0.0",
     "license": "SEE LICENSE IN LICENSE.md",
     "private": true,
