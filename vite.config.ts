@@ -1,12 +1,15 @@
-//-- NodeJS
+// -- NodeJS
 import path from 'node:path';
 
-//-- NPM Packages
+// -- NPM Packages
 import {defineConfig} from 'vitest/config';
 
 export default defineConfig({
     test: {
-        projects: [path.resolve(import.meta.dirname, './app/')],
+        projects: [
+            path.resolve(import.meta.dirname, './app/'),
+            path.resolve(import.meta.dirname, './packages/*/')
+        ],
         coverage: {
             enabled: true,
             provider: 'istanbul',

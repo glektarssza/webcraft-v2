@@ -25,6 +25,7 @@
     "exports": {
         "node": null,
         "module-sync": null,
+        "types": "./types/index.d.ts",
         "require": [
             {
                 "development": "./dist/cjs/index.js",
@@ -54,8 +55,7 @@
                 "default": "./dist/umd/index.js"
             },
             "./dist/umd/index.js"
-        ],
-        "types": "./types/index.d.ts"
+        ]
     },
     "scripts": {
         "dev": "vite serve --mode development",
