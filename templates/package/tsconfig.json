@@ -2,6 +2,10 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "noEmit": true,
+        "paths": {
+            "@src": ["./src/ts"],
+            "@src/*": ["./src/ts/*"]
+        },
         "types": ["node"]
     },
     "exclude": ["node_modules"]
