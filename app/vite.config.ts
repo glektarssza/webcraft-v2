@@ -19,7 +19,10 @@ const config = defineProject(({mode}) => {
     const conf: ViteUserConfig = {
         mode,
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.ts', '.js'],
+            alias: {
+                '@src': path.resolve(import.meta.dirname, './src/')
+            }
         },
         root: path.resolve(import.meta.dirname, './src/'),
         build: {
@@ -42,9 +45,6 @@ const config = defineProject(({mode}) => {
             })
         ],
         test: {
-            alias: {
-                '@src': path.resolve(import.meta.dirname, './src/')
-            },
             browser: {
                 enabled: true,
                 provider: vitestBrowserPlaywright(),

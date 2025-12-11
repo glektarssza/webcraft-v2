@@ -1,66 +1,35 @@
-/// <reference types="vitest" />
-
-//-- NodeJS
+// -- NodeJS
 import os from 'node:os';
 import path from 'node:path';
 
-//-- NPM Packages
+// -- NPM Packages
 import replacePlugin from '@rollup/plugin-replace';
-import {playwright} from '@vitest/browser-playwright';
-import {type UserWorkspaceConfig, defineProject} from 'vitest/config';
+import {playwright as vitestBrowserPlaywright} from '@vitest/browser-playwright';
+import {type ViteUserConfig, defineProject} from 'vitest/config';
 
 /**
  * The project name.
  */
-const PROJECT_NAME = 'package-template';
+const PROJECT_NAME = 'Webcraft - Package Template';
 
 /**
  * The ViteJS configuration.
  */
 const config = defineProject(({mode}) => {
-    const conf: UserWorkspaceConfig = {
+    const conf: ViteUserConfig = {
         mode,
         resolve: {
-            extensions: ['.ts', '.js']
+            extensions: ['.ts', '.js'],
+            alias: {
+                '@src': path.resolve(import.meta.dirname, './src/')
+            }
         },
         root: path.resolve(import.meta.dirname, './src/'),
         build: {
-            lib: {
-                name: PROJECT_NAME,
-                entry: [path.resolve(import.meta.dirname, './src/index.ts')],
-                formats: ['cjs', 'es', 'umd'],
-                fileName(format, entry) {
-                    return mode !== 'development' ?
-                            `${format}/${entry}.min.js`
-                        :   `${format}/${entry}.js`;
-                }
-            },
             outDir: path.resolve(import.meta.dirname, './dist/'),
             minify: mode !== 'development',
             sourcemap: mode !== 'development' ? 'hidden' : true,
             emptyOutDir: true
-        },
-        test: {
-            alias: {
-                '@src': path.resolve(import.meta.dirname, './src/')
-            },
-            browser: {
-                enabled: true,
-                provider: playwright(),
-                instances: [
-                    {
-                        browser: 'chromium',
-                        headless: true
-                    }
-                ]
-            },
-            mockReset: true,
-            clearMocks: true,
-            unstubGlobals: true,
-            unstubEnvs: true,
-            dir: './tests/',
-            name: 'Webcraft - Logging',
-            maxConcurrency: Math.max(Math.floor(os.cpus().length / 2), 1)
         },
         server: {
             fs: {
@@ -74,7 +43,26 @@ const config = defineProject(({mode}) => {
                     FAKER_SEED: JSON.stringify(process.env['FAKER_SEED'])
                 }
             })
-        ]
+        ],
+        test: {
+            browser: {
+                enabled: true,
+                provider: vitestBrowserPlaywright(),
+                instances: [
+                    {
+                        browser: 'chromium',
+                        headless: true
+                    }
+                ]
+            },
+            mockReset: true,
+            clearMocks: true,
+            unstubGlobals: true,
+            unstubEnvs: true,
+            dir: './tests/',
+            name: PROJECT_NAME,
+            maxConcurrency: Math.max(Math.floor(os.cpus().length / 2), 1)
+        }
     };
     return conf;
 });
