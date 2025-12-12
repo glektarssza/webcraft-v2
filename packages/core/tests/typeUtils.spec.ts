@@ -5,6 +5,39 @@ import {describe, it, expect} from 'vitest';
 import * as m from '@src/typeUtils';
 
 describe('module:typeUtils', () => {
+    describe('.isString()', () => {
+        it('should return `false` if the input is not an string', () => {
+            // -- Given
+            const inputs: unknown[] = [
+                Symbol('symbol'),
+                100,
+                {},
+                new RegExp(''),
+                BigInt(100),
+                true,
+                false,
+                () => {},
+                null,
+                undefined
+            ];
+
+            // -- When
+            inputs.forEach((input) => {
+                // -- Then
+                expect(input).to.not.satisfy(m.isString);
+            });
+        });
+        it('should return `true` if the input is a string', () => {
+            // -- Given
+            const inputs: unknown[] = ['string'];
+
+            // -- When
+            inputs.forEach((input) => {
+                // -- Then
+                expect(input).to.satisfy(m.isString);
+            });
+        });
+    });
     describe('.isObject()', () => {
         it('should return `false` if the input is not an object', () => {
             // -- Given
@@ -28,7 +61,7 @@ describe('module:typeUtils', () => {
         });
         it('should return `true` if the input is an object', () => {
             // -- Given
-            const inputs: unknown[] = [{}, [], new RegExp('')];
+            const inputs: unknown[] = [{}];
 
             // -- When
             inputs.forEach((input) => {
@@ -44,14 +77,14 @@ describe('module:typeUtils', () => {
                 'string',
                 Symbol('symbol'),
                 100,
+                new RegExp(''),
                 BigInt(100),
                 true,
                 false,
                 () => {},
                 null,
                 undefined,
-                [],
-                new RegExp('')
+                []
             ];
 
             // -- When
