@@ -4,4 +4,9 @@ packages:
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
+requiredScripts:
+  - build
+  - clean
+  - test
+  - lint
 preferWorkspacePackages: true
