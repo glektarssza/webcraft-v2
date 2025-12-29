@@ -16,3 +16,4 @@ shellEmulator: true
 savePrefix: ^
 trustPolicy: no-downgrade
 sharedWorkspaceLockfile: true
+saveWorkspaceProtocol: true
