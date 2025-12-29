@@ -11,3 +11,4 @@ requiredScripts:
   - lint
 preferWorkspacePackages: true
 recursiveInstall: true
+includeWorkspaceRoot: true
