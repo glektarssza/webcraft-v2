@@ -4,4 +4,16 @@ packages:
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
+requiredScripts:
+  - build
+  - clean
+  - test
+  - lint
 preferWorkspacePackages: true
+recursiveInstall: true
+includeWorkspaceRoot: true
+shellEmulator: true
+savePrefix: ^
+trustPolicy: no-downgrade
+sharedWorkspaceLockfile: true
+saveWorkspaceProtocol: true

@@ -58,6 +58,7 @@
         "types": "./types/index.d.ts"
     },
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "dev": "vite serve --mode development",
         "test": "vitest --run --coverage",
         "test:ci": "vitest --run --coverage",
