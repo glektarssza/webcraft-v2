@@ -10,3 +10,4 @@ requiredScripts:
   - test
   - lint
 preferWorkspacePackages: true
+recursiveInstall: true
