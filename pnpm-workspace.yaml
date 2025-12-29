@@ -12,3 +12,4 @@ requiredScripts:
 preferWorkspacePackages: true
 recursiveInstall: true
 includeWorkspaceRoot: true
+shellEmulator: true
