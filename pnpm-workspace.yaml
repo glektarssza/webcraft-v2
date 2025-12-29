@@ -14,3 +14,4 @@ recursiveInstall: true
 includeWorkspaceRoot: true
 shellEmulator: true
 savePrefix: ^
+trustPolicy: no-downgrade
