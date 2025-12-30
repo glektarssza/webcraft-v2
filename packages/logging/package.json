@@ -92,6 +92,9 @@
         "rebuild:prod": "pnpm run clean:prod && pnpm run build:prod",
         "rebuild:dev": "pnpm run clean:dev && pnpm run build:dev"
     },
+    "dependencies": {
+        "@webcraft/core": "workspace:*"
+    },
     "devDependencies": {
         "@cspell/dict-bash": "^4.2.2",
         "@cspell/dict-en-gb": "^5.0.20",
