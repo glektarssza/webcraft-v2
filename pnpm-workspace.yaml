@@ -9,11 +9,14 @@ requiredScripts:
   - clean
   - test
   - lint
+trustPolicyExclude:
+  - chokidar@4.0.3
+  - semver@6.3.1
+trustPolicy: no-downgrade
 preferWorkspacePackages: true
 recursiveInstall: true
 includeWorkspaceRoot: true
 shellEmulator: true
 savePrefix: ^
-trustPolicy: no-downgrade
 sharedWorkspaceLockfile: true
 saveWorkspaceProtocol: true

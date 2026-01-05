@@ -17,7 +17,7 @@
         "type": "git",
         "url": "https://github.com/glektarssza/webcraft-v2.git"
     },
-    "packageManager": "pnpm@10.26.0+sha512.3b3f6c725ebe712506c0ab1ad4133cf86b1f4b687effce62a9b38b4d72e3954242e643190fc51fa1642949c735f403debd44f5cb0edd657abe63a8b6a7e1e402",
+    "packageManager": "pnpm@10.27.0",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
@@ -41,6 +41,16 @@
         "prettier:fix": "pnpm -r run prettier:fix",
         "prettier:ci": "pnpm -r run prettier:ci",
         "build": "pnpm run -r build",
+        "build:packages": "pnpm run -r --filter './packages/*' build",
+        "build:packages:prod": "pnpm run -r --filter './packages/*' build:prod",
+        "build:packages:production": "pnpm run -r --filter './packages/*' build:production",
+        "build:packages:dev": "pnpm run -r --filter './packages/*' build:dev",
+        "build:packages:development": "pnpm run -r --filter './packages/*' build:development",
+        "build:app": "pnpm run -r --filter './app' build",
+        "build:app:prod": "pnpm run -r --filter './app' build:prod",
+        "build:app:production": "pnpm run -r --filter './app' build:production",
+        "build:app:dev": "pnpm run -r --filter './app' build:dev",
+        "build:app:development": "pnpm run -r --filter './app' build:development",
         "build:all": "pnpm run -r build:all",
         "build:prod": "pnpm run -r build:prod",
         "build:production": "pnpm run -r build:production",
@@ -62,9 +72,9 @@
     },
     "devDependencies": {
         "@cspell/dict-bash": "^4.2.2",
-        "@cspell/dict-en-gb": "^5.0.20",
+        "@cspell/dict-en-gb": "^5.0.21",
         "@cspell/dict-node": "^5.0.8",
-        "@cspell/dict-python": "^4.2.24",
+        "@cspell/dict-python": "^4.2.25",
         "@cspell/dict-shell": "^1.1.2",
         "@cspell/dict-typescript": "^3.2.3",
         "@eslint/js": "^9.39.2",
@@ -79,7 +89,7 @@
         "sass": "^1.97.1",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
-        "typescript-eslint": "8.50.1",
+        "typescript-eslint": "8.52.0",
         "vitest": "^4.0.16"
     }
 }
