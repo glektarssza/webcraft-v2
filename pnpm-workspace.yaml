@@ -11,6 +11,7 @@ requiredScripts:
   - lint
 trustPolicyExclude:
   - chokidar@4.0.3
+  - semver@6.3.1
 trustPolicy: no-downgrade
 preferWorkspacePackages: true
 recursiveInstall: true
