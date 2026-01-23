@@ -78,7 +78,7 @@
         "eslint.run": "onSave",
         "eslint.useESLintClass": true,
         "eslint.useFlatConfig": true,
-        "prettier.configPath": ".prettierrc.cjs",
+        "prettier.configPath": ".prettierrc.mjs",
         "prettier.enable": true,
         "prettier.endOfLine": "lf",
         "prettier.ignorePath": ".prettierignore",
