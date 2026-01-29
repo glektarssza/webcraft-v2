@@ -7,6 +7,7 @@ eslintcache
 g'lek
 glek
 glektarssza
+msvc
 netrwhist
 noarchive
 noconfirm
