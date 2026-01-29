@@ -259,6 +259,12 @@ export class Terminal {
         await this.writeError(`${data.join(' ')}\n`);
     }
 
+    /**
+     * Read binary data asynchronously from the input stream.
+     *
+     * @returns A promise that resolves to the binary data read from the input
+     * stream on success or rejects if an error occurs.
+     */
     public async readInput(): Promise<
         ReadableStreamReadResult<Uint8Array<ArrayBuffer>>
     > {
@@ -268,6 +274,12 @@ export class Terminal {
         return this.#inputStreamReader!.read();
     }
 
+    /**
+     * Read text data asynchronously from the input stream.
+     *
+     * @returns A promise that resolves to the text data read from the input
+     * stream on success or rejects if an error occurs.
+     */
     public async readInputText(): Promise<ReadableStreamReadResult<string>> {
         if (!this.isInitialized) {
             throw new Error('Terminal instance is not initialized!');
