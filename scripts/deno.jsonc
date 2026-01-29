@@ -171,7 +171,8 @@
     "nodeModulesDir": "auto",
     "permissions": {
         "default": {
-            "env": true
+            "env": true,
+            "run": true
         }
     },
     "tasks": {
