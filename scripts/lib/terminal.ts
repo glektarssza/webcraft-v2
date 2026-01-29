@@ -209,7 +209,7 @@ export class Terminal {
         data?: string | Uint8Array<ArrayBuffer>
     ): Promise<void> {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         await (typeof data === 'string' ?
             this.#outputTextStreamWriter?.write(data)
@@ -226,7 +226,7 @@ export class Terminal {
      */
     public async writeOutputLine(...data: string[]): Promise<void> {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         await this.writeOutput(`${data.join(' ')}\n`);
     }
@@ -238,7 +238,7 @@ export class Terminal {
      */
     public writeOutputSync(data?: string | Uint8Array<ArrayBuffer>): void {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         void this.#outputStreamWriter?.write(
             typeof data === 'string' ? this.#textEncoder.encode(data) : data
@@ -255,7 +255,7 @@ export class Terminal {
      */
     public writeOutputLineSync(...data: string[]): void {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         this.writeOutputSync(`${data.join(' ')}\n`);
     }
@@ -272,7 +272,7 @@ export class Terminal {
         data?: string | Uint8Array<ArrayBuffer>
     ): Promise<void> {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         await (typeof data === 'string' ?
             this.#errorTextStreamWriter?.write(data)
@@ -289,7 +289,7 @@ export class Terminal {
      */
     public async writeErrorLine(...data: string[]): Promise<void> {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         await this.writeError(`${data.join(' ')}\n`);
     }
@@ -301,7 +301,7 @@ export class Terminal {
      */
     public writeErrorSync(data?: string | Uint8Array<ArrayBuffer>): void {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         void this.#errorStreamWriter?.write(
             typeof data === 'string' ? this.#textEncoder.encode(data) : data
@@ -318,7 +318,7 @@ export class Terminal {
      */
     public writeErrorLineSync(...data: string[]): void {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         this.writeErrorSync(`${data.join(' ')}\n`);
     }
@@ -327,14 +327,14 @@ export class Terminal {
         ReadableStreamReadResult<Uint8Array<ArrayBuffer>>
     > {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         return this.#inputStreamReader!.read();
     }
 
     public async readInputText(): Promise<ReadableStreamReadResult<string>> {
         if (!this.isInitialized) {
-            throw new Error('Instance is not initialized!');
+            throw new Error('Terminal instance is not initialized!');
         }
         return this.#inputTextStreamReader!.read();
     }
