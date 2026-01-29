@@ -3,7 +3,9 @@
     "bench": {
         "include": ["./*.bench.ts", "./**/*.bench.ts"]
     },
-    "compile": {},
+    "compile": {
+        "permissions": "default"
+    },
     "compilerOptions": {
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
@@ -54,7 +56,10 @@
         "useBraces": "always",
         "useTabs": false
     },
-    "imports": {},
+    "imports": {
+        "@types/deno": "npm:@types/deno@^2.5.0",
+        "commander": "npm:commander@^14.0.2"
+    },
     "lint": {
         "include": ["./*.ts", "./**/*.ts"],
         "report": "pretty",
@@ -164,8 +169,20 @@
     },
     "lock": true,
     "nodeModulesDir": "auto",
-    "permissions": {},
+    "permissions": {
+        "default": {
+            "env": true
+        }
+    },
     "tasks": {
+        "dev:base": {
+            "command": "deno run --permission-set=default",
+            "description": "Run a script in development mode."
+        },
+        "dev:install-pre-commit": {
+            "command": "deno task dev:base ./install-pre-commit.ts",
+            "description": "Run the install-pre-commit script in development mode."
+        },
         "compile-scripts": {
             "command": "echo \"Built all script binaries!\"",
             "description": "Compile all scripts for all platforms.",
