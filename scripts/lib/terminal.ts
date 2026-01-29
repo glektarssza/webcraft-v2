@@ -15,11 +15,6 @@ export class Terminal {
     readonly #abortController: AbortController;
 
     /**
-     * The common text encoder.
-     */
-    readonly #textEncoder: TextEncoder;
-
-    /**
      * The input stream for the instance.
      */
     #inputStream: ReadableStream<Uint8Array<ArrayBuffer>> | null;
@@ -102,7 +97,6 @@ export class Terminal {
     public constructor() {
         this.#initialized = false;
         this.#abortController = new AbortController();
-        this.#textEncoder = new TextEncoder();
         this.#inputStream = null;
         this.#outputStream = null;
         this.#errorStream = null;
@@ -232,35 +226,6 @@ export class Terminal {
     }
 
     /**
-     * Write data synchronously to the output stream.
-     *
-     * @param data The data to write.
-     */
-    public writeOutputSync(data?: string | Uint8Array<ArrayBuffer>): void {
-        if (!this.isInitialized) {
-            throw new Error('Terminal instance is not initialized!');
-        }
-        void this.#outputStreamWriter?.write(
-            typeof data === 'string' ? this.#textEncoder.encode(data) : data
-        );
-    }
-
-    /**
-     * Write a line of data asynchronously to the output stream.
-     *
-     * @param data The data to write.
-     *
-     * @returns A promise that resolves when the data is written or rejects if an
-     * error occurs.
-     */
-    public writeOutputLineSync(...data: string[]): void {
-        if (!this.isInitialized) {
-            throw new Error('Terminal instance is not initialized!');
-        }
-        this.writeOutputSync(`${data.join(' ')}\n`);
-    }
-
-    /**
      * Write data asynchronously to the error stream.
      *
      * @param data The data to write.
@@ -292,35 +257,6 @@ export class Terminal {
             throw new Error('Terminal instance is not initialized!');
         }
         await this.writeError(`${data.join(' ')}\n`);
-    }
-
-    /**
-     * Write data synchronously to the error stream.
-     *
-     * @param data The data to write.
-     */
-    public writeErrorSync(data?: string | Uint8Array<ArrayBuffer>): void {
-        if (!this.isInitialized) {
-            throw new Error('Terminal instance is not initialized!');
-        }
-        void this.#errorStreamWriter?.write(
-            typeof data === 'string' ? this.#textEncoder.encode(data) : data
-        );
-    }
-
-    /**
-     * Write a line of data synchronously to the error stream.
-     *
-     * @param data The data to write.
-     *
-     * @returns A promise that resolves when the data is written or rejects if an
-     * error occurs.
-     */
-    public writeErrorLineSync(...data: string[]): void {
-        if (!this.isInitialized) {
-            throw new Error('Terminal instance is not initialized!');
-        }
-        this.writeErrorSync(`${data.join(' ')}\n`);
     }
 
     public async readInput(): Promise<
