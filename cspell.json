@@ -38,6 +38,7 @@
         "!cryptocurrencies"
     ],
     "import": ["./.cspell/configs/project-dictionary.json"],
+    "globRoot": ".",
     "enableGlobDot": true,
     "useGitignore": true,
     "gitignoreRoot": ["."],
@@ -45,5 +46,11 @@
     "ignorePaths": [".git", "pnpm-lock.yaml"],
     "loadDefaultConfiguration": true,
     "unknownWords": "report-all",
-    "readonly": true
+    "readonly": true,
+    "cache": {
+        "cacheFormat": "universal",
+        "cacheLocation": ".cspellcache",
+        "cacheStrategy": "content",
+        "useCache": true
+    }
 }
