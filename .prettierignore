@@ -1,2 +1,5 @@
-# Markdown #
+# Markdown
 *.md
+
+# pnpm
+pnpm-lock.yaml
