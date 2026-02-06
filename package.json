@@ -17,7 +17,7 @@
         "type": "git",
         "url": "https://github.com/glektarssza/webcraft-v2.git"
     },
-    "packageManager": "pnpm@10.27.0",
+    "packageManager": "pnpm@10.28.2",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
@@ -71,25 +71,26 @@
         "rebuild:types": "pnpm run rebuild:prod rebuild:types"
     },
     "devDependencies": {
-        "@cspell/dict-bash": "^4.2.2",
-        "@cspell/dict-en-gb": "^5.0.21",
-        "@cspell/dict-node": "^5.0.8",
-        "@cspell/dict-python": "^4.2.25",
-        "@cspell/dict-shell": "^1.1.2",
-        "@cspell/dict-typescript": "^3.2.3",
+        "@cspell/cspell-bundled-dicts": "^9.6.4",
         "@eslint/js": "^9.39.2",
-        "@types/node": "^25.0.3",
-        "@vitest/coverage-istanbul": "^4.0.16",
-        "cspell": "^9.4.0",
+        "@rollup/plugin-replace": "^6.0.3",
+        "@types/node": "^25.2.1",
+        "@vitest/browser-playwright": "^4.0.18",
+        "@vitest/coverage-istanbul": "^4.0.18",
+        "@vitest/eslint-plugin": "^1.6.6",
+        "cspell": "^9.6.4",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-playwright": "^2.5.1",
         "eslint-plugin-tsdoc": "^0.5.0",
-        "playwright": "^1.57.0",
-        "prettier": "^3.7.4",
-        "sass": "^1.97.1",
-        "ts-node": "^10.9.2",
+        "globals": "^17.3.0",
+        "jiti": "^2.6.1",
+        "playwright": "^1.58.1",
+        "prettier": "^3.8.1",
+        "sass-embedded": "^1.97.3",
+        "tsx": "^4.21.0",
         "typescript": "^5.9.3",
-        "typescript-eslint": "8.52.0",
-        "vitest": "^4.0.16"
+        "typescript-eslint": "8.54.0",
+        "vitest": "^4.0.18"
     }
 }

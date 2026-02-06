@@ -1,28 +1,21 @@
 /// <reference types="vitest" />
 
 //-- NodeJS
-import os from 'node:os';
 import path from 'node:path';
 
 //-- NPM Packages
-import replacePlugin from '@rollup/plugin-replace';
-import {playwright} from '@vitest/browser-playwright';
 import {type UserWorkspaceConfig, defineProject} from 'vitest/config';
 
 /**
  * The project name.
  */
-const PROJECT_NAME = 'package-template';
+const PROJECT_NAME = 'webcraft-package-template';
 
 /**
  * The ViteJS configuration.
  */
 const config = defineProject(({mode}) => {
     const conf: UserWorkspaceConfig = {
-        mode,
-        resolve: {
-            extensions: ['.ts', '.js']
-        },
         root: path.resolve(import.meta.dirname, './src/'),
         build: {
             lib: {
@@ -35,46 +28,18 @@ const config = defineProject(({mode}) => {
                         :   `${format}/${entry}.js`;
                 }
             },
-            outDir: path.resolve(import.meta.dirname, './dist/'),
-            minify: mode !== 'development',
-            sourcemap: mode !== 'development' ? 'hidden' : true,
-            emptyOutDir: true
+            outDir: path.resolve(import.meta.dirname, './dist/')
         },
         test: {
-            alias: {
-                '@src': path.resolve(import.meta.dirname, './src/')
-            },
-            browser: {
-                enabled: true,
-                provider: playwright(),
-                instances: [
-                    {
-                        browser: 'chromium',
-                        headless: true
-                    }
-                ]
-            },
-            mockReset: true,
-            clearMocks: true,
-            unstubGlobals: true,
-            unstubEnvs: true,
-            dir: './tests/',
-            name: 'Webcraft - Logging',
-            maxConcurrency: Math.max(Math.floor(os.cpus().length / 2), 1)
-        },
-        server: {
-            fs: {
-                strict: process.env['VITEST_VSCODE'] === undefined
-            }
-        },
-        plugins: [
-            replacePlugin({
-                preventAssignment: true,
-                values: {
-                    FAKER_SEED: JSON.stringify(process.env['FAKER_SEED'])
+            alias: [
+                {
+                    find: /^@src(.*)$/,
+                    replacement: path.resolve(import.meta.dirname, './src$1')
                 }
-            })
-        ]
+            ],
+            dir: path.resolve(import.meta.dirname, './tests/'),
+            name: 'Webcraft - Package Template'
+        }
     };
     return conf;
 });
