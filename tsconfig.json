@@ -4,6 +4,8 @@
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
         "alwaysStrict": true,
+        "composite": true,
+        "declarationMap": true,
         "emitDecoratorMetadata": true,
         "esModuleInterop": true,
         "exactOptionalPropertyTypes": false,
@@ -38,6 +40,7 @@
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
         "target": "ES2022",
+        "tsBuildInfoFile": "./.tsbuildinfo",
         "useDefineForClassFields": true,
         "useUnknownInCatchVariables": true
     },
