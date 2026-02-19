@@ -16,7 +16,7 @@ const config = defineConfig(({mode}) => {
         build: {
             minify: mode !== 'development',
             sourcemap: mode !== 'development' ? 'hidden' : true,
-            emptyOutDir: true
+            emptyOutDir: false
         },
         test: {
             projects: [
