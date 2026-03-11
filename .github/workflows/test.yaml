@@ -41,7 +41,7 @@ jobs:
           token: ${{env.GH_TOKEN}}
       - id: setup-pnpm
         name: Setup pnpm
-        uses: pnpm/action-setup@v4.2.0
+        uses: pnpm/action-setup@v4.3.0
         with:
           package_json_file: ./package.json
           run_install: false
