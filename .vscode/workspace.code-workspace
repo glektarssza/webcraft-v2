@@ -10,19 +10,19 @@
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[javascript]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[javascriptreact]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[json]": {
             "editor.formatOnPaste": true,
@@ -46,31 +46,31 @@
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[scss]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[typescript]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[typescriptreact]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[vue]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
             "editor.formatOnSaveMode": "modificationsIfAvailable",
-            "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+            "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "eslint.codeActionsOnSave.mode": "all",
         "eslint.enable": true,
