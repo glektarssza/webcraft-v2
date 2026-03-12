@@ -72,7 +72,7 @@ on:
           The token to use to make authenticated calls to the GitHub API.
         required: false
 env:
-  GH_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+  GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
   build:
     name: Build
@@ -92,7 +92,7 @@ jobs:
         with:
           ref: ${{inputs.git-ref}}
           lfs: true
-          token: ${{env.GH_TOKEN}}
+          token: ${{env.GITHUB_TOKEN}}
       - id: setup-pnpm
         name: Setup pnpm
         uses: pnpm/action-setup@v4.3.0
@@ -100,14 +100,8 @@ jobs:
           package_json_file: ./package.json
           run_install: false
           standalone: false
-      - id: setup-nodejs
-        name: Setup NodeJS
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: ./pnpm-lock.yaml
-          token: ${{env.GH_TOKEN}}
+          cache: true
+          cache_dependency_path: ./pnpm-lock.yaml
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install
