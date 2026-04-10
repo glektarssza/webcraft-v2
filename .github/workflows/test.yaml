@@ -48,6 +48,14 @@ jobs:
           standalone: false
           cache: true
           cache_dependency_path: ./pnpm-lock.yaml
+      - id: setup-nodejs
+        name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install
