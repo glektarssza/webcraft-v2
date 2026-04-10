@@ -1,0 +1,58 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Spell Check
+on:
+  workflow_call:
+    inputs:
+      git-ref:
+        description: |
+          The Git reference to build.
+
+          This can be any valid commit-like value (e.g. a branch, a tag, or a
+          commit).
+
+          Defaults to the value in the "github.ref" context if available,
+          otherwise falls back to "github.sha".
+        type: string
+        required: false
+        default: ${{github.ref || github.sha}}
+    secrets:
+      github-token:
+        description: |
+          The token to use to make authenticated calls to the GitHub API.
+        required: false
+env:
+  GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+jobs:
+  spell-check:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    permissions:
+      # -- Needed to checkout the repository
+      contents: read
+    steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          ref: ${{inputs.git-ref || github.ref || github.sha}}
+          lfs: true
+          token: ${{env.GITHUB_TOKEN}}
+      - id: setup-pnpm
+        name: Setup pnpm
+        uses: pnpm/action-setup@v5
+        with:
+          run_install: false
+      - id: setup-nodejs
+        name: Setup NodeJS
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: ./pnpm-lock.yaml
+          token: ${{env.GITHUB_TOKEN}}
+      - id: install-dependencies
+        name: Install dependencies
+        run: pnpm -r install
+      - id: spell-check
+        name: Spell Check
+        run: pnpm run cspell:ci
