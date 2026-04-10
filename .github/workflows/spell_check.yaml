@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Lint
+name: Spell Check
 on:
   workflow_call:
     inputs:
@@ -23,11 +23,11 @@ on:
 env:
   GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
-  lint:
-    name: Lint
+  spell-check:
+    name: Spell Check
     runs-on: ubuntu-latest
     permissions:
-      # -- Required to clone the repository
+      # -- Needed to checkout the repository
       contents: read
     steps:
       - id: checkout-repository
@@ -41,11 +41,7 @@ jobs:
         name: Setup pnpm
         uses: pnpm/action-setup@v5
         with:
-          package_json_file: ./package.json
           run_install: false
-          standalone: false
-          cache: true
-          cache_dependency_path: ./pnpm-lock.yaml
       - id: setup-nodejs
         name: Setup NodeJS
         uses: actions/setup-node@v6
@@ -57,6 +53,6 @@ jobs:
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install
-      - id: lint
-        name: Lint
-        run: pnpm run lint
+      - id: spell-check
+        name: Spell Check
+        run: pnpm run cspell:ci
