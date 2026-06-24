@@ -1,9 +1,6 @@
 packages:
   - ./app/
   - ./packages/*
-onlyBuiltDependencies:
-  - '@parcel/watcher'
-  - esbuild
 requiredScripts:
   - build
   - clean
@@ -20,3 +17,10 @@ shellEmulator: true
 savePrefix: ^
 sharedWorkspaceLockfile: true
 saveWorkspaceProtocol: true
+minimumReleaseAgeStrict: true
+minimumReleaseAgeExclude:
+  - playwright-core@1.61.1
+  - playwright@1.61.1
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
