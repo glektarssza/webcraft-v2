@@ -3,6 +3,10 @@ version: 2
 updates:
   - directory: /
     package-ecosystem: github-actions
+    target-branch: main
+    commit-message:
+      include: scope
+      prefix: '[Dependabot] '
     labels:
       - Dependency
     assignees:
@@ -15,36 +19,14 @@ updates:
   - directories:
       - /
       - /app/
+      - /packages/core/
+      - /packages/logging/
     package-ecosystem: npm
-    groups:
-      Production Dependency Major Updates:
-        applies-to: version-updates
-        dependency-type: production
-        update-types:
-          - major
-      Production Dependency Other Updates:
-        applies-to: version-updates
-        dependency-type: production
-        update-types:
-          - minor
-          - patch
-      Development Dependency Major Updates:
-        applies-to: version-updates
-        dependency-type: development
-        update-types:
-          - major
-      Development Dependency Other Updates:
-        applies-to: version-updates
-        dependency-type: development
-        update-types:
-          - minor
-          - patch
-      Production Dependency Security Updates:
-        applies-to: security-updates
-        dependency-type: production
-      Development Dependency Security Updates:
-        applies-to: security-updates
-        dependency-type: development
+    versioning-strategy: increase-if-necessary
+    target-branch: main
+    commit-message:
+      include: scope
+      prefix: '[Dependabot] '
     labels:
       - Dependency
     assignees:
