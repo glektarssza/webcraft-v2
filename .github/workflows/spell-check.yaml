@@ -37,6 +37,9 @@ on:
         description: |
           The NodeJS package manager version to use.
 
+          Use "packageManifest" to use the value specified in the package
+          manifest.
+
           Defaults to "latest".
         type: string
         required: false
@@ -65,8 +68,15 @@ jobs:
           submodules: recursive
           token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: setup-pnpm-package-manager
-        name: Setup NodeJS Package Manager
-        if: inputs.package-manager == 'pnpm'
+        name: Setup NodeJS Package Manager (Package Manifest)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version == 'packageManifest'
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+          standalone: false
+      - id: setup-pnpm-package-manager-version
+        name: Setup NodeJS Package (Version)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version != 'packageManifest'
         uses: pnpm/action-setup@v6
         with:
           version: ${{inputs.package-manager-version}}
