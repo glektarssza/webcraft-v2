@@ -1,13 +1,13 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Manual Spell Check
+name: Manual Lint
 on:
   workflow_dispatch:
 jobs:
-  test:
-    name: Spell Check
+  lint:
+    name: Lint
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
-    uses: ./.github/workflows/spell_check.yaml
+    uses: ./.github/workflows/lint.yaml
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

@@ -23,7 +23,7 @@ jobs:
   test:
     name: Test
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/test.yaml
     secrets:

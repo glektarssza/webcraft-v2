@@ -1,12 +1,14 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: On Push
+name: On Pull Request
 on:
-  push:
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
     name: Build
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     strategy:
       fail-fast: true
@@ -23,7 +25,7 @@ jobs:
   test:
     name: Test
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/test.yaml
     secrets:
@@ -31,7 +33,7 @@ jobs:
   lint:
     name: Lint
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/lint.yaml
     secrets:

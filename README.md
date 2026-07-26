@@ -10,8 +10,8 @@ A simple Minecraft clone written in TypeScript and built on web technologies.
 
 ## License ##
 
-Copyright (c) 2025 - present G'lek Tarssza
+Copyright (c) 2025 to present G'lek Tarssza
 
-All rights reserved.
+Licensed under a modified MIT license.
 
 See [LICENSE.md](LICENSE.md) for the full license.
