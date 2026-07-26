@@ -19,6 +19,9 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       build-type: ${{matrix.build-type}}
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
       upload-artifacts: true
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
