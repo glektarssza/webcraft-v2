@@ -19,3 +19,4 @@ tarssza
 unstub
 vite
 webcraft
+pipx
