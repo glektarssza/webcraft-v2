@@ -68,6 +68,16 @@ jobs:
           ref: ${{inputs.git-ref}}
           lfs: true
           token: ${{env.GITHUB_TOKEN}}
+      - id: setup-pnpm-package-manager-manifest
+        name: Setup NodeJS Package Manager (Package Manifest)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version == 'packageManifest'
+        uses: pnpm/action-setup@v6
+        with:
+          package_json_file: ./package.json
+          run_install: false
+          standalone: false
+          cache: true
+          cache_dependency_path: ./pnpm-lock.yaml
       - id: setup-pnpm-package-manager-version
         name: Setup NodeJS Package (Version)
         if: inputs.package-manager == 'pnpm' && inputs.package-manager-version != 'packageManifest'
