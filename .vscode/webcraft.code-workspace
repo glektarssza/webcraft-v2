@@ -9,72 +9,72 @@
         "[css]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[javascript]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[javascriptreact]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[json]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[jsonc]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[jsonl]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[less]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[scss]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[typescript]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[typescriptreact]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "[vue]": {
             "editor.formatOnPaste": true,
             "editor.formatOnSave": true,
-            "editor.formatOnSaveMode": "modificationsIfAvailable",
+            "editor.formatOnSaveMode": "file",
             "editor.defaultFormatter": "esbenp.prettier-vscode"
         },
         "eslint.codeActionsOnSave.mode": "all",
         "eslint.enable": true,
-        "eslint.format.enable": true,
+        "eslint.format.enable": false,
         "eslint.run": "onSave",
         "eslint.useESLintClass": true,
         "eslint.useFlatConfig": true,
