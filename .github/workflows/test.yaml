@@ -17,6 +17,35 @@ on:
         type: string
         required: false
         default: ${{github.sha || github.ref || github.event.repository.default_branch}}
+      node-version:
+        description: |
+          The NodeJS version to use.
+
+          Use "nvmrc" to use the value in the repository ".nvmrc" file.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
+      package-manager:
+        description: |
+          The NodeJS package manager to use.
+
+          Defaults to "pnpm".
+        type: string
+        required: false
+        default: pnpm
+      package-manager-version:
+        description: |
+          The NodeJS package manager version to use.
+
+          Use "packageManifest" to use the value specified in the package
+          manifest.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
     secrets:
       github-token:
         description: |
@@ -39,23 +68,30 @@ jobs:
           ref: ${{inputs.git-ref}}
           lfs: true
           token: ${{env.GITHUB_TOKEN}}
-      - id: setup-pnpm
-        name: Setup pnpm
+      - id: setup-pnpm-package-manager-version
+        name: Setup NodeJS Package (Version)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version != 'packageManifest'
         uses: pnpm/action-setup@v6
         with:
-          package_json_file: ./package.json
+          version: ${{inputs.package-manager-version}}
           run_install: false
           standalone: false
           cache: true
           cache_dependency_path: ./pnpm-lock.yaml
-      - id: setup-nodejs
-        name: Setup NodeJS
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - id: setup-nodejs-version
+        name: Setup NodeJS (Version)
+        if: inputs.node-version != 'nvmrc'
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{inputs.node-version}}
+          token: ${{env.GITHUB_TOKEN}}
+      - id: setup-nodejs-nvmrc
+        name: Setup NodeJS (.nvmrc)
+        if: inputs.node-version == 'nvmrc'
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: ./pnpm-lock.yaml
-          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          token: ${{env.GITHUB_TOKEN}}
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install

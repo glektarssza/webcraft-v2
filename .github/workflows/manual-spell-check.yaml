@@ -42,6 +42,6 @@ jobs:
       git-ref: ${{github.sha}}
       node-version: ${{inputs.node-version}}
       package-manager: ${{inputs.package-manager}}
-      package-manager-version: ${{inputs.package-manager-version}}
+      package-manager-version: packageManifest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

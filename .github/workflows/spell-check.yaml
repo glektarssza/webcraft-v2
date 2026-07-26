@@ -21,6 +21,8 @@ on:
         description: |
           The NodeJS version to use.
 
+          Use "nvmrc" to use the value in the repository ".nvmrc" file.
+
           Defaults to "latest".
         type: string
         required: false
@@ -72,6 +74,7 @@ jobs:
         if: inputs.package-manager == 'pnpm' && inputs.package-manager-version == 'packageManifest'
         uses: pnpm/action-setup@v6
         with:
+          package_json_file: ./package.json
           run_install: false
           standalone: false
       - id: setup-pnpm-package-manager-version
@@ -82,12 +85,20 @@ jobs:
           version: ${{inputs.package-manager-version}}
           run_install: false
           standalone: false
-      - id: setup-nodejs
-        name: Setup NodeJS
+      - id: setup-nodejs-version
+        name: Setup NodeJS (Version)
+        if: inputs.node-version != 'nvmrc'
         uses: actions/setup-node@v7
         with:
-          token: ${{env.GITHUB_TOKEN}}
           node-version: ${{inputs.node-version}}
+          token: ${{env.GITHUB_TOKEN}}
+      - id: setup-nodejs-nvmrc
+        name: Setup NodeJS (.nvmrc)
+        if: inputs.node-version == 'nvmrc'
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          token: ${{env.GITHUB_TOKEN}}
       - id: setup-non-pnpm-package-manager
         name: Setup NodeJS Package Manager
         if: inputs.package-manager != 'pnpm'

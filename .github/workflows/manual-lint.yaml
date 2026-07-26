@@ -9,5 +9,9 @@ jobs:
       # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/lint.yaml
+    with:
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
