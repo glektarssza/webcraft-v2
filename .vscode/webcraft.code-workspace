@@ -74,7 +74,7 @@
         },
         "eslint.codeActionsOnSave.mode": "all",
         "eslint.enable": true,
-        "eslint.format.enable": true,
+        "eslint.format.enable": false,
         "eslint.run": "onSave",
         "eslint.useESLintClass": true,
         "eslint.useFlatConfig": true,
