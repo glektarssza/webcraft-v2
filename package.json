@@ -21,7 +21,6 @@
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
-        "prepare": "./scripts/setup-pre-commit.sh",
         "dev": "pnpm -r --filter webcraft run dev",
         "test:base": "vitest",
         "test": "pnpm run test:base --run",
