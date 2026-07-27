@@ -40,7 +40,6 @@
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
         "target": "ES2022",
-        "tsBuildInfoFile": "./.tsbuildinfo",
         "useDefineForClassFields": true,
         "useUnknownInCatchVariables": true
     },
