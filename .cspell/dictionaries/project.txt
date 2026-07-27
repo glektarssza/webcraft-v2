@@ -5,6 +5,7 @@ esbenp
 esbuild
 eslintcache
 g'lek
+generis
 glek
 glektarssza
 netrwhist
@@ -18,3 +19,4 @@ tarssza
 unstub
 vite
 webcraft
+pipx

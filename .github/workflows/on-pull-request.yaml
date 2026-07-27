@@ -8,7 +8,7 @@ jobs:
   build:
     name: Build
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     strategy:
       fail-fast: true
@@ -19,22 +19,45 @@ jobs:
     uses: ./.github/workflows/build.yaml
     with:
       build-type: ${{matrix.build-type}}
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
       upload-artifacts: true
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
   test:
     name: Test
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/test.yaml
+    with:
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}
   lint:
     name: Lint
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/lint.yaml
+    with:
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
+    secrets:
+      github-token: ${{secrets.GITHUB_TOKEN}}
+  spell-check:
+    name: Spell Check
+    permissions:
+      # -- Needed to checkout the repository
+      contents: read
+    uses: ./.github/workflows/spell-check.yaml
+    with:
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

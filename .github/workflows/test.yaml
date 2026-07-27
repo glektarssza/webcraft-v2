@@ -5,18 +5,47 @@ on:
     inputs:
       git-ref:
         description: |
-          The Git reference to build.
+          The Git reference from which to clone the project.
 
-          This can be any valid commit-like value (e.g. a branch, a tag, or a
-          commit).
+          This can be any valid Git commit-ish (e.g. a SHA, a ref, a tag, and so
+          on).
 
-          Defaults to the fully formed reference of the branch or tag that
-          triggered the workflow is used. If that is unavailable the falls back
-          to the SHA that caused the workflow to be triggered. If that is
-          unavailable the repository default branch is used.
+          Defaults to the SHA that caused the workflow to be triggered. If that
+          is unavailable the fully formed reference of the branch or tag that
+          triggered the workflow is used. If that is unavailable the repository
+          default branch is used.
         type: string
         required: false
-        default: ${{github.ref || github.sha || github.event.repository.default_branch}}
+        default: ${{github.sha || github.ref || github.event.repository.default_branch}}
+      node-version:
+        description: |
+          The NodeJS version to use.
+
+          Use "nvmrc" to use the value in the repository ".nvmrc" file.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
+      package-manager:
+        description: |
+          The NodeJS package manager to use.
+
+          Defaults to "pnpm".
+        type: string
+        required: false
+        default: pnpm
+      package-manager-version:
+        description: |
+          The NodeJS package manager version to use.
+
+          Use "packageManifest" to use the value specified in the package
+          manifest.
+
+          Defaults to "latest".
+        type: string
+        required: false
+        default: latest
     secrets:
       github-token:
         description: |
@@ -29,7 +58,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     permissions:
-      # -- Required to clone the repository
+      # -- Needed to checkout the repository
       contents: read
     steps:
       - id: checkout-repository
@@ -39,8 +68,9 @@ jobs:
           ref: ${{inputs.git-ref}}
           lfs: true
           token: ${{env.GITHUB_TOKEN}}
-      - id: setup-pnpm
-        name: Setup pnpm
+      - id: setup-pnpm-package-manager-manifest
+        name: Setup NodeJS Package Manager (Package Manifest)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version == 'packageManifest'
         uses: pnpm/action-setup@v6
         with:
           package_json_file: ./package.json
@@ -48,14 +78,30 @@ jobs:
           standalone: false
           cache: true
           cache_dependency_path: ./pnpm-lock.yaml
-      - id: setup-nodejs
-        name: Setup NodeJS
+      - id: setup-pnpm-package-manager-version
+        name: Setup NodeJS Package (Version)
+        if: inputs.package-manager == 'pnpm' && inputs.package-manager-version != 'packageManifest'
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{inputs.package-manager-version}}
+          run_install: false
+          standalone: false
+          cache: true
+          cache_dependency_path: ./pnpm-lock.yaml
+      - id: setup-nodejs-version
+        name: Setup NodeJS (Version)
+        if: inputs.node-version != 'nvmrc'
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{inputs.node-version}}
+          token: ${{env.GITHUB_TOKEN}}
+      - id: setup-nodejs-nvmrc
+        name: Setup NodeJS (.nvmrc)
+        if: inputs.node-version == 'nvmrc'
         uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          cache: pnpm
-          cache-dependency-path: ./pnpm-lock.yaml
-          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
+          token: ${{env.GITHUB_TOKEN}}
       - id: install-dependencies
         name: Install dependencies
         run: pnpm -r install

@@ -23,8 +23,12 @@ jobs:
   test:
     name: Test
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/test.yaml
+    with:
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
     secrets:
       github-token: ${{secrets.GITHUB_TOKEN}}

@@ -41,11 +41,14 @@ jobs:
   build:
     name: Build
     permissions:
-      # -- Required to check out the repository
+      # -- Needed to checkout the repository
       contents: read
     uses: ./.github/workflows/build.yaml
     with:
       build-type: ${{inputs.build-type}}
+      node-version: nvmrc
+      package-manager: pnpm
+      package-manager-version: packageManifest
       upload-artifacts: ${{inputs.upload-artifacts}}
       retention-days: ${{inputs.retention-days}}
     secrets:

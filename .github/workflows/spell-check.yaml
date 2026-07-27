@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: Lint
+name: Spell Check
 on:
   workflow_call:
     inputs:
@@ -49,13 +49,13 @@ on:
     secrets:
       github-token:
         description: |
-          The token to use to make authenticated calls to the GitHub API.
-        required: false
+          The token to use when making authenticated calls to the GitHub API.
+        required: true
 env:
   GITHUB_TOKEN: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
 jobs:
-  lint:
-    name: Lint
+  spell-check:
+    name: Spell Check
     runs-on: ubuntu-latest
     permissions:
       # -- Needed to checkout the repository
@@ -67,7 +67,8 @@ jobs:
         with:
           ref: ${{inputs.git-ref}}
           lfs: true
-          token: ${{env.GITHUB_TOKEN}}
+          submodules: recursive
+          token: ${{secrets.github-token || secrets.GITHUB_TOKEN}}
       - id: setup-pnpm-package-manager-manifest
         name: Setup NodeJS Package Manager (Package Manifest)
         if: inputs.package-manager == 'pnpm' && inputs.package-manager-version == 'packageManifest'
@@ -86,8 +87,6 @@ jobs:
           version: ${{inputs.package-manager-version}}
           run_install: false
           standalone: false
-          cache: true
-          cache_dependency_path: ./pnpm-lock.yaml
       - id: setup-nodejs-version
         name: Setup NodeJS (Version)
         if: inputs.node-version != 'nvmrc'
@@ -102,9 +101,25 @@ jobs:
         with:
           node-version-file: .nvmrc
           token: ${{env.GITHUB_TOKEN}}
-      - id: install-dependencies
-        name: Install dependencies
-        run: pnpm -r install
-      - id: lint
-        name: Lint
-        run: pnpm run lint
+      - id: setup-non-pnpm-package-manager
+        name: Setup NodeJS Package Manager
+        if: inputs.package-manager != 'pnpm'
+        run: |
+          npm install -g ${{inputs.package-manager}}@${{inputs.package-manager-version}}
+      - id: install-cspell
+        name: Install CSpell
+        run: |
+          ${{inputs.package-manager}} install -g cspell \
+          @cspell/dict-cspell-bundle @cspell/dict-java @cspell/dict-fonts \
+          @cspell/dict-public-licenses @cspell/dict-gaming-terms \
+          @cspell/dict-companies @cspell/dict-git @cspell/dict-software-terms;
+      - id: check-spelling
+        name: Check Spelling
+        run: |
+          cspell lint --root ${{github.workspace}} --no-color --no-cache \
+            --stop-config-search-at ${{github.workspace}} --no-progress \
+            --no-must-find-files --gitignore-root ${{github.workspace}} .
+      - id: remove-package-manager
+        if: always() && inputs.package-manager != 'pnpm'
+        run: |
+          npm remove -g ${{inputs.package-manager}}
