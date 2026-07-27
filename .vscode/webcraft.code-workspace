@@ -89,6 +89,9 @@
         "terminal.integrated.env.linux": {
             "VITE_EDITOR": "code-insiders",
             "VITEST_VSCODE": "true"
-        }
+        },
+        "vitest.runtime": "node",
+        "vitest.shellType": "terminal",
+        "vitest.workspaceConfig": "vite.config.ts"
     }
 }
