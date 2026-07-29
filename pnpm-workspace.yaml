@@ -6,10 +6,9 @@ requiredScripts:
   - clean
   - test
   - lint
-trustPolicyExclude:
-  - chokidar@4.0.3
-  - semver@6.3.1
 trustPolicy: no-downgrade
+# -- Three (3) years, in minutes
+trustPolicyIgnoreAfter: 1578240
 preferWorkspacePackages: true
 recursiveInstall: true
 includeWorkspaceRoot: true
@@ -18,9 +17,6 @@ savePrefix: ^
 sharedWorkspaceLockfile: true
 saveWorkspaceProtocol: true
 minimumReleaseAgeStrict: true
-minimumReleaseAgeExclude:
-  - playwright-core@1.61.1
-  - playwright@1.61.1
 allowBuilds:
   '@parcel/watcher': true
   esbuild: true

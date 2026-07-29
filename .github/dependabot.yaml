@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://json.schemastore.org/dependabot-2.0.json
 version: 2
 updates:
-  - directory: /
+  - directories:
+      - /.github/workflows/
     package-ecosystem: github-actions
     target-branch: main
     commit-message:
@@ -23,6 +24,9 @@ updates:
       - /packages/logging/
     package-ecosystem: npm
     versioning-strategy: increase-if-necessary
+    ignore:
+      - dependency-name: typescript
+        versions: '>=6.1.0'
     target-branch: main
     commit-message:
       include: scope
