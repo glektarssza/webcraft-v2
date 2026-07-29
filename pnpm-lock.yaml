@@ -43,7 +43,7 @@ importers:
         version: 2.11.0(eslint@10.8.0(jiti@2.7.0)(supports-color@8.1.1))
       globals:
         specifier: ^17.7.0
-        version: 17.7.0
+        version: 17.8.0
       jiti:
         specifier: ^2.7.0
         version: 2.7.0
@@ -1579,10 +1579,6 @@ packages:
   global-directory@5.0.0:
     resolution: {integrity: sha512-1pgFdhK3J2LeM+dVf2Pd424yHx2ou338lC0ErNP2hPx4j8eW1Sp0XqSjNxtk6Tc4Kr5wlWtSvz8cn2yb7/SG/w==}
     engines: {node: '>=20'}
-
-  globals@17.7.0:
-    resolution: {integrity: sha512-Czmyns5dUsq4seFBR/Kdydhmo8y9kC79hiSkPn0YcGtNnYWnrgt0vjrSjx9tspoDGWm2CMarffRuLjM4xUz8xg==}
-    engines: {node: '>=18'}
 
   globals@17.8.0:
     resolution: {integrity: sha512-Zz/LMDZScFmkakeL2cTHzf+PbWKdpU3uclqkZT7TjDG58j5WPt0PpA+n9uPI24fZtlw07q0OtEi84K+umsRzqQ==}
@@ -3567,8 +3563,6 @@ snapshots:
   global-directory@5.0.0:
     dependencies:
       ini: 6.0.0
-
-  globals@17.7.0: {}
 
   globals@17.8.0: {}
 
