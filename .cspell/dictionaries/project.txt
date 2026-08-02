@@ -9,6 +9,8 @@ generis
 glek
 glektarssza
 hookspath
+iregex
+mpre
 netrwhist
 noarchive
 noconfirm
