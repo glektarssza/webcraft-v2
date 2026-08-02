@@ -18,7 +18,7 @@
         "url": "https://github.com/glektarssza/webcraft-v2.git",
         "directory": "./app/"
     },
-    "packageManager": "pnpm@11.17.0",
+    "packageManager": "pnpm@11.18.0",
     "type": "module",
     "scripts": {
         "preinstall": "npx only-allow pnpm",
