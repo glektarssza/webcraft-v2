@@ -9,6 +9,7 @@
         }
     ],
     "compilerOptions": {
+        "tsBuildInfoFile": "./.tsbuildinfo",
         "types": ["node"]
     },
     "exclude": ["node_modules"]
