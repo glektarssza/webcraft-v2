@@ -19,10 +19,7 @@ const config = defineConfig(({mode}) => {
             emptyOutDir: false
         },
         test: {
-            projects: [
-                path.resolve(import.meta.dirname, './app/'),
-                path.resolve(import.meta.dirname, './packages/*')
-            ],
+            projects: ['./app/', './packages/*'],
             browser: {
                 enabled: true,
                 provider: browserPlaywright(),
