@@ -78,6 +78,7 @@
         "eslint.run": "onSave",
         "eslint.useESLintClass": true,
         "eslint.useFlatConfig": true,
+        "js/ts.tsdk.path": "node_modules/typescript/lib",
         "prettier.configPath": ".prettierrc.mjs",
         "prettier.enable": true,
         "prettier.endOfLine": "lf",
