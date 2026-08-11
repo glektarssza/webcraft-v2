@@ -18,3 +18,8 @@ const DISTINCT_PROPERTY_ID: unique symbol = Symbol();
 export type Distinct<TBase, TDistinctTypeID extends string> = TBase & {
     readonly [DISTINCT_PROPERTY_ID]: TDistinctTypeID;
 };
+
+/**
+ * A universally unique identifier.
+ */
+export type UUID = Distinct<string, 'webcraft:core:uuid'>;

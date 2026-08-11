@@ -4,12 +4,7 @@
  * @module
  */
 
-import {type Distinct} from '@webcraft/core';
-
-/**
- * A universally unique identifier.
- */
-export type UUID = Distinct<string, 'UUID'>;
+import {type Distinct, type UUID} from '@webcraft/core';
 
 /**
  * A logging namespace.
