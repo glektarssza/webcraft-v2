@@ -16,7 +16,7 @@ const PROJECT_NAME = 'webcraft-package-template';
  */
 const config = defineProject(({mode}) => {
     const conf: UserWorkspaceConfig = {
-        root: path.resolve(import.meta.dirname, './src/'),
+        root: path.resolve(import.meta.dirname, './'),
         build: {
             lib: {
                 name: PROJECT_NAME,
