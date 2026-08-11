@@ -1,8 +1,8 @@
 /**
- * A module which provides Typescript type utilities.
+ * A module which provides Typescript types.
  *
  * @module
- */
+ *
 
 /**
  * The ID of the property used to make types distinct.
@@ -15,6 +15,6 @@ const DISTINCT_PROPERTY_ID: unique symbol = Symbol();
  * @template TBase The base type.
  * @template TDistinctID The ID to assign to the distinct type.
  */
-export type Distinct<TBase, TDistinctID extends string> = TBase & {
-    readonly [DISTINCT_PROPERTY_ID]: TDistinctID;
+export type Distinct<TBase, TDistinctTypeID extends string> = TBase & {
+    readonly [DISTINCT_PROPERTY_ID]: TDistinctTypeID;
 };
