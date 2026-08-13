@@ -113,6 +113,7 @@
         "@vitest/browser": "^4.1.10",
         "@vitest/browser-playwright": "^4.1.10",
         "@vitest/coverage-istanbul": "^4.1.10",
+        "@vitest/eslint-plugin": "^1.6.27",
         "@vitest/ui": "^4.1.10",
         "cspell": "^10.0.1",
         "del-cli": "^7.0.0",
