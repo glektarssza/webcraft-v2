@@ -89,7 +89,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.3.0
+        version: 4.4.0
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -170,7 +170,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.3.0
+        version: 4.4.0
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -258,7 +258,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.3.0
+        version: 4.4.0
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -582,8 +582,8 @@ packages:
   '@cspell/dict-python@4.2.29':
     resolution: {integrity: sha512-OnEt1a35iuQzc2Ize1qU/43ZyF10urRKAm+mlTz++vnAgDLBHpKfWakpSK50nyL5/1WvyQ8BaMjb52MBLEpTeA==}
 
-  '@cspell/dict-python@4.3.0':
-    resolution: {integrity: sha512-afVcbsCOYtpdvu8I4ANiIXVcxqxzrno+oEuObNx9hwpvEmf/AbXQBk9CMjFR9QZllcfnOfpjCSXgGuTna5hKQA==}
+  '@cspell/dict-python@4.4.0':
+    resolution: {integrity: sha512-49Eju/a97V6ExAeMJDM2Tk4jsYr0pm+kQzqQrKLAZdrRd6VrLIgseI481EQSmgoVkPPdsuwK1xj9ZlpDQIF4qg==}
 
   '@cspell/dict-r@2.1.1':
     resolution: {integrity: sha512-71Ka+yKfG4ZHEMEmDxc6+blFkeTTvgKbKAbwiwQAuKl3zpqs1Y0vUtwW2N4b3LgmSPhV3ODVY0y4m5ofqDuKMw==}
@@ -2593,7 +2593,7 @@ snapshots:
     dependencies:
       '@cspell/dict-data-science': 2.0.16
 
-  '@cspell/dict-python@4.3.0':
+  '@cspell/dict-python@4.4.0':
     dependencies:
       '@cspell/dict-data-science': 2.0.16
 
