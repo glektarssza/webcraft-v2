@@ -89,7 +89,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.4.0
+        version: 4.5.2
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -170,7 +170,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.4.0
+        version: 4.5.2
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -258,7 +258,7 @@ importers:
         version: 5.0.9
       '@cspell/dict-python':
         specifier: ^4.2.29
-        version: 4.4.0
+        version: 4.5.2
       '@cspell/dict-shell':
         specifier: ^1.2.0
         version: 1.2.0
@@ -621,12 +621,6 @@ packages:
 
   '@cspell/dict-public-licenses@2.0.16':
     resolution: {integrity: sha512-EQRrPvEOmwhwWezV+W7LjXbIBjiy6y/shrET6Qcpnk3XANTzfvWflf9PnJ5kId/oKWvihFy0za0AV1JHd03pSQ==}
-
-  '@cspell/dict-python@4.4.0':
-    resolution: {integrity: sha512-49Eju/a97V6ExAeMJDM2Tk4jsYr0pm+kQzqQrKLAZdrRd6VrLIgseI481EQSmgoVkPPdsuwK1xj9ZlpDQIF4qg==}
-
-  '@cspell/dict-python@4.5.0':
-    resolution: {integrity: sha512-O1lSuFXoX8p+4hvJMbqvg3blbn0Zx8LHqdPQSNaOxFZGf7hmq6pc8sfta+98E7Q/WtDooAnU3XpBxBXcn0r94g==}
 
   '@cspell/dict-python@4.5.2':
     resolution: {integrity: sha512-CFcTDGN/ycn45WXC5ZZ06pG09WbGKMpPm1rkMuqMP98/jwjw3iiK8c0izWRd8x027n1rOZ9kJ8f9Sd+bQ22HJg==}
@@ -2637,7 +2631,7 @@ snapshots:
       '@cspell/dict-php': 4.1.1
       '@cspell/dict-powershell': 5.0.15
       '@cspell/dict-public-licenses': 2.0.16
-      '@cspell/dict-python': 4.5.0
+      '@cspell/dict-python': 4.5.2
       '@cspell/dict-r': 2.1.1
       '@cspell/dict-ruby': 5.1.2
       '@cspell/dict-rust': 4.1.2
@@ -2854,14 +2848,6 @@ snapshots:
   '@cspell/dict-powershell@5.0.17': {}
 
   '@cspell/dict-public-licenses@2.0.16': {}
-
-  '@cspell/dict-python@4.4.0':
-    dependencies:
-      '@cspell/dict-data-science': 2.0.16
-
-  '@cspell/dict-python@4.5.0':
-    dependencies:
-      '@cspell/dict-data-science': 2.0.16
 
   '@cspell/dict-python@4.5.2':
     dependencies:
