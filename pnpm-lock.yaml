@@ -22,7 +22,7 @@ importers:
         version: 26.2.0
       '@vitest/browser-playwright':
         specifier: ^4.1.10
-        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul':
         specifier: ^4.1.10
         version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
@@ -67,7 +67,7 @@ importers:
         version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
+        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
 
   app:
     dependencies:
@@ -110,10 +110,10 @@ importers:
         version: 26.2.0
       '@vitest/browser':
         specifier: ^4.1.10
-        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/browser-playwright':
         specifier: ^4.1.10
-        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul':
         specifier: ^4.1.10
         version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
@@ -140,7 +140,7 @@ importers:
         version: 3.9.6
       sass:
         specifier: ^1.102.0
-        version: 1.102.0
+        version: 1.104.1
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -152,10 +152,10 @@ importers:
         version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       vite:
         specifier: ^8.1.5
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
 
   packages/core:
     devDependencies:
@@ -191,10 +191,10 @@ importers:
         version: 26.2.0
       '@vitest/browser':
         specifier: ^4.1.10
-        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/browser-playwright':
         specifier: ^4.1.10
-        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul':
         specifier: ^4.1.10
         version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
@@ -224,7 +224,7 @@ importers:
         version: 3.9.6
       sass:
         specifier: ^1.102.0
-        version: 1.102.0
+        version: 1.104.1
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -236,10 +236,10 @@ importers:
         version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       vite:
         specifier: ^8.1.5
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
 
   packages/logging:
     dependencies:
@@ -279,10 +279,10 @@ importers:
         version: 26.2.0
       '@vitest/browser':
         specifier: ^4.1.10
-        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/browser-playwright':
         specifier: ^4.1.10
-        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+        version: 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul':
         specifier: ^4.1.10
         version: 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
@@ -312,7 +312,7 @@ importers:
         version: 3.9.6
       sass:
         specifier: ^1.102.0
-        version: 1.102.0
+        version: 1.104.1
       tsx:
         specifier: ^4.23.12
         version: 4.23.12
@@ -324,10 +324,10 @@ importers:
         version: 8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       vite:
         specifier: ^8.1.5
-        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+        version: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
       vitest:
         specifier: ^4.1.10
-        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+        version: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
 
 packages:
 
@@ -2135,13 +2135,13 @@ packages:
     engines: {node: '>=20.19.0'}
     hasBin: true
 
-  sass@1.102.0:
-    resolution: {integrity: sha512-NSOyTnaQF7rTAEOtI2fwb386vL+akyiQLBZu8Na7hXCb+umJy0GAqlcMIaqACZ6Z1VgTBS4K9PG6B3IdjHGJsw==}
+  sass@1.103.1:
+    resolution: {integrity: sha512-9icZURbP51S6S0QGoyaeqk9uB06GNWxsFYWfH5RgpFgqK5FA8tJcM3AdVxrZEVJ7dz+L87nG95gBKf4VuaMHGw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
-  sass@1.103.1:
-    resolution: {integrity: sha512-9icZURbP51S6S0QGoyaeqk9uB06GNWxsFYWfH5RgpFgqK5FA8tJcM3AdVxrZEVJ7dz+L87nG95gBKf4VuaMHGw==}
+  sass@1.104.1:
+    resolution: {integrity: sha512-yDA+1aIG3EHgN4V/BvuhCvu61FF6hEd4e+9DxikUm9U0CAGuvdIZ/UYy7qbOxjhbbWQraoyLlMuzdRGOSV5Bmw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -3222,42 +3222,29 @@ snapshots:
       '@typescript-eslint/types': 8.69.0
       eslint-visitor-keys: 5.0.1
 
-  '@vitest/browser-playwright@4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
+  '@vitest/browser-playwright@4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
     dependencies:
-      '@vitest/browser': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vitest/browser': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       playwright: 1.63.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
     transitivePeerDependencies:
       - bufferutil
       - msw
       - utf-8-validate
       - vite
 
-  '@vitest/browser-playwright@4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
-    dependencies:
-      '@vitest/browser': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
-      playwright: 1.63.0
-      tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
-  '@vitest/browser@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
+  '@vitest/browser@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
     dependencies:
       '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       '@vitest/utils': 4.1.10
       magic-string: 0.30.21
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       ws: 8.21.1
     transitivePeerDependencies:
       - bufferutil
@@ -3265,33 +3252,16 @@ snapshots:
       - utf-8-validate
       - vite
 
-  '@vitest/browser@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
+  '@vitest/browser@4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
     dependencies:
       '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
-      '@vitest/utils': 4.1.10
-      magic-string: 0.30.21
-      pngjs: 7.0.0
-      sirv: 3.0.2
-      tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
-      ws: 8.21.1
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
-  '@vitest/browser@4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)':
-    dependencies:
-      '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       '@vitest/utils': 4.1.11
       magic-string: 0.30.21
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       ws: 8.21.3
     transitivePeerDependencies:
       - bufferutil
@@ -3311,7 +3281,7 @@ snapshots:
       magicast: 0.5.3
       obug: 2.1.4
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -3323,7 +3293,7 @@ snapshots:
     optionalDependencies:
       '@typescript-eslint/eslint-plugin': 8.69.0(@typescript-eslint/parser@8.69.0(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.10.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       typescript: 6.0.3
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
     transitivePeerDependencies:
       - supports-color
 
@@ -3336,29 +3306,21 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.10
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
 
-  '@vitest/mocker@4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))':
-    dependencies:
-      '@vitest/spy': 4.1.10
-      estree-walker: 3.0.3
-      magic-string: 0.30.21
-    optionalDependencies:
-      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0)
-
-  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.11
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.10':
     dependencies:
@@ -3393,7 +3355,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
     optional: true
 
   '@vitest/ui@4.1.11(vitest@4.1.10)':
@@ -3405,7 +3367,7 @@ snapshots:
       sirv: 3.0.2
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      vitest: 4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
 
   '@vitest/utils@4.1.10':
     dependencies:
@@ -4178,14 +4140,6 @@ snapshots:
       sass-embedded-win32-arm64: 1.103.1
       sass-embedded-win32-x64: 1.103.1
 
-  sass@1.102.0:
-    dependencies:
-      chokidar: 5.0.0
-      immutable: 5.1.9
-      source-map-js: 1.2.1
-    optionalDependencies:
-      '@parcel/watcher': 2.6.0
-
   sass@1.103.1:
     dependencies:
       chokidar: 5.0.0
@@ -4194,6 +4148,14 @@ snapshots:
     optionalDependencies:
       '@parcel/watcher': 2.6.0
     optional: true
+
+  sass@1.104.1:
+    dependencies:
+      chokidar: 5.0.0
+      immutable: 5.1.9
+      source-map-js: 1.2.1
+    optionalDependencies:
+      '@parcel/watcher': 2.6.0
 
   semver@6.3.1: {}
 
@@ -4301,7 +4263,7 @@ snapshots:
 
   varint@6.0.0: {}
 
-  vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0):
+  vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -4313,32 +4275,15 @@ snapshots:
       esbuild: 0.28.2
       fsevents: 2.3.3
       jiti: 2.7.0
-      sass: 1.102.0
+      sass: 1.104.1
       sass-embedded: 1.103.1
       tsx: 4.23.12
       yaml: 2.9.0
 
-  vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0):
-    dependencies:
-      lightningcss: 1.33.0
-      picomatch: 4.0.7
-      postcss: 8.5.26
-      rolldown: 1.2.6
-      tinyglobby: 0.2.17
-    optionalDependencies:
-      '@types/node': 26.2.0
-      esbuild: 0.28.2
-      fsevents: 2.3.3
-      jiti: 2.7.0
-      sass: 1.103.1
-      sass-embedded: 1.103.1
-      tsx: 4.23.12
-      yaml: 2.9.0
-
-  vitest@4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0)):
+  vitest@4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.10)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.10
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.10
       '@vitest/runner': 4.1.10
       '@vitest/snapshot': 4.1.10
@@ -4355,20 +4300,20 @@ snapshots:
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.2.0
-      '@vitest/browser-playwright': 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.103.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/browser-playwright': 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul': 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
       '@vitest/ui': 4.1.10(vitest@4.1.10)
     transitivePeerDependencies:
       - msw
 
-  vitest@4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)):
+  vitest@4.1.10(@types/node@26.2.0)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(@vitest/ui@4.1.11)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.10
-      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.10(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.10
       '@vitest/runner': 4.1.10
       '@vitest/snapshot': 4.1.10
@@ -4385,11 +4330,11 @@ snapshots:
       tinyexec: 1.2.4
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.0
-      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 26.2.0
-      '@vitest/browser-playwright': 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.102.0)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
+      '@vitest/browser-playwright': 4.1.10(playwright@1.63.0)(vite@8.2.2(@types/node@26.2.0)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.103.1)(sass@1.104.1)(tsx@4.23.12)(yaml@2.9.0))(vitest@4.1.10)
       '@vitest/coverage-istanbul': 4.1.10(supports-color@8.1.1)(vitest@4.1.10)
       '@vitest/ui': 4.1.11(vitest@4.1.10)
     transitivePeerDependencies:
