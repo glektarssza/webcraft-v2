@@ -50,11 +50,11 @@ ctags
 
 # Packages #
 ## NodeJS ##
-/**/node_modules/
+node_modules/
 
 # Artifacts #
 ## TypeScript ##
-packages/*/types/
+/packages/*/types/
 *.tsbuildinfo
 
 ## Vite ##
