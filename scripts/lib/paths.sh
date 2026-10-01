@@ -23,37 +23,36 @@ if [[ -z ${_LIB_PATH} ]]; then
     fi
 fi
 
-if [[ -n ${_LIB_STRINGS_GUARD+x} ]]; then
+if [[ -n ${_LIB_PATHS_GUARD+x} ]]; then
     return 0
 fi
-declare _LIB_STRINGS_GUARD
+declare _LIB_PATHS_GUARD
 
-# Convert a string to all lower case.
-# === Inputs ===
-# `$1` - The string to convert.
-# === Outputs ===
-# The converted string.
-# === Returns ===
-# `0` - The operation succeeded.
-# `*` - The operation failed.
-function lib::strings::to_lower_case() {
-    if ! echo "$1" | tr '[:upper:]' '[:lower:]'; then
-        return 1
-    fi
-    return 0
-}
+# shellcheck source=./boolean.sh
+source "${_LIB_PATH}/boolean.sh"
 
-# Convert a string to all upper case.
+# Get a path relative to another path.
 # === Inputs ===
-# `$1` - The string to convert.
+# `$1` - The path to get relative to the other path.
+# `$2` - The path to use as the base to get the first input relative to.
 # === Outputs ===
-# The converted string.
+# The path of the first input, relative to the second input.
 # === Returns ===
-# `0` - The operation succeeded.
-# `*` - The operation failed.
-function lib::strings::to_upper_case() {
-    if ! echo "$1" | tr '[:lower:]' '[:upper:]'; then
-        return 1
+# `0` - If the command succeeded.
+# `...` - If any errors occurred.
+function lib::paths::relative_path() {
+    local REPLY
+    set -- "${1%/}/" "${2%/}/"
+    while [ "$1" ] && [ "$2" = "${2#"$1"}" ]; do
+        set -- "${1%/?*/}/" "$2" "../$3"
+    done
+    REPLY="${2#"$1"}"
+    if [ "${REPLY#/}" ]; then
+        REPLY="${REPLY%/}"
+    else
+        REPLY="${REPLY:-.}"
     fi
-    return 0
+    echo "${REPLY}"
+    # shellcheck disable=SC2086
+    return ${TRUE}
 }
