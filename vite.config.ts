@@ -1,6 +1,5 @@
 //-- NodeJS
 import os from 'node:os';
-import path from 'node:path';
 
 //-- NPM Packages
 import {playwright as browserPlaywright} from '@vitest/browser-playwright';
