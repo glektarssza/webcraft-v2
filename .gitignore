@@ -1,14 +1,14 @@
 # Editors #
 ## Visual Studio Code ##
 ### Workspace Folder ###
-.vscode/*
+/.vscode/**
 
 ### Exceptions ###
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/tasks.json
-!.vscode/*.code-snippets
-!.vscode/*.code-workspace
+!/.vscode/extensions.json
+!/.vscode/launch.json
+!/.vscode/tasks.json
+!/.vscode/*.code-snippets
+!/.vscode/*.code-workspace
 
 ## Vim ##
 ### Swap ###
@@ -29,6 +29,7 @@ Sessionx.vim
 
 ### Auto-generated Tag Files ###
 tags
+ctags
 
 ### Undo Persistence ###
 [._]*.un~
@@ -37,18 +38,19 @@ tags
 *.log*
 
 # Environment #
+## General ##
 .env*
 
-# Packages #
-## NodeJS ##
-node_modules/
+# Cache #
+## CSpell ##
+.cspellcache
 
-# Caches #
 ## ESLint ##
 .eslintcache
 
-## CSpell ##
-.cspellcache
+# Packages #
+## NodeJS ##
+/**/node_modules/
 
 # Artifacts #
 ## TypeScript ##
