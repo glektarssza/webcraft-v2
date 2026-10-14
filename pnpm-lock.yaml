@@ -241,7 +241,7 @@ importers:
         version: 4.2.3
       '@cspell/dict-en-gb':
         specifier: ^5.0.30
-        version: 5.0.34
+        version: 5.0.35
       '@cspell/dict-node':
         specifier: ^5.0.9
         version: 5.0.9
@@ -322,7 +322,7 @@ importers:
         version: 4.2.3
       '@cspell/dict-en-gb':
         specifier: ^5.0.30
-        version: 5.0.34
+        version: 5.0.35
       '@cspell/dict-node':
         specifier: ^5.0.9
         version: 5.0.9
@@ -410,7 +410,7 @@ importers:
         version: 4.2.3
       '@cspell/dict-en-gb':
         specifier: ^5.0.30
-        version: 5.0.34
+        version: 5.0.35
       '@cspell/dict-node':
         specifier: ^5.0.9
         version: 5.0.9
@@ -658,8 +658,8 @@ packages:
   '@cspell/dict-en-gb-mit@3.1.29':
     resolution: {integrity: sha512-mInExsCFZui0f9Vg/MToWfQZzwMfPgHX8BCYdZNdXWbYz+jITXcnvssbdUkui/DVbriZVJ74Zu9bv2jOEqTCNA==}
 
-  '@cspell/dict-en-gb@5.0.34':
-    resolution: {integrity: sha512-TZPIuJue7G8F9aWpZsDQd/IxU4iOI3/HsAYJrvZ71ZtRbzWhH4dnD+QWdMbfjKS6LZttxFYXE4OqBNxV8c4TFQ==}
+  '@cspell/dict-en-gb@5.0.35':
+    resolution: {integrity: sha512-3V5k8xtCrMQUal0/4OK5CT5O98vmu1/gi0SD8MSKIpx92GTgFI41DM7UI8XdS/2WF9m8+CE8TulzGZx2HBmD3w==}
 
   '@cspell/dict-en_us@4.4.40':
     resolution: {integrity: sha512-TGyOaWP1dD28GRHH2Lt04ciMZC8Z6UX+5kJsi04pbQHq6uRxv14/bBVCBeSsajUXRZsJYUqXyHaHB9O0ODuFuQ==}
@@ -2959,7 +2959,7 @@ snapshots:
 
   '@cspell/dict-en-gb-mit@3.1.29': {}
 
-  '@cspell/dict-en-gb@5.0.34': {}
+  '@cspell/dict-en-gb@5.0.35': {}
 
   '@cspell/dict-en_us@4.4.40': {}
 
