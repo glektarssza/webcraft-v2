@@ -1,13 +1,16 @@
 # yaml-language-server: $schema=https://json.schemastore.org/dependabot-2.0.json
 version: 2
 updates:
-  - directories:
-      - /.github/workflows/
+  - directory: /
     package-ecosystem: github-actions
+    patterns:
+      - '*'
     target-branch: main
     commit-message:
       include: scope
       prefix: '[Dependabot] '
+    pull-request-branch-name:
+      separator: /
     labels:
       - Dependency
     assignees:
@@ -23,7 +26,7 @@ updates:
       - /packages/core/
       - /packages/logging/
     package-ecosystem: npm
-    versioning-strategy: increase-if-necessary
+    versioning-strategy: increase
     ignore:
       - dependency-name: typescript
         versions: '>=6.1.0'
@@ -31,6 +34,8 @@ updates:
     commit-message:
       include: scope
       prefix: '[Dependabot] '
+    pull-request-branch-name:
+      separator: /
     labels:
       - Dependency
     assignees:
