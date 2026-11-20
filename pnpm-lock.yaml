@@ -209,8 +209,8 @@ importers:
         specifier: ^1.62.0
         version: 1.65.0
       prettier:
-        specifier: ^3.9.6
-        version: 3.9.10
+        specifier: ^3.10.1
+        version: 3.10.1
       sass-embedded:
         specifier: ^1.100.0
         version: 1.105.2
@@ -294,8 +294,8 @@ importers:
         specifier: ^1.62.0
         version: 1.65.0
       prettier:
-        specifier: ^3.9.6
-        version: 3.9.10
+        specifier: ^3.10.1
+        version: 3.10.1
       sass:
         specifier: ^1.108.2
         version: 1.108.2
@@ -378,8 +378,8 @@ importers:
         specifier: ^1.62.0
         version: 1.65.0
       prettier:
-        specifier: ^3.9.6
-        version: 3.9.10
+        specifier: ^3.10.1
+        version: 3.10.1
       sass:
         specifier: ^1.108.2
         version: 1.108.2
@@ -466,8 +466,8 @@ importers:
         specifier: ^1.62.0
         version: 1.65.0
       prettier:
-        specifier: ^3.9.6
-        version: 3.9.10
+        specifier: ^3.10.1
+        version: 3.10.1
       sass:
         specifier: ^1.108.2
         version: 1.108.2
@@ -2165,8 +2165,8 @@ packages:
     resolution: {integrity: sha512-E6rsNU1QNJgB3sjj7OANinGncFKuK+164sLXw1/CqBjj/EkXSoSdHCtWQGBNlREIGLnL7IEUEGa08YFVUbrhVg==}
     engines: {node: '>=16'}
 
-  prettier@3.9.10:
-    resolution: {integrity: sha512-skGHTH1Yb9QvaTC4hWnRTzEYtCpApF0UMBPz+t/0ZPzP8ihefo/btKd+QA7pUE0fEwA1SbS/NmhyEcstdXOIdA==}
+  prettier@3.10.1:
+    resolution: {integrity: sha512-70vp3ZUYoPlFbF9uiTdXHUUCGEIp7d4+6p+8DYbkm2jP7x/3i/paXVF6dopSI3zd/CEitrZN1rc4i85xWmmXlg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4263,7 +4263,7 @@ snapshots:
 
   presentable-error@0.0.1: {}
 
-  prettier@3.9.10: {}
+  prettier@3.10.1: {}
 
   punycode@2.3.1: {}
 
