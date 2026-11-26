@@ -83,7 +83,7 @@
         "eslint-plugin-playwright": "^2.10.5",
         "globals": "^17.7.0",
         "jiti": "^2.7.0",
-        "playwright": "^1.62.0",
+        "playwright": "^1.65.1",
         "prettier": "^3.10.1",
         "sass-embedded": "^1.108.2",
         "tsx": "^4.23.12",
